@@ -1031,6 +1031,9 @@ input.big {
   margin-right: 5px;
   margin-top:2px;
 }
-.combo-item.disabled, .toggle-btn.disabled {
+.combo-item.disabled, .toggle-btn.disabled, .effect.disabled {
   background-color: rgba(0,0,0,0.17)
+}
+h4.item-addon {
+  margin-bottom: 0;
 }

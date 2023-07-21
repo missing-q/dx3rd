@@ -411,7 +411,7 @@
 
               <ol class="items-list margin-top-10">
                 {{#each actor.effectList as |item id|}}
-                  <li class="item flexrow" data-item-id="{{item.id}}" draggable="true">
+                  <li class="item flexrow effect {{#if item.system.disabled}}disabled{{/if}}" data-item-id="{{item.id}}" draggable="true">
                     <h4 class="item-name">
                       <span class="echo-item" style="float:left;">
                           <img src="{{item.img}}" title="{{item.name}}" width="37" height="37" style="vertical-align : middle;margin-right:10px;">
@@ -431,14 +431,7 @@
                     </h4>
 
                     <h4 class="item-addon">
-                      <div>
-                        <label>Active</label>
-                        <input type="checkbox" class="active-check" {{#if item.system.active.state}} checked {{/if}}>
-                      </div>
-                      <div>
-                        <label>Disabled</label>
-                        <input type="checkbox" class="active-check" {{#if item.system.disabled}} checked {{/if}}>
-                      </div>
+                      <input type="checkbox" class="active-check" {{#if item.system.active.state}} checked {{/if}}>
                     </h4>
                     <div class="item-controls">
                       <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
