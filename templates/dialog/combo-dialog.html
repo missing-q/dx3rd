@@ -67,7 +67,8 @@
 
         <ol class="items-list margin-top-10">
           {{#each effectList as |item id|}}
-          <li class="item flexrow combo-item" data-item-id="{{item._id}}">
+          
+          <li class="item flexrow combo-item {{#if item.system.disabled}}disabled{{/if}}" data-item-id="{{item._id}}">
             <h4 class="item-name">
               <span class="item-label">
                 <img src="{{item.img}}" class="echo-item" title="{{item.name}}" width="32" height="32" style="vertical-align : middle;margin-right:4px;">

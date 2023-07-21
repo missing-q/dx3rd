@@ -1,3 +1,4 @@
+## This is a modification of the original DX3RD system for FoundryVTT, including additional features (Effect uses & related mechanics), bugfixes, & more. Stability & compatibility with the original system is not guaranteed.
 # FVTT-DX3rd-System
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/ltaeng)
 

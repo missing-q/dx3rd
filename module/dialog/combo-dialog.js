@@ -131,9 +131,18 @@ export class ComboDialog extends Dialog {
       <div class="effect-list">`;
 
     for (let e of effectList) {
+      //console.log(e)
       content += `
         <div>
-          <h4 class="item-name toggle-btn" data-style="item-description">`;
+          <h4 class="item-name toggle-btn
+
+      `
+      console.log(e)
+      if (e.system.disabled){
+        content += `disabled" data-style="item-description">`;
+      } else {
+        content += `" data-style="item-description">`;
+      }
       content += `<img src="${e.img}" width="20" height="20" style="vertical-align : middle;margin-right:8px;">`;
 
       content += `<span class="item-label">[${e.system.level.value}] ${e.name}<br>

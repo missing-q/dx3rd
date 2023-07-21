@@ -424,13 +424,21 @@
                           {{localize "DX3rd.Range"}} : {{item.system.range}} /
                           {{localize "DX3rd.Encroach"}} : {{item.system.encroach.value}} /
                           {{localize "DX3rd.Limit"}} : {{item.system.limit}}
+                          {{#if item.system.uses.active}}/{{localize "DX3rd.Uses"}} : {{item.system.uses.current}}{{/if}}
                           <span class="item-details-toggle"><i class="fas fa-chevron-down"></i></span>
                         </span>
                       </span>
                     </h4>
 
                     <h4 class="item-addon">
-                      <input type="checkbox" class="active-check" {{#if item.system.active.state}} checked {{/if}}>
+                      <div>
+                        <label>Active</label>
+                        <input type="checkbox" class="active-check" {{#if item.system.active.state}} checked {{/if}}>
+                      </div>
+                      <div>
+                        <label>Disabled</label>
+                        <input type="checkbox" class="active-check" {{#if item.system.disabled}} checked {{/if}}>
+                      </div>
                     </h4>
                     <div class="item-controls">
                       <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>

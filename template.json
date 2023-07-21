@@ -175,6 +175,12 @@
       "max": 1,
       "upgrade": true
     },
+    "uses": {
+      "current": 0,
+      "max":0,
+      "formula":"",
+      "active": false
+    },
     "exp": {
       "own": true,
       "upgrade": true
@@ -188,9 +194,11 @@
       "state": false,
       "disable": "-"
     },
+    "disabled":false,
     "attributes": {},
     "getTarget": false,
-    "macro": ""
+    "macro": "",
+    "syndrome":"-"
   },
   "combo": {
     "templates": [

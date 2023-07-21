@@ -1000,3 +1000,37 @@
   text-align: right;
   padding: 0 10px;
 }
+
+.cell--uses input {
+  background: white;
+  margin-bottom:5px;
+}
+.cell--uses input[type="text"]{
+  height:auto
+}
+input.small {
+  flex-basis:20%
+}
+input.big {
+  flex-basis:80%;
+  margin-left: 10px
+  
+}
+.replenish-uses {
+  background: black;
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom:5px
+}
+
+.dx3rd .item .sheet-header .header-fields .level select {
+  background: white;
+  border: none;
+  color: black;
+  margin-right: 5px;
+  margin-top:2px;
+}
+.combo-item.disabled, .toggle-btn.disabled {
+  background-color: rgba(0,0,0,0.17)
+}

@@ -6,7 +6,6 @@ export class DX3rdItem extends Item {
 
   }
 
-
   async toMessage() {
     let title = `<div class="title">${this.name}</div>`;
     title = `<img src="${this.img}" width="30" height="30">&nbsp&nbsp${title}`; 
@@ -73,16 +72,26 @@ export class DX3rdItem extends Item {
           <td><b>${game.i18n.localize("DX3rd.Encroach")}:&nbsp&nbsp</b>${this.system.encroach.value}</td>
           <td><b>${game.i18n.localize("DX3rd.Limit")}:&nbsp&nbsp</b>${this.system.limit}</td>
         </tr>
-      </table>
+    `
+    if (this.system.uses.active){
+      content += 
+      `
+      <tr>
+      <td colspan="2"><b>${game.i18n.localize("DX3rd.Uses")}:&nbsp&nbsp</b>
+      ${this.system.uses.current} / ${this.system.uses.max}</td>
+      </tr>
+      `
+    }
+    content += `
+    </table>
       <p>${this.system.description}</p>
       <button class="chat-btn use-effect">${game.i18n.localize("DX3rd.Use")}</button>
-
     `
-
     return content;
   }
 
   async _getComboContent() {
+    //console.log(this)
     let content = `
       <table>
         <tr>
@@ -117,9 +126,18 @@ export class DX3rdItem extends Item {
     for (let [key, e] of Object.entries(this.system.effectItems)) {
       content += `
         <div>
-          <h4 class="item-name toggle-btn" data-style="item-description">`;
-      if (e.img != "icons/svg/item-bag.svg")  
+          <h4 class="item-name toggle-btn 
+      `;
+      if (e.system.disabled){
+        content += `disabled" data-style="item-description">`
+      }
+      else {
+        content += `" data-style="item-description">`
+      }
+      if (e.img != "icons/svg/item-bag.svg"){
         content += `<img src="${e.img}" width="20" height="20" style="vertical-align : middle;margin-right:8px;">`;
+      }
+      //console.log(e)
 
       content += `<span class="item-label">[${e.system.level.value}] ${e.name}<br>
               <span style="color : gray; font-size : smaller;">
@@ -133,9 +151,10 @@ export class DX3rdItem extends Item {
               </span>
             </span>
           </h4>
-          <div class="item-description">${e.description}</div>
+          <div class="item-description">${e.system.description}</div>
         </div>
         `;
+        
     }
     content += `</div>`;
 
@@ -376,6 +395,7 @@ export class DX3rdItem extends Item {
 
 
   async applyTargetDialog(macro = true) {
+    //console.log("Hi!!!")
     new Dialog({
       title: game.i18n.localize("DX3rd.SelectTarget"),
       content: `
@@ -387,18 +407,20 @@ export class DX3rdItem extends Item {
           label: "Confirm",
           callback: async () => {
             const macro = game.macros.contents.find(m => (m.name === this.system.macro));
-            if (macro != undefined)
+            if (macro != undefined){
                 macro.execute();
-            else if (this.system.macro != "")
+              }
+            else if (this.system.macro != "") {
                 new Dialog({
                     title: "macro",
                     content: `Do not find this macro: ${this.system.macro}`,
                     buttons: {}
-                }).render(true);
-
-
+                }).render(true);}
+            //console.log(this.system.effect.disable)
             if (this.system.effect.disable != "-") {
               let targets = game.user.targets;
+              //console.log("Hi we're in here now!!")
+              //console.log(targets)
               for (let t of targets) {
                 let a = t.actor;
                 this.applyTarget(a);
@@ -417,7 +439,9 @@ export class DX3rdItem extends Item {
 
 
   async applyTarget(actor) {
+    //console.log("Do we ever get to applying to target????")
     let attributes = this.system.effect.attributes;
+    //console.log(attributes)
     let level = this.system.level.value;
 
     let copy = duplicate(attributes);
@@ -429,6 +453,7 @@ export class DX3rdItem extends Item {
       try {
         if (value.value != "") {
           let num = value.value.replace("@level", level);
+          //handling for dice rolls expressions
           val = String(math.evaluate(num));
         }
         
@@ -448,8 +473,9 @@ export class DX3rdItem extends Item {
       disable: this.system.effect.disable,
       attributes: copy
     }
-    
-    await actor.update({"system.attributes.applied": applied});
+    //console.log(applied)
+    //console.log(actor)
+    await actor.update({'system.attributes.applied': applied});
   }
 
   async setTitus() {

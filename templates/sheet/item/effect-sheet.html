@@ -7,6 +7,29 @@
         <label>{{localize "DX3rd.Level"}}</label>
         <input name="system.level.value" type="text" value="{{system.level.value}}" disabled />
       </div>
+      <div class="level">
+        <label>{{localize "DX3rd.Syndrome"}}</label>
+        <select name="system.syndrome">
+          {{#select system.syndrome}}
+          <option value="-">-</option>
+          <option value="Angel Halo">Angel Halo</option>
+          <option value="Balor">Balor</option>
+          <option value="Black Dog">Black Dog</option>
+          <option value="Bram Stoker">Bram Stoker</option>
+          <option value="Chimaera">Chimaera</option>
+          <option value="Exile">Exile</option>
+          <option value="Hanuman">Hanuman</option>
+          <option value="Morpheus">Morpheus</option>
+          <option value="Neumann">Neumann</option>
+          <option value="Orcus">Orcus</option>
+          <option value="Salamandra">Salamandra</option>
+          <option value="Solaris">Solaris</option>
+          <option value="Ouroboros">Ouroboros</option>
+          <option value="Common">Common</option>
+          <option value="Renegade Being">Renegade Being</option>
+          {{/select}}
+        </select>
+      </div>
     </div>
   </header>
 
@@ -116,6 +139,24 @@
           </div>
 
         </section>
+        <!--uses lol-->
+        <div class="cell cell--uses space-between" >
+          <label class="cell--title">
+            {{localize "DX3rd.Uses"}}
+            <input type="checkbox" name="system.uses.active" {{#if system.uses.active}} checked {{/if}} data-dtype="Boolean"/>
+          </label>
+          {{#if system.uses.active}}
+          <div class="flex">
+            <input class = "small" type="text" name="system.uses.current" value="{{system.uses.current}}" data-dtype="Number"/>
+            <span class="slash"> / </span>
+            <input class = "small" type="text" name="system.uses.max" value="{{system.uses.max}}" data-dtype="Number"/>
+            <input class = "big" type="text" name="system.uses.formula" value="{{system.uses.formula}}" placeholder = "Formula" data-dtype="String"/>
+            <button class="replenish-uses">{{localize "DX3rd.Replenish"}}</button>
+          </div>
+          
+          {{/if}}
+          
+        </div>
 
         <div class="cell cell--bio">
           <label class="cell--title">
@@ -217,6 +258,7 @@
                 <option value="armor">{{localize "DX3rd.Armor"}}</option>
                 <option value="guard">{{localize "DX3rd.Guard"}}</option>
                 <option value="saving">{{localize "DX3rd.Saving"}}</option>
+                <option value="move">{{localize "DX3rd.Move"}}</option>
 
                 <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
                 <option value="major">{{localize "DX3rd.MajorAdd"}}</option>
@@ -300,6 +342,7 @@
                 <option value="armor">{{localize "DX3rd.Armor"}}</option>
                 <option value="guard">{{localize "DX3rd.Guard"}}</option>
                 <option value="saving">{{localize "DX3rd.Saving"}}</option>
+                <option value="move">{{localize "DX3rd.Move"}}</option>
 
                 <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
                 <option value="major">{{localize "DX3rd.MajorAdd"}}</option>

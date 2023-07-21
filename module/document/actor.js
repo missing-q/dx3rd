@@ -34,6 +34,7 @@ export class DX3rdActor extends Actor {
       "guard": { "value": 0 },
       "saving": { "value": 0 },
       "exp": { "value": 0 },
+      "move": { "value": 0 },
 
 
       "major": { "value": 0 },
@@ -172,8 +173,20 @@ export class DX3rdActor extends Actor {
 
     values["init"].value += values['sense'].value * 2 + values['mind'].value;
     values["init"].value = (values["init"].value < 0) ? 0 : values["init"].value;
-    attributes.move.battle = values["init"].value + 5;
-    attributes.move.full = (fullMove == 0) ? (values['init'].value + 5) * 2 : fullMove;
+    attributes.move.battle = values["init"].value + 5 + values["move"].value;
+    if (attributes.move.battle < 0 ){
+      attributes.move.battle = 0
+    }
+    attributes.move.full = ((fullMove == 0) ? (values['init'].value + 5) * 2 : fullMove)+ values["move"].value;
+    if (attributes.move.full < 0 ){
+      attributes.move.full = 0
+    }
+    if (values["armor"].value < 0){
+      values["armor"].value = 0
+    }
+    if (values["init"].value < 0){
+      values["init"].value = 0
+    }
 
     let mainStat = ["body", "sense", "mind", "social"];
     for (let l of mainStat) {
@@ -184,8 +197,16 @@ export class DX3rdActor extends Actor {
       delete values[l + "_add"];
     }
 
-    attributes.encroachment.init.value = values["enc_init"].value;
+    attributes.encroachment.init.value = parseInt(values["enc_init"].value);
     delete values["enc_init"];
+    //add base encroachment rate from skills
+    //console.log(this.items._source)
+    for (const [key, val] of Object.entries(this.items._source)){
+      //console.log(val)
+      if (val.type == "effect"){
+        attributes.encroachment.init.value += parseInt(val.system.encroach.init)
+      }
+    }
 
     for (const [key, value] of Object.entries(values))
       attributes[key].value = value.value;
@@ -401,15 +422,16 @@ export class DX3rdActor extends Actor {
       let effectItems = comboData.effectItems = {};
       let weaponList = comboData.weapon;
       let weaponItems = comboData.weaponItems = {};
-
+      console.log("AAAAAAAAAAA")
       for (let effectId of effectList) {
         if (this.items.get(effectId) == undefined)
           continue;
 
         let effect = this.items.get(effectId);
+        console.log(effect)
         effectItems[effectId] = effect;
-
-        if ( Number.isNaN(Number(effect.system.encroach.value)) )
+        if(!effect.system.disabled){
+          if ( Number.isNaN(Number(effect.system.encroach.value)) )
           encroachStr.push(effect.system.encroach.value);
         else
           comboData.encroach.value += Number(effect.system.encroach.value);
@@ -420,6 +442,7 @@ export class DX3rdActor extends Actor {
         values = this._updateEffectData(values, effect.system.attributes, effect.system.level.value);
         if ("critical_min" in effect.system.attributes && effect.system.attributes.critical_min.value < critical_min)
           critical_min = Number(effect.system.attributes.critical_min.value);
+        }
       }
 
       if (encroachStr.length > 0)
@@ -624,8 +647,10 @@ export class DX3rdActor extends Actor {
   }
 
   _getDiceData(diceOptions) {
+    //console.log(diceOptions)
     let attributes = this.system.attributes;
     let base = this.system.attributes[diceOptions.base];
+    //console.log(base)
     let skill = this.system.attributes.skills[diceOptions.skill];
 
     let dice = base.value;
@@ -659,6 +684,8 @@ export class DX3rdActor extends Actor {
   async _onRollDice(title, diceOptions) {
     let attributes = this.system.attributes;
     let rollType = diceOptions.rollType;
+    //console.log("Hi! We're in onRollDice")
+    //console.log(diceOptions)
     let {dice, add, critical} = this._getDiceData(diceOptions);
 
     if ("attack" in diceOptions) {
@@ -697,6 +724,10 @@ export class DX3rdActor extends Actor {
 
     if ("attack" in diceOptions) {
       let attack = Number(attributes.attack.value) + diceOptions.attack.value;
+      console.log(attack)
+      if (attack < 0){
+        attack = 0;
+      }
       content += `<button class="chat-btn calc-damage" data-attack="${attack}">${game.i18n.localize("DX3rd.DamageRoll")}</button>`;
     }
 

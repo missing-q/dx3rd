@@ -178,7 +178,7 @@
 
         <ol class="items-list">
         {{#each system.effectItems as |item id|}}
-          <li class="item flexrow combo-item" data-item-id="{{id}}">
+          <li class="item flexrow combo-item {{#if item.system.disabled}}disabled{{/if}}" data-item-id="{{id}}">
             <input type="hidden" name="system.effect" value="{{id}}">
             <h4 class="item-name">
               <span class="item-label">
@@ -237,18 +237,6 @@
 
         <table class="margin-top-10">
           <tr>
-            <th>
-              {{localize "DX3rd.AttackRoll"}}
-            </th>
-            <td>
-              <select name="system.attackRoll" data-dtype="String">
-                {{#select system.attackRoll}}
-                <option value="-">-</option>
-                <option value="melee">{{localize "DX3rd.Melee"}}</option>
-                <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
-                {{/select}}
-              </select> 
-            </td>
 
             <th>{{localize "DX3rd.WeaponSelect"}}</th>
             <td>
@@ -325,6 +313,18 @@
                 {{/select}}
               </select>
             </td>
+            <th>
+              {{localize "DX3rd.AttackRoll"}}
+            </th>
+            <td>
+              <select name="system.attackRoll" data-dtype="String">
+                {{#select system.attackRoll}}
+                <option value="-">-</option>
+                <option value="melee">{{localize "DX3rd.Melee"}}</option>
+                <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
+                {{/select}}
+              </select> 
+            </td>
           </tr>
         </table>
 
@@ -353,6 +353,7 @@
                 <option value="armor">{{localize "DX3rd.Armor"}}</option>
                 <option value="guard">{{localize "DX3rd.Guard"}}</option>
                 <option value="saving">{{localize "DX3rd.Saving"}}</option>
+                <option value="move">{{localize "DX3rd.Move"}}</option>
 
                 <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
                 <option value="major">{{localize "DX3rd.MajorAdd"}}</option>

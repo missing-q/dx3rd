@@ -68,6 +68,8 @@ export class DX3rdComboSheet extends DX3rdAttributesSheet {
 
     newKey = newKey.children[0];
     this.form.appendChild(newKey);
+    //console.log(key)
+    //console.log(this._onSubmit)
     await this._onSubmit(event);
   }
 
