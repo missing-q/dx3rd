@@ -235,10 +235,10 @@ Hooks.on("deleteCombat", async function (data, delta) {
 
 Hooks.on("updateCombat", async function (data, delta) {
     var close = true;
-    if (data.round == 0 || data.active == true)
+    if (data.round == 0)
     return;
 
-    if (Object.keys(delta).some((k) => k === "round")) {
+    if (delta.round != undefined  ) {
         let actors = data.turns.reduce( (acc, i) => {
             acc.push(i.actor);
             return acc; 
@@ -390,7 +390,7 @@ async function chatListeners(html) {
     const rollType = item.system.roll;
     const attackRoll = item.system.attackRoll;
     //console.log(attackRoll)
-    //console.log(item)
+    console.log(item)
 
     
 
@@ -511,7 +511,7 @@ async function chatListeners(html) {
       "base": base,
       "skill": skill
     };
-    //console.log(diceOptions)
+    //console.log(item.system.attack)
     if (rollType != "-") {
       if (attackRoll == "-")
         await actor.rollDice(title, diceOptions, append);
@@ -520,7 +520,7 @@ async function chatListeners(html) {
         if (item.system.weaponSelect) {
             let confirm = async (weaponData) => {
             diceOptions["attack"] = {
-              "value": weaponData.attack,
+              "value": weaponData.attack + item.system.attack.value,
               "type": attackRoll
             };
 
@@ -533,7 +533,7 @@ async function chatListeners(html) {
           let attack = await weaponItems.reduce((acc, v) => acc + v.system.attack, 0);
 
           diceOptions["attack"] = {
-            "value": attack,
+            "value": attack + item.system.attack.value,
             "type": attackRoll
           };
 
