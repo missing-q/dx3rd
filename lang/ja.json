@@ -1,5 +1,6 @@
 {
   "DX3rd.HP": "HP",
+  "DX3rd.CurrentHP": "Current HP",
   "DX3rd.Encroachment": "侵食率",
   "DX3rd.EncroachmentInit": "初期浸食率",
   "DX3rd.Works": "ワークス",
@@ -112,6 +113,7 @@
   "DX3rd.Macro": "マクロ",
   "DX3rd.Active": "有効化",
   "DX3rd.DisableTiming": "非有効化",
+  "DX3rd.DelayTiming": "Delay Timing",
   "DX3rd.NotCheck": "集計しない",
   "DX3rd.AfterRoll": "判定後",
   "DX3rd.AfterMajor": "メジャー後",

@@ -29,6 +29,7 @@ export class DX3rdActor extends Actor {
       "critical": { "value": 10 },
 
       "hp": { "value": 0 },
+      "currhp": { "value": 0 },
       "init": { "value": 0 },
       "armor": { "value": 0 },
       "guard": { "value": 0 },
@@ -170,6 +171,8 @@ export class DX3rdActor extends Actor {
     attributes.hp.max = values['hp'].value;
     attributes.hp.max += values['body'].value * 2 + values['mind'].value + 20;
     delete values.hp;
+    attributes.hp.value += values['currhp'].value;
+    delete values.currhp;
 
     values["init"].value += values['sense'].value * 2 + values['mind'].value;
     values["init"].value = (values["init"].value < 0) ? 0 : values["init"].value;

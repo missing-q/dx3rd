@@ -231,6 +231,22 @@
             </td>
 
           </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.DelayTiming"}}</span></th>
+            <td>
+              <select name="system.active.disable" data-dtype="String">
+                {{#select system.active.delay}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
         </table>
 
 
@@ -254,6 +270,7 @@
                 <option value="critical_min">{{localize "DX3rd.CriticalMin"}}</option>
 
                 <option value="hp">{{localize "DX3rd.HP"}}</option>
+                <option value="currenthp">{{localize "DX3rd.CurrentHP"}}</option>
                 <option value="init">{{localize "DX3rd.Init"}}</option>
                 <option value="armor">{{localize "DX3rd.Armor"}}</option>
                 <option value="guard">{{localize "DX3rd.Guard"}}</option>
@@ -313,6 +330,20 @@
                 {{/select}}
               </select>
             </td>
+            <th><span>{{localize "DX3rd.DelayTiming"}}</span></th>
+            <td>
+              <select name="system.effect.delay" data-dtype="String">
+                {{#select system.effect.delay}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
             
           </tr>
         </table>
@@ -338,6 +369,7 @@
                 <option value="critical_min">{{localize "DX3rd.CriticalMin"}}</option>
 
                 <option value="hp">{{localize "DX3rd.HP"}}</option>
+                <option value="currenthp">{{localize "DX3rd.CurrentHP"}}</option>
                 <option value="init">{{localize "DX3rd.Init"}}</option>
                 <option value="armor">{{localize "DX3rd.Armor"}}</option>
                 <option value="guard">{{localize "DX3rd.Guard"}}</option>
