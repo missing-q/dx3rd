@@ -188,13 +188,11 @@
 
     "effect": {
       "disable": "-",
-      "attributes": {},
-      "delay":"-"
+      "attributes": {}
     },
     "active": {
       "state": false,
-      "disable": "-",
-      "delay":"-"
+      "disable": "-"
     },
     "disabled":false,
     "attributes": {},

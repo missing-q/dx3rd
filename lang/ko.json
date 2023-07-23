@@ -1,6 +1,5 @@
 {
   "DX3rd.HP": "HP",
-  "DX3rd.CurrentHP": "Current HP",
   "DX3rd.Encroachment": "침식률",
   "DX3rd.EncroachmentInit": "초기 침식률",
   "DX3rd.Works": "워크스",
@@ -113,7 +112,6 @@
   "DX3rd.Macro": "매크로",
   "DX3rd.Active": "활성화",
   "DX3rd.DisableTiming": "비활성화",
-  "DX3rd.DelayTiming": "Delay Timing",
   "DX3rd.NotCheck": "체크 안한다",
   "DX3rd.AfterRoll": "판정 이후",
   "DX3rd.AfterMajor": "메이저 이후",

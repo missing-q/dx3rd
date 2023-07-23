@@ -216,7 +216,7 @@ export class DX3rdActorSheet extends ActorSheet {
       const list = {attack: "DX3rd.Attack", dice: "DX3rd.Dice", add: "DX3rd.Add", critical: "DX3rd.Critical", critical_min: "DX3rd.CriticalMin", 
 hp: "DX3rd.HP", init: "DX3rd.Init", armor: "DX3rd.Armor", guard: "DX3rd.Guard", saving: "DX3rd.Saving", 
 major_dice: "DX3rd.MajorDice", major: "DX3rd.MajorAdd", major_critical: "DX3rd.MajorCritical", reaction_dice: "DX3rd.ReactionDice", reaction: "DX3rd.ReactionAdd", reaction_critical: "DX3rd.ReactionCritical", dodge_dice: "DX3rd.DodgeDice", dodge: "DX3rd.DodgeAdd", dodge_critical: "DX3rd.DodgeCritical", 
-body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseAdd", sense_dice: "DX3rd.SenseDice", mind_add: "DX3rd.MindAdd", mind_dice: "DX3rd.MindDice", social_add: "DX3rd.SocialAdd", social_dice: "DX3rd.SocialDice", move: "DX3rd.Move",currenthp: "DX3rd.CurrentHP"};
+body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseAdd", sense_dice: "DX3rd.SenseDice", mind_add: "DX3rd.MindAdd", mind_dice: "DX3rd.MindDice", social_add: "DX3rd.SocialAdd", social_dice: "DX3rd.SocialDice", move: "DX3rd.Move"};
 
       const li = event.currentTarget.closest(".item");
       let attr = this.actor.system.attributes.applied[li.dataset.itemId].attributes;
