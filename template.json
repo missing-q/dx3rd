@@ -198,7 +198,9 @@
     "attributes": {},
     "getTarget": false,
     "macro": "",
-    "syndrome":"-"
+    "syndrome":"-",
+    "checkSyndrome": false,
+    "modHP":""
   },
   "combo": {
     "templates": [

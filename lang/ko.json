@@ -116,6 +116,7 @@
   "DX3rd.AfterRoll": "판정 이후",
   "DX3rd.AfterMajor": "메이저 이후",
   "DX3rd.AfterReaction": "리액션 이후",
+  "DX3rd.AfterTurn": "AfterTurn",
   "DX3rd.AfterRound": "라운드 종료 이후",
   "DX3rd.AfterScene": "씬 종료 이후",
   "DX3rd.AfterSession": "세션 종료 이후",

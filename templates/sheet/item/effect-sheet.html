@@ -224,12 +224,19 @@
                 <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
                 <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
                 <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
                 <option value="round">{{localize "DX3rd.AfterRound"}}</option>
                 <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
                 {{/select}}
               </select>
             </td>
 
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.CheckSyndrome"}}</span></th>
+            <td><input type="checkbox" name="system.checkSyndrome" {{#if system.checkSyndrome}} checked {{/if}}></td>
+            <th><span>{{localize "DX3rd.ModHP"}}</span></th>
+            <td><input type="text" name="system.modHP" value="{{system.modHP}}" data-dtype="String"/></td>
           </tr>
         </table>
 
@@ -308,12 +315,12 @@
                 <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
                 <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
                 <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
                 <option value="round">{{localize "DX3rd.AfterRound"}}</option>
                 <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
                 {{/select}}
               </select>
             </td>
-            
           </tr>
         </table>
 

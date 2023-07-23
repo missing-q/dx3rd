@@ -1,11 +1,13 @@
 ## This is a modification of the original DX3RD system for FoundryVTT, including additional features (Effect uses & related mechanics), bugfixes, & more. Stability & compatibility with the original system is not guaranteed. 
 Planned features:
-- Add current HP to ability effect options ( HP option only affect max HP.)
-- Implement recurring effect applications (in order to implement the Taint bad status.)
+- Syndrome checking functionality for abilities whose bonuses only apply to abilities of the same Syndrome.
+- Dice support for attribute formulas. 
 - A full compendium of all abilities as listed in the original DX3RD and Infinity Code source books, fully automated when possible.
 
 Implemented features:
 - Misc. bugfixes
+- Ability to add/subtract actor's HP at the end of turns (incl. dice values)
+- DisableTiming: Turn, disables ability at the end of an actor's turn.
 - Abilities now have the option to be given a set amount of uses, which auto-decrement upon their use (singular or in a combo). If an ability's uses drop to 0, that ability is disabled & cannot be used/will be not calculated into combos. An ability's uses can be refreshed by hitting the "refresh" button on the ability's page. There is also an additional field for inputting the formula the number of uses is based upon (such as 1/Scenario, LV/Round, etc.)
 - Disabled abilities are visually indicated as such by having a darker background when listed. 
 - Added "move" as a modifiable ability attribute 

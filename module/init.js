@@ -235,8 +235,14 @@ Hooks.on("deleteCombat", async function (data, delta) {
 
 Hooks.on("updateCombat", async function (data, delta) {
     var close = true;
+    console.log(data)
+    let prev = data.getCombatantByToken(data.previous.tokenId).actor
+    if (prev != undefined){
+      Hooks.call("afterTurn", prev);
+    }
     if (data.round == 0)
     return;
+    //call afterturn hook for previous actor
 
     if (delta.round != undefined  ) {
         let actors = data.turns.reduce( (acc, i) => {

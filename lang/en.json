@@ -116,9 +116,12 @@
     "DX3rd.AfterRoll": "AfterRoll",
     "DX3rd.AfterMajor": "AfterMajor",
     "DX3rd.AfterReaction": "AfterReaction",
+    "DX3rd.AfterTurn": "AfterTurn",
     "DX3rd.AfterRound": "AfterRound",
     "DX3rd.AfterScene": "AfterScene",
     "DX3rd.AfterSession": "AfterSession",
+    "DX3rd.CheckSyndrome": "CheckSyndrome",
+    "DX3rd.ModHP": "Modify HP on Disable",
   
     "DX3rd.Target": "Target",
     "DX3rd.EquipType": "EquipType",
