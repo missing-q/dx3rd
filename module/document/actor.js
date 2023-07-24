@@ -135,9 +135,11 @@ export class DX3rdActor extends Actor {
 
     attributes.critical.min = 10;
     for (let e of effect) {
-      values = this._updateEffectData(values, e.system.attributes, e.system.level.value);
-      if ("critical_min" in e.system.attributes && e.system.attributes.critical_min.value < attributes.critical.min)
-        attributes.critical.min = Number(e.system.attributes.critical_min.value);
+      if (!e.system.checkSyndrome){ // this isn't fully implemented yet :')
+        values = this._updateEffectData(values, e.system.attributes, e.system.level.value);
+        if ("critical_min" in e.system.attributes && e.system.attributes.critical_min.value < attributes.critical.min)
+          attributes.critical.min = Number(e.system.attributes.critical_min.value);
+      }
     }
     for (let e of combo) {
       values = this._updateEffectData(values, e.system.attributes, 0);
@@ -226,6 +228,8 @@ export class DX3rdActor extends Actor {
   }
 
   _updateEffectData(values, attributes, level) {
+    console.log(values)
+    console.log(attributes)
     for (const [key, value] of Object.entries(attributes)) {
       if (!(key in values))
         continue;
@@ -233,12 +237,22 @@ export class DX3rdActor extends Actor {
       let val = 0;
       try {
         if (value.value != "") {
+          console.log(value)
           let num = value.value.replace("@level", level);
+          if (value.rollvalue != undefined){
+            console.log("foo")
+            num = num.replace("@roll", value.rollvalue.toString())
+          } else {
+            console.log("bar")
+            num = num.replace("@roll", "0")
+          }
+          console.log(num)
           val = math.evaluate(num);
         }
         
       } catch (error) {
-        console.error("Values other than formula, @level are not allowed.");
+        console.log(error)
+        console.error("Values other than formula, @roll, @level are not allowed.");
       }
 
       values[key].value += val;

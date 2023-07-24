@@ -429,7 +429,11 @@
                         </span>
                       </span>
                     </h4>
-
+                    {{#if (checkRollFormula item)}}
+                    <h4 class="item-addon rollz">
+                      <button class="roll-effect-vals">{{localize "DX3rd.Roll"}}</button>
+                    </h4>
+                    {{/if}}
                     <h4 class="item-addon">
                       <input type="checkbox" class="active-check" {{#if item.system.active.state}} checked {{/if}}>
                     </h4>

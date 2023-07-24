@@ -198,6 +198,122 @@ export class DX3rdActorSheet extends ActorSheet {
       const item = this.actor.items.get(li.dataset.itemId);
       await item.setSublimation();
     });
+    
+    //roll effect button
+    html.find('.roll-effect-vals').on('click', async event => {
+      event.preventDefault();
+      const li = event.currentTarget.closest(".item");
+      const item = this.actor.items.get(li.dataset.itemId);
+      let rolls = {}
+      let effectrolls = {}
+      if (!(item.system.attributes == {})){
+        for (const [key, attr] of Object.entries(item.system.attributes)){
+          if (attr.rollformula){
+            rolls[key] = attr //add to rolls
+          }
+        }
+      }
+      if (!(item.system.effect.attributes == {})){
+        for (const [key, attr] of Object.entries(item.system.effect.attributes)){
+          if (attr.rollformula){
+            effectrolls[key] = attr //add to effectrolls
+          }
+        }
+      }
+      //console.log(rolls)
+      //iterate over rolls
+      for (const [key, attr] of Object.entries(rolls)){
+        let num = 0;
+          try {
+              num = attr.rollformula
+              if (num.indexOf('@level') != -1){
+                  num = num.replace("@level", item.system.level.init);
+              }
+              console.log(num)
+              if (num.indexOf('D') != -1){
+                  
+                  let front = num.substring(0,num.indexOf('D'))
+                  let back = num.substring(num.indexOf('D')+1)
+                  front += "d10"
+                  let roll = new Roll(front);
+                  await roll.roll({async: true});
+                  let rollData = await roll.render();
+                  let rollMode = game.settings.get("core", "rollMode");
+                  let content = `
+                    <div class="dx3rd-roll">
+                      <h2 class="header">
+                        <div class="title">Roll Ability Value: ${key}</div></h2>
+                      <div class="context-box">
+                        ${item.name}
+                      </div>
+                      ${rollData}
+                  `;
+                  ChatMessage.create({
+                    speaker: ChatMessage.getSpeaker({actor: this.actor}),
+                    content: content + `</div>`,
+                    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+                    sound: CONFIG.sounds.dice,
+                    roll: roll,
+                  }, {rollMode});
+              
+                  num = roll.total + back
+              }
+              num = math.evaluate(num)
+              
+          } catch (error) {
+            console.log(error)
+            console.error("Values other than formula, @level, D dice are not allowed.");
+          }
+          console.log(num)
+          await item.update({[`system.attributes.${key}.rollvalue`]: num});
+      }
+      //iterate over effect rolls
+      for (const [key, attr] of Object.entries(effectrolls)){
+        let num = 0;
+          try {
+              num = attr.rollformula
+              if (num.indexOf('@level') != -1){
+                  num = num.replace("@level", item.system.level.init);
+              }
+              console.log(num)
+              if (num.indexOf('D') != -1){
+                  
+                  let front = num.substring(0,num.indexOf('D'))
+                  let back = num.substring(num.indexOf('D')+1)
+                  front += "d10"
+                  let roll = new Roll(front);
+                  await roll.roll({async: true});
+                  let rollData = await roll.render();
+                  let rollMode = game.settings.get("core", "rollMode");
+                  let content = `
+                    <div class="dx3rd-roll">
+                      <h2 class="header">
+                        <div class="title">Roll Ability Target Value: ${key}</div></h2>
+                      <div class="context-box">
+                        ${item.name}
+                      </div>
+                      ${rollData}
+                  `;
+                  ChatMessage.create({
+                    speaker: ChatMessage.getSpeaker({actor: this.actor}),
+                    content: content + `</div>`,
+                    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+                    sound: CONFIG.sounds.dice,
+                    roll: roll,
+                  }, {rollMode});
+              
+                  num = roll.total + back
+              }
+              num = math.evaluate(num)
+              
+          } catch (error) {
+            console.log(error)
+            console.error("Values other than formula, @level, D dice are not allowed.");
+          }
+          console.log(num)
+          await item.update({[`system.effect.attributes.${key}.rollvalue`]: num});
+      }
+    });
 
 
     html.find('.skill-create').click(this._onSkillCreate.bind(this));

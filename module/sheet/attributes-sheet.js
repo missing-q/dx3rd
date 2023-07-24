@@ -81,10 +81,15 @@ export class DX3rdAttributesSheet extends DX3rdItemSheet {
       try {
         if (k != "-") {
           let num = v.value.replace("@level", 0);
+          if (v.rollvalue != undefined ){
+            num = num.replace("@roll", v.rollvalue)
+          } else {
+            num = num.replace("@roll", 0)
+          }
           math.evaluate(num);
         }
       } catch (error) {
-        ui.notifications.error(v.value + ": Values other than formula, @level are not allowed.");
+        ui.notifications.error(v.value + ": Values other than formula, @roll, @level are not allowed.");
       }
 
       obj[k] = v;

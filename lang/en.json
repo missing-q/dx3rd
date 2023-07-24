@@ -55,6 +55,8 @@
     "DX3rd.Value": "Value",
     "DX3rd.Add": "Add",
     "DX3rd.Base": "Base",
+    "DX3rd.RollFormula": "Roll Formula",
+    "DX3rd.RollValue": "Roll Value",
   
     "DX3rd.Cover": "Cover",
     "DX3rd.Ancestry": "Origin",

@@ -245,6 +245,8 @@
           <header class="attributes-header flexrow">
             <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
             <span class="attribute-value">{{localize "DX3rd.Value"}}</span>
+            <span class="attribute-roll-value">{{localize "DX3rd.RollValue"}}</span>
+            <span class="attribute-roll-formula">{{localize "DX3rd.RollFormula"}}</span>
             <a class="attribute-control" data-action="create" data-pos="main" data-type="attributes"><i class="fas fa-plus"></i></a>
           </header>
     
@@ -289,6 +291,8 @@
               </select>
 
               <input class="attribute-value" type="text" name="system.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="String"/>
+              <input class="attribute-value" type="text" name="system.attributes.{{key}}.rollvalue" value="{{attr.rollvalue}}" readonly data-dtype="Number"/>
+              <input class="attribute-value" type="text" name="system.attributes.{{key}}.rollformula" value="{{attr.rollformula}}" data-dtype="String"/>
               <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
             </li>
           {{/each}}
@@ -329,6 +333,8 @@
           <header class="attributes-header flexrow">
             <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
             <span class="attribute-value">{{localize "DX3rd.Value"}}</span>
+            <span class="attribute-roll-value">{{localize "DX3rd.RollValue"}}</span>
+            <span class="attribute-roll-formula">{{localize "DX3rd.RollFormula"}}</span>
             <a class="attribute-control" data-action="create" data-pos="sub" data-type="attributes"><i class="fas fa-plus"></i></a>
           </header>
     
@@ -373,6 +379,8 @@
               </select>
 
               <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="String"/>
+              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.rollvalue" value="{{attr.rollvalue}}" readonly data-dtype="Number"/>
+              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.rollformula" value="{{attr.rollformula}}" data-dtype="String"/>
               <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
             </li>
           {{/each}}

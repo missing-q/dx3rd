@@ -1016,7 +1016,7 @@ input.big {
   margin-left: 10px
   
 }
-.replenish-uses {
+.replenish-uses, .roll-effect-vals {
   background: black;
   color: white;
   font-weight: bold;
@@ -1036,4 +1036,10 @@ input.big {
 }
 h4.item-addon {
   margin-bottom: 0;
+}
+.item-addon.rollz {
+  margin-right:2em
+}
+.roll-effect-vals {
+  padding: 0 2em;
 }

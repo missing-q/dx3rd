@@ -23,6 +23,24 @@ export class DX3rdRegisterHelpers {
       return (name.indexOf('DX3rd.') != -1) ? "<" + game.i18n.localize(name) + ">" : "<" + name + ">";
     });
 
+    Handlebars.registerHelper('checkRollFormula', function(item) {
+      if ((item.system.attributes == {}) && (item.system.effect.attributes == {})){
+        return false;
+      } else {
+        for (const [key, attr] of Object.entries(item.system.attributes)){
+          if (attr.rollformula){
+            return true;
+          }
+        }
+        for (const [key, attr] of Object.entries(item.system.effect.attributes)){
+          if (attr.rollformula){
+            return true;
+          }
+        }
+        return false;
+      }
+    });
+
     Handlebars.registerHelper('timing', function(arg) {
       if (arg == "" || arg == "-") return;
 

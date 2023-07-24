@@ -2,7 +2,7 @@
   "id": "dx3rd",
   "title": "Double Cross 3rd",
   "description": "Double Cross 3rd",
-  "version": "1.2.5",
+  "version": "1.2.7",
   "compatibility": {
     "minimum": 10,
     "verified": "10.303"
@@ -13,6 +13,11 @@
       "name": "ltaeng",
       "email": "ksx0330@gmail.com",
       "discord": "Ltaeng#2837"
+    },
+    {
+      "name": "Missing-q",
+      "email": "jaspersbellss@gmail.com",
+      "discord": "@qryosityy"
     }
   ],
   "esmodules": ["module/init.js"],
@@ -40,8 +45,8 @@
   "socket": true,
   "primaryTokenAttribute": "attributes.hp",
   "secondaryTokenAttribute": "attributes.encroachment",
-  "url": "https://github.com/ksx0330/FVTT-DX3rd-System",
-  "manifest": "https://raw.githubusercontent.com/ksx0330/FVTT-DX3rd-System/master/system.json",
-  "download": "https://codeload.github.com/ksx0330/FVTT-DX3rd-System/zip/main",
+  "url": "https://github.com/missing-q/dx3rd",
+  "manifest": "https://raw.githubusercontent.com/missing-q/dx3rd/master/system.json",
+  "download": "https://codeload.github.com/missing-q/dx3rd/zip/main",
   "license": "LICENSE.txt"
 }
