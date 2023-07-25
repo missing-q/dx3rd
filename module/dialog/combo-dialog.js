@@ -82,6 +82,9 @@ export class ComboDialog extends Dialog {
     
     let encroachStr = [];
     let encroach = 0;
+    let actor = this.actor;
+    let item = this;
+    let updates = {}
 
     await $(".active-effect").each(async (i, val) => {
       if ($(val).is(":checked")) {
@@ -104,6 +107,15 @@ export class ComboDialog extends Dialog {
         encroach += "+" + encroachStr.join("+");
 
     for (let effect of effectList) {
+      if (effect.system.disabled)
+        continue;
+      actor.items.forEach(f => {
+        if ((f.type == "effect") && (f.system.active.state) && (f.system.checkSyndrome) && (effect.system.syndrome == f.system.syndrome) && (effect != f)){
+          console.log("yay match :)")
+          f.applyTarget(actor, true)
+        }
+      })
+
       if (!effect.system.getTarget) {
         const macro = game.macros.contents.find(m => (m.name === effect.system.macro));
         if (macro != undefined)
@@ -114,8 +126,27 @@ export class ComboDialog extends Dialog {
                 content: `Do not find this macro: ${effect.system.macro}`,
                 buttons: {}
             }).render(true);
-      } else
+      } else {
         macroList.push(effect);
+      }
+      
+      let updates = {};
+      if (effect.system.active.disable != '-')
+          updates["system.active.state"] = true;
+      //add in auto decrementing too
+      if (effect.system.uses.active){
+        let currentUses = effect.system.uses.current - 1
+        if (currentUses <= 0){
+          currentUses = 0;
+          updates["system.active.state"] = false;
+          updates["system.disabled"] = true;
+          await item.update({'system.active.state':false});
+          Hooks.call("dialogNoUsesLeft", actor, effect);
+        }
+        updates["system.uses.current"] = currentUses
+      }
+      await effect.update(updates);
+      
     }
 
     Hooks.call("setActorEncroach", this.actor, key, encroach);
