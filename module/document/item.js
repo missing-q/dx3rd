@@ -438,9 +438,12 @@ export class DX3rdItem extends Item {
   }
 
 
-  async applyTarget(actor) {
+  async applyTarget(actor, self) {
     //console.log("Do we ever get to applying to target????")
     let attributes = this.system.effect.attributes;
+    if (self){
+      attributes = this.system.attributes;
+    }
     //console.log(attributes)
     let level = this.system.level.value;
 
@@ -453,12 +456,17 @@ export class DX3rdItem extends Item {
       try {
         if (value.value != "") {
           let num = value.value.replace("@level", level);
+          if (value.rollvalue != undefined ){
+            num = num.replace("@roll", value.rollvalue)
+          } else {
+            num = num.replace("@roll", 0)
+          }
           //handling for dice rolls expressions
           val = String(math.evaluate(num));
         }
         
       } catch (error) {
-        console.error("Values other than formula, @level are not allowed.");
+        console.error("Values other than formula, @level, @roll are not allowed.");
       }
 
       copy[key].value = val;
@@ -472,6 +480,10 @@ export class DX3rdItem extends Item {
       itemId: this.id,
       disable: this.system.effect.disable,
       attributes: copy
+    }
+    if (self){
+      applied[this.id].disable = "roll"
+
     }
     //console.log(applied)
     //console.log(actor)

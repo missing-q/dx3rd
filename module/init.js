@@ -300,6 +300,16 @@ async function chatListeners(html) {
       skill = "-";
     }
 
+    //check for conditional syndrome apply
+    
+    actor.items.forEach(e => {
+      if ((e.type == "effect") && (e.system.active.state) && (e.system.checkSyndrome) && (item.system.syndrome == e.system.syndrome) && (e != item)){
+        console.log("yay match :)")
+        e.applyTarget(actor, true)
+      }
+    })
+    console.log(actor)
+
     if (!item.system.disabled) {
       if (skill in actor.system.attributes.skills)
         base = actor.system.attributes.skills[skill].base;
@@ -355,9 +365,10 @@ async function chatListeners(html) {
           new WeaponDialog(actor, confirm).render(true);
         }
 
-      } else
+      } else {
         Hooks.call("updateActorEncroach", actor, item.id, "roll");
-
+      }
+      console.log("hi")
       //update uses if needed
       if (isUses){
         let postUpdates = {};
@@ -371,9 +382,18 @@ async function chatListeners(html) {
           Hooks.call("dialogNoUsesLeft", actor, item);
         }
         postUpdates["system.uses.current"] = currentUses;
-        await item.update(postUpdates);
-        
+        item.update(postUpdates);   
       }
+      /*
+      let applied = {}
+      //un-apply conditional effects
+      for (let [key, effect] of Object.entries(conditionals)) {
+        console.log(effect)
+        applied[`system.attributes.applied.-=${effect._id}`] = null
+      }
+      
+      actor.update(applied)
+      */
   }
 
   });
@@ -410,10 +430,17 @@ async function chatListeners(html) {
         continue;
 
       let effect = actor.items.get(e);
-      if (!effect.system.active.state)
+      if (effect.system.disabled)
         continue;
       if ((effect.system.effect.disable != "-"))
         appliedList.push(effect);
+
+        actor.items.forEach(f => {
+          if ((f.type == "effect") && (f.system.active.state) && (f.system.checkSyndrome) && (effect.system.syndrome == f.system.syndrome) && (effect != f)){
+            console.log("yay match :)")
+            f.applyTarget(actor, true)
+          }
+        })
       
       if (!effect.system.getTarget) {
         const macro = game.macros.contents.find(m => (m.name === effect.system.macro));

@@ -1,10 +1,10 @@
 ## This is a modification of the original DX3RD system for FoundryVTT, including additional features (Effect uses & related mechanics), bugfixes, & more. Stability & compatibility with the original system is not guaranteed. 
 Planned features:
-- Syndrome checking functionality for abilities whose bonuses only apply to abilities of the same Syndrome.
 - Better support for abilities that deal one-time damage/healing
 - A full compendium of all abilities as listed in the original DX3RD and Infinity Code source books, fully automated when possible.
 
 Implemented features:
+- Syndrome checking functionality for abilities whose bonuses only apply to abilities of the same Syndrome (such as Balor's Dark Matter.)
 - Misc. bugfixes
 - Ability to add/subtract actor's HP at the end of turns (incl. dice values) - this is a provisional implementation, and will be revised upon the implementation of one-time damage/healing
 - Dice support for attribute formulas. 

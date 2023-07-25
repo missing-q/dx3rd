@@ -228,8 +228,8 @@ export class DX3rdActor extends Actor {
   }
 
   _updateEffectData(values, attributes, level) {
-    console.log(values)
-    console.log(attributes)
+    //console.log(values)
+    //console.log(attributes)
     for (const [key, value] of Object.entries(attributes)) {
       if (!(key in values))
         continue;
@@ -237,21 +237,21 @@ export class DX3rdActor extends Actor {
       let val = 0;
       try {
         if (value.value != "") {
-          console.log(value)
+          //console.log(value)
           let num = value.value.replace("@level", level);
           if (value.rollvalue != undefined){
-            console.log("foo")
+            //console.log("foo")
             num = num.replace("@roll", value.rollvalue.toString())
           } else {
-            console.log("bar")
+            //console.log("bar")
             num = num.replace("@roll", "0")
           }
-          console.log(num)
+          //console.log(num)
           val = math.evaluate(num);
         }
         
       } catch (error) {
-        console.log(error)
+        //console.log(error)
         console.error("Values other than formula, @roll, @level are not allowed.");
       }
 
@@ -657,7 +657,7 @@ export class DX3rdActor extends Actor {
         buttons: buttons,
         default: "major"
     }).render(true);
-    
+    //console.log("hello???")
   }
 
   _getDiceData(diceOptions) {
@@ -762,7 +762,7 @@ export class DX3rdActor extends Actor {
     else if (rollType == "reaction" || rollType == "dodge") 
       Hooks.call("afterReaction", this);
 
-    await this.update({ "system.attributes.sublimation.dice": 0, "system.attributes.sublimation.critical": 0 });
+      await this.update({ "system.attributes.sublimation.dice": 0, "system.attributes.sublimation.critical": 0 });
   }
 
 
