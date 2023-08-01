@@ -225,6 +225,7 @@
                 <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
                 <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
                 <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
                 <option value="round">{{localize "DX3rd.AfterRound"}}</option>
                 <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
                 {{/select}}
@@ -236,7 +237,23 @@
             <th><span>{{localize "DX3rd.CheckSyndrome"}}</span></th>
             <td><input type="checkbox" name="system.checkSyndrome" {{#if system.checkSyndrome}} checked {{/if}}></td>
             <th><span>{{localize "DX3rd.ModHP"}}</span></th>
-            <td><input type="text" name="system.modHP" value="{{system.modHP}}" data-dtype="String"/></td>
+            <td><input type="text" name="system.modHP.value" value="{{system.modHP.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModHPTiming"}}</span></th>
+            <td>
+              <select name="system.modHP.timing" data-dtype="String">
+                {{#select system.modHP.timing}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
           </tr>
         </table>
 
@@ -320,6 +337,7 @@
                 <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
                 <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
                 <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
                 <option value="round">{{localize "DX3rd.AfterRound"}}</option>
                 <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
                 {{/select}}

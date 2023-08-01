@@ -384,6 +384,8 @@ async function chatListeners(html) {
         postUpdates["system.uses.current"] = currentUses;
         item.update(postUpdates);   
       }
+      console.log("hello!")
+      Hooks.call("afterUse", actor);
       /*
       let applied = {}
       //un-apply conditional effects

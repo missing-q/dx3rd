@@ -17,6 +17,10 @@ export class DisableHooks {
             await this.disableTalents(actor, ['roll', 'major', 'reaction', 'turn']);
         });
 
+        Hooks.on("afterUse", async actor => {
+            await this.disableTalents(actor, ['use']);
+        });
+
         Hooks.on("afterRound", async actors => {
             for (let actor of actors)
                 await this.disableTalents(actor, ['roll','major', 'reaction', 'turn', 'round']);
@@ -39,17 +43,13 @@ export class DisableHooks {
         let actorupdates = {};
         for (let item of actor.items) {
             let updates = {};
-            
-            if (item.system.active != (undefined))
-            if (active.findIndex(i => i == item.system.active.disable) != -1){
+            if (item.system.active != (undefined)){
                 //evaluate HP modification at interval
-                console.log(item.system.modHP)
-                console.log(item.system.active.state)
-                if ((item.system.modHP != "") && (item.system.active.state)){
+                if ((item.system.modHP.value != "") && (item.system.active.state) && (active.findIndex(i => i == item.system.modHP.timing) != -1)){
                     console.log("hello!! we're in here!!")
                     let num = 0;
                     try {
-                        num = item.system.modHP
+                        num = item.system.modHP.value
                         if (num.indexOf('@level') != -1){
                             num = num.replace("@level", level);
                         }
@@ -70,9 +70,12 @@ export class DisableHooks {
                     updates["system.active.state"]
                     actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
                 }
-                console.log(actor.system.attributes.hp.value)
-                updates["system.active.state"] = false;
+                if (active.findIndex(i => i == item.system.active.disable) != -1){
+                    console.log(actor.system.attributes.hp.value)
+                    updates["system.active.state"] = false;
+                }
             }
+            
             await item.update(updates);
         }
 

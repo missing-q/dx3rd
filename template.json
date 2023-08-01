@@ -200,7 +200,10 @@
     "macro": "",
     "syndrome":"-",
     "checkSyndrome": false,
-    "modHP":""
+    "modHP": {
+      "value":"",
+      "timing":""
+    }
   },
   "combo": {
     "templates": [
