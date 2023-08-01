@@ -479,15 +479,19 @@ export class DX3rdItem extends Item {
       actorId: this.actor.id,
       itemId: this.id,
       disable: this.system.effect.disable,
-      attributes: copy
+      attributes: copy,
+      modHP: this.system.effect.modHP,
+      modEncroach: this.system.effect.modEncroach
     }
     if (self){
       applied[this.id].disable = "roll"
-
     }
     //console.log(applied)
     //console.log(actor)
-    await actor.update({'system.attributes.applied': applied});
+    actor.update({'system.attributes.applied': applied});
+    console.log("OKAY SO WE SHOULD HAVE THE APPLIED VERSION HERE RIGHT????")
+    console.log(actor)
+    Hooks.call("afterUse", actor);
   }
 
   async setTitus() {

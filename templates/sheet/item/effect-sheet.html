@@ -255,6 +255,26 @@
               </select>
             </td>
           </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.ModEncroach"}}</span></th>
+            <td><input type="text" name="system.modEncroach.value" value="{{system.modEncroach.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModEncroachTiming"}}</span></th>
+            <td>
+              <select name="system.modEncroach.timing" data-dtype="String">
+                {{#select system.modEncroach.timing}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
         </table>
 
 
@@ -331,6 +351,46 @@
             <td>
               <select name="system.effect.disable" data-dtype="String">
                 {{#select system.effect.disable}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.ModHP"}}</span></th>
+            <td><input type="text" name="system.effect.modHP.value" value="{{system.effect.modHP.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModHPTiming"}}</span></th>
+            <td>
+              <select name="system.effect.modHP.timing" data-dtype="String">
+                {{#select system.effect.modHP.timing}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.ModEncroach"}}</span></th>
+            <td><input type="text" name="system.effect.modEncroach.value" value="{{system.effect.modEncroach.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModEncroachTiming"}}</span></th>
+            <td>
+              <select name="system.effect.modEncroach.timing" data-dtype="String">
+                {{#select system.effect.modEncroach.timing}}
                 <option value="-">-</option>
                 <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
                 <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>

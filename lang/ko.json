@@ -126,6 +126,8 @@
   "DX3rd.CheckSyndrome": "CheckSyndrome",
   "DX3rd.ModHP": "Mod HP?",
   "DX3rd.ModHPTiming": "Mod HP Timing",
+  "DX3rd.ModEncroach": "Mod Encr.?",
+  "DX3rd.ModEncroachTiming": "Mod Encr. Timing",
 
   "DX3rd.Target": "대상",
   "DX3rd.EquipType": "종별",

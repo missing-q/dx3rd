@@ -188,7 +188,15 @@
 
     "effect": {
       "disable": "-",
-      "attributes": {}
+      "attributes": {},
+      "modHP": {
+        "value":"",
+        "timing":""
+      },
+      "modEncroach": {
+        "value":"",
+        "timing":""
+      }
     },
     "active": {
       "state": false,
@@ -201,6 +209,10 @@
     "syndrome":"-",
     "checkSyndrome": false,
     "modHP": {
+      "value":"",
+      "timing":""
+    },
+    "modEncroach": {
       "value":"",
       "timing":""
     }
