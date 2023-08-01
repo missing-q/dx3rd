@@ -488,6 +488,7 @@ export class DX3rdItem extends Item {
     }
     //console.log(applied)
     //console.log(actor)
+    console.log(applied)
     actor.update({'system.attributes.applied': applied});
     console.log("OKAY SO WE SHOULD HAVE THE APPLIED VERSION HERE RIGHT????")
     console.log(actor)

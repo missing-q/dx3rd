@@ -106,10 +106,7 @@ export class DisableHooks {
             
             await item.update(updates);
         }
-        console.log(actor)
-        console.log(actor.system.attributes)
-        const clone = structuredClone(actor);
-        for (let [key, effect] of Object.entries(clone.system.attributes.applied)) {
+        for (let [key, effect] of Object.entries(actor.system.attributes.applied)) {
             console.log(effect)
             //apply HP effect
             if (active.findIndex(i => i == effect.modHP.timing) != -1){
@@ -174,7 +171,7 @@ export class DisableHooks {
                 actorupdates[`system.attributes.applied.-=${key}`] = null;
             }
         }
-        await actor.update(actorupdates);
+        actor.update(actorupdates);
     }
 
 }
