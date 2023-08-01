@@ -40,7 +40,6 @@ export class DisableHooks {
     }
 
     static async disableTalents(actor, active, used) {
-        console.log(actor)
         let actorupdates = {};
         for (let item of actor.items) {
             let updates = {};
@@ -48,13 +47,13 @@ export class DisableHooks {
                 //evaluate HP modification at interval
                 if ((item.system.modHP.value != "") && (item.system.active.state) && (active.findIndex(i => i == item.system.modHP.timing) != -1)){
                     console.log("HP applied")
-                    let num = evalEffect(effect, "HP")
+                    let num = this.evalEffect(effect, "HP", actor)
                     actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
                 }
                 //evaluate encroach modification at interval
                 if ((item.system.modEncroach.value != "") && (item.system.active.state) && (active.findIndex(i => i == item.system.modEncroach.timing) != -1)){
                     console.log("encroach self")
-                    let num = evalEffect(effect, "encroach")
+                    let num = this.evalEffect(effect, "encroach",actor)
                     actorupdates["system.attributes.encroachment.value"] = actor.system.attributes.encroachment.value + num
                 }
                 if (active.findIndex(i => i == item.system.active.disable) != -1){
@@ -62,20 +61,20 @@ export class DisableHooks {
                 }
             }
             
-            await item.update(updates);
+            item.update(updates);
         }
+        //evaluate applied
         for (let [key, effect] of Object.entries(actor.system.attributes.applied)) {
-            console.log(effect)
             //apply HP effect
             if (active.findIndex(i => i == effect.modHP.timing) != -1){
                 console.log("HP applied")
-                let num = evalEffect(effect, "HP")
+                let num = this.evalEffect(effect, "HP", actor)
                 actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
             }
             //apply encroach effect
             if (active.findIndex(i => i == effect.modEncroach.timing) != -1){
                 console.log("encroach applied")
-                let num = evalEffect(effect, "encroach")
+                let num = this.evalEffect(effect, "encroach", actor)
                 actorupdates["system.attributes.encroachment.value"] = actor.system.attributes.encroachment.value + num
             }
             //negate applied
@@ -83,9 +82,10 @@ export class DisableHooks {
                 actorupdates[`system.attributes.applied.-=${key}`] = null;
             }
         }
+        console.log(actorupdates)
         actor.update(actorupdates);
     }
-    static async evalEffect(effect, type){
+    static evalEffect(effect, type, actor){
         let num = 0
         try {
             if (type == "HP"){
@@ -104,13 +104,20 @@ export class DisableHooks {
                 let back = num.substring(num.indexOf('D')+1)
                 front += "d10"
                 let roll = new Roll(front);
-                await roll.evaluate({async: true});
+                roll.evaluate({async:false});
                 num = roll.total + back
             }
             num = math.evaluate(num)
-            let chatData = {"content": `<div class="context-box">${actor.name}: ${actor.system.attributes.encroachment.value} -> ${actor.system.attributes.encroachment.value + num} (+${num})</div>`, "speaker": ChatMessage.getSpeaker({ actor: actor })};
+            console.log(num)
+            let chatData = { "speaker": ChatMessage.getSpeaker({ actor: actor })};
+            if (type == "HP"){
+                chatData.content = `<div class="context-box">${actor.name}(${num})</div>`
+            } else {
+                chatData.content = `<div class="context-box">${actor.name}: ${actor.system.attributes.encroachment.value} -> ${actor.system.attributes.encroachment.value + num} (+${num})</div>`
+            }
             ChatMessage.create(chatData);
         } catch (error) {
+            console.log(error)
             console.error("Values other than formula, @level, D dice are not allowed.");
             num = 0
         }
