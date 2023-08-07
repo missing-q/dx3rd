@@ -459,6 +459,12 @@ export class DX3rdItem extends Item {
       try {
         if (value.value != "") {
           let num = value.value.replace("@level", level);
+          if (num.indexOf('@currhp') != -1){
+            num = num.replace("@currhp", this.actor.system.attributes.hp.value);
+          }
+          if (num.indexOf('@maxhp') != -1){
+            num = num.replace("@maxhp", this.actor.system.attributes.hp.max);
+          }
           if (value.rollvalue != undefined ){
             num = num.replace("@roll", value.rollvalue)
           } else {

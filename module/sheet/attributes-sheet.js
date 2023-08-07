@@ -86,6 +86,8 @@ export class DX3rdAttributesSheet extends DX3rdItemSheet {
           } else {
             num = num.replace("@roll", 0)
           }
+          num = num.replace("@maxhp", 0)
+          num = num.replace("@currhp", 0)
           math.evaluate(num);
         }
       } catch (error) {

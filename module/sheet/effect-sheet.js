@@ -26,6 +26,8 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
           } else {
             num = num.replace("@roll", 0)
           }
+          num = num.replace("@maxhp", 0)
+          num = num.replace("@currhp", 0)
           math.evaluate(num);
         }
       } catch (error) {

@@ -171,6 +171,10 @@ export class DX3rdActor extends Actor {
 
     attributes.hp.max = values['hp'].value;
     attributes.hp.max += values['body'].value * 2 + values['mind'].value + 20;
+    //hp minimum cap
+    if (attributes.hp.value < 0){
+      attributes.hp.value = 0
+    }
     delete values.hp;
 
     values["init"].value += values['sense'].value * 2 + values['mind'].value;
@@ -228,7 +232,7 @@ export class DX3rdActor extends Actor {
   }
 
   _updateEffectData(values, attributes, level) {
-    //console.log(values)
+    console.log(values)
     //console.log(attributes)
     for (const [key, value] of Object.entries(attributes)) {
       if (!(key in values))
@@ -239,6 +243,16 @@ export class DX3rdActor extends Actor {
         if (value.value != "") {
           //console.log(value)
           let num = value.value.replace("@level", level);
+          if (num.indexOf('@currhp') != -1){
+            num = num.replace("@currhp", this.system.attributes.hp.value);
+          }
+          if (num.indexOf('@maxhp') != -1){
+            if (values.hp){
+              num = num.replace("@maxhp", (values.body.value * 2) + (values.mind.value +20) + (values.hp.value)) // this doesnt work properly :P
+            } else {
+              num = num.replace("@maxhp", (values.body.value * 2) + (values.mind.value +20))
+            }
+          }
           if (value.rollvalue != undefined){
             //console.log("foo")
             num = num.replace("@roll", value.rollvalue.toString())
@@ -248,6 +262,11 @@ export class DX3rdActor extends Actor {
           }
           //console.log(num)
           val = math.evaluate(num);
+          console.log(num)
+          console.log(this.system.attributes.hp)
+          console.log(this.system.attributes.hp.value)
+          console.log(this.system.attributes.hp.max)
+          console.log(this)
         }
         
       } catch (error) {
