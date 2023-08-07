@@ -315,8 +315,15 @@ async function chatListeners(html) {
         base = actor.system.attributes.skills[skill].base;
 
       let updates = {};
-      if (item.system.active.disable != 'notCheck')
-          updates["system.active.state"] = true;
+      if (item.system.active.disable != 'notCheck'){
+        updates["system.active.state"] = true;
+      }
+      if (item.system.modHP.timing != 'notCheck'){
+        updates["system.modHP.active"] = true;
+      }
+      if (item.system.modEncroach.timing != 'notCheck'){
+        updates["system.modEncroach.active"] = true;
+      }
       await item.update(updates);
 
       Hooks.call("setActorEncroach", actor, item.id, encroach);
@@ -459,8 +466,15 @@ async function chatListeners(html) {
         macroList.push(effect.system.macro);
 
       let updates = {};
-      if (effect.system.active.disable != '-')
-          updates["system.active.state"] = true;
+      if (effect.system.active.disable != '-'){
+        updates["system.active.state"] = true;
+      }
+      if (effect.system.modHP.timing != 'notCheck'){
+        updates["system.modHP.active"] = true;
+      }
+      if (effect.system.modEncroach.timing != 'notCheck'){
+        updates["system.modEncroach.active"] = true;
+      }
       //add in auto decrementing too
       if (effect.system.uses.active){
         let currentUses = effect.system.uses.current - 1

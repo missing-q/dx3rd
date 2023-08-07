@@ -45,19 +45,25 @@ export class DisableHooks {
             let updates = {};
             if (item.system.active != (undefined)){
                 //evaluate HP modification at interval
-                if ((item.system.modHP.value != "") && (item.system.active.state) && (active.findIndex(i => i == item.system.modHP.timing) != -1)){
+                if ((item.system.modHP.value != "") && (item.system.modHP.active) && (active.findIndex(i => i == item.system.modHP.timing) != -1)){
                     console.log("HP applied")
-                    let num = await this.evalEffect(effect, "HP", actor)
+                    let num = await this.evalEffect(item, true, actor, true)
                     actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
                 }
                 //evaluate encroach modification at interval
-                if ((item.system.modEncroach.value != "") && (item.system.active.state) && (active.findIndex(i => i == item.system.modEncroach.timing) != -1)){
+                if ((item.system.modEncroach.value != "") && (item.system.modEncroach.active) && (active.findIndex(i => i == item.system.modEncroach.timing) != -1)){
                     console.log("encroach self")
-                    let num = await this.evalEffect(effect, "encroach",actor)
+                    let num = await this.evalEffect(item, false, actor, true)
                     actorupdates["system.attributes.encroachment.value"] = actor.system.attributes.encroachment.value + num
                 }
                 if (active.findIndex(i => i == item.system.active.disable) != -1){
                     updates["system.active.state"] = false;
+                }
+                if (active.findIndex(i => i == item.system.modHP.timing) != -1){
+                    updates["system.modHP.active"] = false;
+                }
+                if (active.findIndex(i => i == item.system.modEncroach.timing) != -1){
+                    updates["system.modEncroach.active"] = false;
                 }
             }
             
@@ -69,13 +75,13 @@ export class DisableHooks {
             //apply HP effect
             if (active.findIndex(i => i == effect.modHP.timing) != -1){
                 console.log("HP applied")
-                let num = await this.evalEffect(effect, "HP", actor)
+                let num = await this.evalEffect(effect, true, actor, false)
                 actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
             }
             //apply encroach effect
             if (active.findIndex(i => i == effect.modEncroach.timing) != -1){
                 console.log("encroach applied")
-                let num = await this.evalEffect(effect, "encroach", actor)
+                let num = await this.evalEffect(effect, false, actor, false)
                 actorupdates["system.attributes.encroachment.value"] = actor.system.attributes.encroachment.value + num
             }
             //negate applied
@@ -86,18 +92,31 @@ export class DisableHooks {
         console.log(actorupdates)
         actor.update(actorupdates);
     }
-    static async evalEffect(effect, type, actor){
+    static async evalEffect(effect, isHP, actor, self){
         let num = 0
         var isRoll = false
         var rollData;
         try {
-            if (type == "HP"){
-                num = effect.modHP.value
+            if (isHP){
+                if (self){
+                    num = effect.system.modHP.value
+                } else {
+                    num = effect.modHP.value
+                }
             } else {
-                num = effect.modEncroach.value
+                if (self){
+                    num = effect.system.modEncroach.value
+                } else {
+                    num = effect.modEncroach.value
+                }
             }
             if (num.indexOf('@level') != -1){
-                let tmp = game.actors.get(effect.actorId).items.get(effect.itemId)
+                let tmp;
+                if (self){
+                    tmp = effect
+                } else {
+                    tmp = game.actors.get(effect.actorId).items.get(effect.itemId)
+                }
                 console.log(tmp)
                 if (tmp.system.level.value){
                     num = num.replace("@level", tmp.system.level.value);
@@ -107,12 +126,22 @@ export class DisableHooks {
                 
             }
             if (num.indexOf('@currhp') != -1){
-                let tmp = game.actors.get(effect.actorId)
+                let tmp;
+                if (self){
+                    tmp = effect.actor
+                } else {
+                    tmp = game.actors.get(effect.actorId)
+                }
                 console.log(tmp)
                 num = num.replace("@currhp", tmp.system.attributes.hp.value);
             }
             if (num.indexOf('@maxhp') != -1){
-                let tmp = game.actors.get(effect.actorId)
+                let tmp;
+                if (self){
+                    tmp = effect.actor
+                } else {
+                    tmp = game.actors.get(effect.actorId)
+                }
                 console.log(tmp)
                 num = num.replace("@maxhp", tmp.system.attributes.hp.max);
             }
@@ -134,7 +163,7 @@ export class DisableHooks {
             num = math.evaluate(num)
             console.log(num)
             
-            if (type == "HP"){
+            if (isHP){
                 console.log(rollData)
                 console.log(chatData)
                 if (isRoll){

@@ -191,11 +191,13 @@
       "attributes": {},
       "modHP": {
         "value":"",
-        "timing":""
+        "timing":"",
+        "active": false
       },
       "modEncroach": {
         "value":"",
-        "timing":""
+        "timing":"",
+        "active": false
       }
     },
     "active": {
