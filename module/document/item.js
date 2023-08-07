@@ -421,9 +421,12 @@ export class DX3rdItem extends Item {
               let targets = game.user.targets;
               //console.log("Hi we're in here now!!")
               //console.log(targets)
-              for (let t of targets) {
-                let a = t.actor;
-                this.applyTarget(a);
+              for (var t of targets) {
+                var a = t.actor;
+                await this.applyTarget(a);
+                console.log("hello ^--^")
+                console.log(a)
+                Hooks.call("afterUse", a);
               }
             }
             Hooks.call("updateActorEncroach", this.actor, this.id, "target");
@@ -488,11 +491,10 @@ export class DX3rdItem extends Item {
     }
     //console.log(applied)
     //console.log(actor)
-    console.log(applied)
-    actor.update({'system.attributes.applied': applied});
+    console.log
+    await actor.update({'system.attributes.applied': applied});
     console.log("OKAY SO WE SHOULD HAVE THE APPLIED VERSION HERE RIGHT????")
     console.log(actor)
-    Hooks.call("afterUse", actor);
   }
 
   async setTitus() {

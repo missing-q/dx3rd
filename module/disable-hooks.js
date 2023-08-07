@@ -63,6 +63,7 @@ export class DisableHooks {
             
             item.update(updates);
         }
+        //smiles
         //evaluate applied
         for (let [key, effect] of Object.entries(actor.system.attributes.applied)) {
             //apply HP effect
