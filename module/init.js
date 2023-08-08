@@ -236,7 +236,6 @@ Hooks.on("deleteCombat", async function (data, delta) {
 
 Hooks.on("updateCombat", async function (data, delta) {
     var close = true;
-    console.log(data)
     let prev = data.getCombatantByToken(data.previous.tokenId).actor
     if (prev != undefined){
       Hooks.call("afterTurn", prev);
@@ -376,7 +375,6 @@ async function chatListeners(html) {
       } else {
         Hooks.call("updateActorEncroach", actor, item.id, "roll");
       }
-      console.log("hi")
       //update uses if needed
       if (isUses){
         let postUpdates = {};
@@ -392,7 +390,6 @@ async function chatListeners(html) {
         postUpdates["system.uses.current"] = currentUses;
         item.update(postUpdates);   
       }
-      console.log("hello!")
       Hooks.call("afterUse", actor);
       /*
       let applied = {}

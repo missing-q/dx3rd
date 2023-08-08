@@ -233,7 +233,7 @@ export class DX3rdActor extends Actor {
   }
 
   _updateEffectData(values, attributes, level) {
-    console.log(values)
+    //console.log(values)
     //console.log(attributes)
     for (const [key, value] of Object.entries(attributes)) {
       if (!(key in values))
@@ -263,11 +263,11 @@ export class DX3rdActor extends Actor {
           }
           //console.log(num)
           val = math.evaluate(num);
-          console.log(num)
-          console.log(this.system.attributes.hp)
-          console.log(this.system.attributes.hp.value)
-          console.log(this.system.attributes.hp.max)
-          console.log(this)
+          //console.log(num)
+          //console.log(this.system.attributes.hp)
+          //console.log(this.system.attributes.hp.value)
+          //console.log(this.system.attributes.hp.max)
+          //console.log(this)
         }
         
       } catch (error) {
@@ -416,7 +416,7 @@ export class DX3rdActor extends Actor {
         } catch (error){
           console.log("Values other than formula, @level are not allowed.")
         }
-        console.log(num)
+        //console.log(num)
         if (isNaN(num)){
           num = 0
         }
@@ -476,13 +476,13 @@ export class DX3rdActor extends Actor {
       let effectItems = comboData.effectItems = {};
       let weaponList = comboData.weapon;
       let weaponItems = comboData.weaponItems = {};
-      console.log("AAAAAAAAAAA")
+      //console.log("AAAAAAAAAAA")
       for (let effectId of effectList) {
         if (this.items.get(effectId) == undefined)
           continue;
 
         let effect = this.items.get(effectId);
-        console.log(effect)
+        //console.log(effect)
         effectItems[effectId] = effect;
         if(!effect.system.disabled){
           if ( Number.isNaN(Number(effect.system.encroach.value)) )

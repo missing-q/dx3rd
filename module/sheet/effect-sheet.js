@@ -6,7 +6,6 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
     formData = this.updateEffectAttributes(formData);
-    formData = this.updateUsesFormula(formData)
     return formData;
   }
 
@@ -57,17 +56,5 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
   /** @inheritdoc */
   activateListeners(html) {
     super.activateListeners(html);
-
-    html.find('.replenish-uses').on('click', async ev => {
-      ev.preventDefault();
-
-      const itemId = ev.currentTarget.offsetParent.id.slice(-16)
-      const item = this.actor.items.get(itemId);
-      //console.log(item)
-      let max = item.system.uses.max
-      await item.update({'system.uses.current': max});
-      await item.update({'system.disabled':false});
-    });
-
   }
 }

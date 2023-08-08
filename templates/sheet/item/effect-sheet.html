@@ -150,7 +150,7 @@
             <input class = "small" type="text" name="system.uses.current" value="{{system.uses.current}}" data-dtype="Number"/>
             <span class="slash"> / </span>
             <input class = "small" type="text" name="system.uses.max" value="{{system.uses.max}}" disabled data-dtype="Number"/>
-            <input class = "small" type="text" name="system.uses.formula_max" value="{{system.uses.formula_max}}" placeholder = "Formula" data-dtype="String"/>
+            <input class = "big" type="text" name="system.uses.formula_max" value="{{system.uses.formula_max}}" placeholder = "Formula" data-dtype="String"/>
             <span class="slash"> / </span>
             <select name="system.uses.formula_timing" data-dtype="String">
               {{#select system.uses.formula_timing}}
@@ -161,7 +161,6 @@
               <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
               {{/select}}
             </select>
-            <button class="replenish-uses">{{localize "DX3rd.Replenish"}}</button>
           </div>
           
           {{/if}}

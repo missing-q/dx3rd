@@ -1003,16 +1003,17 @@
 
 .cell--uses input {
   background: white;
+}
+.cell--uses>div{
   margin-bottom:5px;
 }
 .cell--uses input[type="text"]{
   height:auto
 }
 input.small {
-  flex-basis:20%
+  flex-basis:30%
 }
 input.big {
-  flex-basis:80%;
   margin-left: 10px
   
 }

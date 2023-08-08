@@ -66,6 +66,11 @@ export class DisableHooks {
                     updates["system.modEncroach.active"] = false;
                 }
             }
+            if (item.system.uses.active){
+                if (active.findIndex(i => i == item.system.uses.formula_timing)){
+                    updates["system.uses.current"] = item.system.uses.max
+                }
+            }
             
             item.update(updates);
         }
@@ -89,7 +94,7 @@ export class DisableHooks {
                 actorupdates[`system.attributes.applied.-=${key}`] = null;
             }
         }
-        console.log(actorupdates)
+        //console.log(actorupdates)
         actor.update(actorupdates);
     }
     static async evalEffect(effect, isHP, actor, self){
