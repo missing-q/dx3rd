@@ -6,6 +6,7 @@ export class DX3rdActor extends Actor {
 
     this._prepareActorEnc();
     this._prepareItemEnc();
+    this._prepareItemUses();
 
     this._prepareActorItem();
     this._prepareActorSkills();
@@ -402,6 +403,26 @@ export class DX3rdActor extends Actor {
       }
     }
 
+  }
+
+  _prepareItemUses() {
+    for (let i of this.items){
+      if (i.type == 'effect'){
+        //update uses formula????
+        let num = i.system.uses.formula_max
+        try {
+          num = num.replace("@level", i.system.level.value);
+          num = math.evaluate(num)
+        } catch (error){
+          console.log("Values other than formula, @level are not allowed.")
+        }
+        console.log(num)
+        if (isNaN(num)){
+          num = 0
+        }
+        i.system.uses.max = num
+      }
+    }
   }
 
 

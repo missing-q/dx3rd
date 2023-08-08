@@ -6,6 +6,7 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
     formData = this.updateEffectAttributes(formData);
+    formData = this.updateUsesFormula(formData)
     return formData;
   }
 

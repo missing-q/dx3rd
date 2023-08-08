@@ -178,7 +178,8 @@
     "uses": {
       "current": 0,
       "max":0,
-      "formula":"",
+      "formula_max":"",
+      "formula_timing":"",
       "active": false
     },
     "exp": {
