@@ -145,7 +145,7 @@ export class DisableHooks {
                 console.log(tmp)
                 num = num.replace("@maxhp", tmp.system.attributes.hp.max);
             }
-            let chatData = { "speaker": ChatMessage.getSpeaker({ actor: actor })};
+            let chatData = { "speaker": ChatMessage.getSpeaker({ actor: actor }), "sound":CONFIG.sounds.notification};
             if (num.indexOf('D') != -1){
                 
                 let front = num.substring(0,num.indexOf('D'))
@@ -157,7 +157,7 @@ export class DisableHooks {
                 isRoll = true
                 rollData = await roll.render();
                 chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
-                chatData.sound = CONFIG.sounds.notify;
+                chatData.sound = CONFIG.sounds.dice;
                 chatData.roll = roll;
             }
             num = math.evaluate(num)

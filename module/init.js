@@ -130,7 +130,8 @@ Hooks.on("updateActorEncroach", async (actor, key, type) => {
     let encroach = Number(actor.system.attributes.encroachment.value) + itemUsage.encroach;
 
     let chatData = {
-      speaker: ChatMessage.getSpeaker({actor: actor})
+      speaker: ChatMessage.getSpeaker({actor: actor}),
+      sound: CONFIG.sounds.notification
     };
 
     if (Number.isNumeric(itemUsage.encroach))
@@ -149,7 +150,7 @@ Hooks.on("updateActorEncroach", async (actor, key, type) => {
         </div>
       `;
       chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
-      chatData.sound = CONFIG.sounds.notify;
+      chatData.sound = CONFIG.sounds.dice;
       chatData.roll = roll;
     }
     
