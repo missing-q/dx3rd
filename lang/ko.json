@@ -130,6 +130,11 @@
   "DX3rd.ModEncroach": "가치를 잠식하다",
   "DX3rd.ModEncroachTiming": "잠식 타이밍",
   "DX3rd.ModEncroachActive": "잠식 활성화",
+  "DX3rd.Turn": "회전",
+  "DX3rd.Use": "사용",
+  "DX3rd.Round": "라운드",
+  "DX3rd.Scene": "장면",
+  "DX3rd.Session": "세션",
 
   "DX3rd.Target": "대상",
   "DX3rd.EquipType": "종별",

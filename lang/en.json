@@ -130,6 +130,11 @@
     "DX3rd.ModEncroach": "Encr. Value",
     "DX3rd.ModEncroachTiming": "Encr. Timing",
     "DX3rd.ModEncroachActive": "Encr. Active",
+    "DX3rd.Turn": "Turn",
+    "DX3rd.Use": "Use",
+    "DX3rd.Round": "Round",
+    "DX3rd.Scene": "Scene",
+    "DX3rd.Session": "Scenario",
   
     "DX3rd.Target": "Target",
     "DX3rd.EquipType": "EquipType",

@@ -130,6 +130,11 @@
   "DX3rd.ModEncroach": "価値を侵害する",
   "DX3rd.ModEncroachTiming": "タイミングを侵す",
   "DX3rd.ModEncroachActive": "アクティブに侵入しますか",
+  "DX3rd.Turn": "ターン",
+  "DX3rd.Use": "用途",
+  "DX3rd.Round": "ラウンド",
+  "DX3rd.Scene": "シーン",
+  "DX3rd.Session": "セッション",
 
   "DX3rd.Target": "対象",
   "DX3rd.EquipType": "種別",
