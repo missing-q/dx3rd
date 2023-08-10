@@ -75,6 +75,19 @@ export class DX3rdRegisterHelpers {
         return actor.items.get(id);
     });
 
+    Handlebars.registerHelper('getActorEffects', function(item) {
+      let actor = item.actor;
+      let list = []
+      if (actor){
+        actor.items.forEach(e =>{
+          if (e.type == "effect"){
+            list.push(e)
+          }
+        })
+      }
+      return list;
+    });
+
 
     Handlebars.registerHelper('disable', function(arg) {
       const list = {"notCheck": "DX3rd.NotCheck", "roll": "DX3rd.AfterRoll", "major": "DX3rd.AfterMajor", "reaction": "DX3rd.AfterReaction", "round": "DX3rd.AfterRound", "battle": "DX3rd.AfterScene", "turn": "DX3rd.AfterTurn", "use": "DX3rd.AfterUse"};

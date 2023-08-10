@@ -271,8 +271,8 @@
     "add": 0,
     "attack": 0,
     "guard": 0,
-    "range": ""
-
+    "range": "",
+    "linked": ""
   },
   "protect": {
     "templates": [
@@ -280,7 +280,8 @@
     ],
     "dodge": 0,
     "init": 0,
-    "armor": 0
+    "armor": 0,
+    "linked":""
 
   },
   "vehicle": {
