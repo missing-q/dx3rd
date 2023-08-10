@@ -431,7 +431,12 @@
                     </h4>
                     {{#if (checkRollFormula item)}}
                     <h4 class="item-addon rollz">
-                      <button class="roll-effect-vals">{{localize "DX3rd.Roll"}}</button>
+                      <button class="roll-effect-vals fxbutton">{{localize "DX3rd.Roll"}}</button>
+                    </h4>
+                    {{/if}}
+                    {{#if item.system.uses.active}}
+                    <h4 class="item-addon rollz">
+                      <button class="refresh-uses fxbutton">{{localize "DX3rd.Replenish"}}</button>
                     </h4>
                     {{/if}}
                     <h4 class="item-addon">

@@ -198,6 +198,13 @@ export class DX3rdActorSheet extends ActorSheet {
       const item = this.actor.items.get(li.dataset.itemId);
       await item.setSublimation();
     });
+
+    html.find('.refresh-uses').on('click', async event => {
+      event.preventDefault();
+      const li = event.currentTarget.closest(".item");
+      const item = this.actor.items.get(li.dataset.itemId);
+      await item.update({'system.uses.current':item.system.uses.max})
+    });
     
     //roll effect button
     html.find('.roll-effect-vals').on('click', async event => {

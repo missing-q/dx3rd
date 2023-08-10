@@ -1017,12 +1017,13 @@ input.big {
   margin-left: 10px
   
 }
-.replenish-uses, .roll-effect-vals {
+.fxbutton {
   background: black;
   color: white;
   font-weight: bold;
   font-size: 13px;
-  margin-bottom:5px
+  margin-bottom:5px;
+  padding: 0 2em;
 }
 
 .dx3rd .item .sheet-header .header-fields .level select {
@@ -1039,8 +1040,5 @@ h4.item-addon {
   margin-bottom: 0;
 }
 .item-addon.rollz {
-  margin-right:2em
-}
-.roll-effect-vals {
-  padding: 0 2em;
+  margin-right:1vw;
 }
