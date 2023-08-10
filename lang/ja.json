@@ -196,5 +196,7 @@
   "DX3rd.SubAction2": "判定の達成値を+1D10する",
   "DX3rd.SubAction3": "判定のクリティカル値を-1する",
   "DX3rd.SubAction4": "戦闘不能から回復",
-  "DX3rd.SubAction5": "不利な効果を消す"
+  "DX3rd.SubAction5": "不利な効果を消す",
+
+  "DX3rd.Goodbye": "すべてのアクティブアビリティがクリアされた。セッションは終了しました。ありがとうございました！"
 }

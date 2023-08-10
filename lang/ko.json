@@ -196,5 +196,7 @@
   "DX3rd.SubAction2": "판정의 달성치에 +1D10 추가",
   "DX3rd.SubAction3": "판정의 크리티컬 수치에 -1의 수정",
   "DX3rd.SubAction4": "전투불능에서 회복",
-  "DX3rd.SubAction5": "불리한 효과를 소거"
+  "DX3rd.SubAction5": "불리한 효과를 소거",
+
+  "DX3rd.Goodbye": "모든 활성화된 능력이 해제되었습니다. 세션이 종료되었습니다. 플레이해 주셔서 감사합니다!"
 }

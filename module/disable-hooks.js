@@ -35,7 +35,7 @@ export class DisableHooks {
             for (let actor of game.actors) {
                 await this.disableTalents(actor, ['roll','major', 'reaction', 'turn', 'round', 'battle', 'session']);
             }
-            ChatMessage.create({"content": "All active abilities cleared. The session is over, thank you for playing!", "sound":CONFIG.sounds.notification})
+            ChatMessage.create({"content": `${game.i18n.localize("DX3rd.Goodbye")}`, "sound":CONFIG.sounds.notification})
         });
 
     }

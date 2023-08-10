@@ -196,5 +196,7 @@
     "DX3rd.SubAction2": "+1D Bonus to one Check’s Score",
     "DX3rd.SubAction3": "-1 Critical Value for a Check",
     "DX3rd.SubAction4": "Recover from Incapacitation",
-    "DX3rd.SubAction5": "Remove Disadvantageous Effects"
+    "DX3rd.SubAction5": "Remove Disadvantageous Effects",
+    
+    "DX3rd.Goodbye": "All active abilities cleared. The session is over, thank you for playing!"
   }
