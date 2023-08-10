@@ -90,7 +90,7 @@ export class DX3rdRegisterHelpers {
 
 
     Handlebars.registerHelper('disable', function(arg) {
-      const list = {"notCheck": "DX3rd.NotCheck", "roll": "DX3rd.AfterRoll", "major": "DX3rd.AfterMajor", "reaction": "DX3rd.AfterReaction", "round": "DX3rd.AfterRound", "battle": "DX3rd.AfterScene", "turn": "DX3rd.AfterTurn", "use": "DX3rd.AfterUse"};
+      const list = {"notCheck": "DX3rd.NotCheck", "roll": "DX3rd.AfterRoll", "major": "DX3rd.AfterMajor", "reaction": "DX3rd.AfterReaction", "round": "DX3rd.AfterRound", "battle": "DX3rd.AfterScene", "turn": "DX3rd.AfterTurn", "use": "DX3rd.AfterUse", "session": "DX3rd.AfterSession"};
       return game.i18n.localize(list[arg]);
     });
 

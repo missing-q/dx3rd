@@ -33,8 +33,9 @@ export class DisableHooks {
 
         Hooks.on("afterSession", async () => {
             for (let actor of game.actors) {
-                await this.disableTalents(actor, ['roll','major', 'reaction', 'turn', 'round', 'battle']);
+                await this.disableTalents(actor, ['roll','major', 'reaction', 'turn', 'round', 'battle', 'session']);
             }
+            ChatMessage.create({"content": "All active abilities cleared. The session is over, thank you for playing!", "sound":CONFIG.sounds.notification})
         });
 
     }
@@ -43,35 +44,36 @@ export class DisableHooks {
         let actorupdates = {};
         for (let item of actor.items) {
             let updates = {};
-            if (item.system.active != (undefined)){
-                //evaluate HP modification at interval
-                if ((item.system.modHP.value != "") && (item.system.modHP.active) && (active.findIndex(i => i == item.system.modHP.timing) != -1)){
-                    console.log("HP applied")
-                    let num = await this.evalEffect(item, true, actor, true)
-                    actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
+            if (item.type == "effect"){
+                if (item.system.active != (undefined)){
+                    //evaluate HP modification at interval
+                    if ((item.system.modHP.value != "") && (item.system.modHP.active) && (active.findIndex(i => i == item.system.modHP.timing) != -1)){
+                        console.log("HP applied")
+                        let num = await this.evalEffect(item, true, actor, true)
+                        actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
+                    }
+                    //evaluate encroach modification at interval
+                    if ((item.system.modEncroach.value != "") && (item.system.modEncroach.active) && (active.findIndex(i => i == item.system.modEncroach.timing) != -1)){
+                        console.log("encroach self")
+                        let num = await this.evalEffect(item, false, actor, true)
+                        actorupdates["system.attributes.encroachment.value"] = actor.system.attributes.encroachment.value + num
+                    }
+                    if (active.findIndex(i => i == item.system.active.disable) != -1){
+                        updates["system.active.state"] = false;
+                    }
+                    if (active.findIndex(i => i == item.system.modHP.timing) != -1){
+                        updates["system.modHP.active"] = false;
+                    }
+                    if (active.findIndex(i => i == item.system.modEncroach.timing) != -1){
+                        updates["system.modEncroach.active"] = false;
+                    }
                 }
-                //evaluate encroach modification at interval
-                if ((item.system.modEncroach.value != "") && (item.system.modEncroach.active) && (active.findIndex(i => i == item.system.modEncroach.timing) != -1)){
-                    console.log("encroach self")
-                    let num = await this.evalEffect(item, false, actor, true)
-                    actorupdates["system.attributes.encroachment.value"] = actor.system.attributes.encroachment.value + num
-                }
-                if (active.findIndex(i => i == item.system.active.disable) != -1){
-                    updates["system.active.state"] = false;
-                }
-                if (active.findIndex(i => i == item.system.modHP.timing) != -1){
-                    updates["system.modHP.active"] = false;
-                }
-                if (active.findIndex(i => i == item.system.modEncroach.timing) != -1){
-                    updates["system.modEncroach.active"] = false;
+                if (item.system.uses.active){
+                    if (active.findIndex(i => i == item.system.uses.formula_timing)){
+                        updates["system.uses.current"] = item.system.uses.max
+                    }
                 }
             }
-            if (item.system.uses.active){
-                if (active.findIndex(i => i == item.system.uses.formula_timing)){
-                    updates["system.uses.current"] = item.system.uses.max
-                }
-            }
-            
             item.update(updates);
         }
         //smiles
