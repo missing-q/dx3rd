@@ -152,6 +152,46 @@ export class DisableHooks {
                 console.log(tmp)
                 num = num.replace("@maxhp", tmp.system.attributes.hp.max);
             }
+            if (num.indexOf('@body') != -1){
+                let tmp;
+                if (self){
+                    tmp = effect.actor
+                } else {
+                    tmp = game.actors.get(effect.actorId)
+                }
+                console.log(tmp)
+                num = num.replace("@body", tmp.system.attributes.body.value);
+            }
+            if (num.indexOf('@mind') != -1){
+                let tmp;
+                if (self){
+                    tmp = effect.actor
+                } else {
+                    tmp = game.actors.get(effect.actorId)
+                }
+                console.log(tmp)
+                num = num.replace("@mind", tmp.system.attributes.mind.value);
+            }
+            if (num.indexOf('@sense') != -1){
+                let tmp;
+                if (self){
+                    tmp = effect.actor
+                } else {
+                    tmp = game.actors.get(effect.actorId)
+                }
+                console.log(tmp)
+                num = num.replace("@sense", tmp.system.attributes.sense.value);
+            }
+            if (num.indexOf('@social') != -1){
+                let tmp;
+                if (self){
+                    tmp = effect.actor
+                } else {
+                    tmp = game.actors.get(effect.actorId)
+                }
+                console.log(tmp)
+                num = num.replace("@social", tmp.system.attributes.social.value);
+            }
             let chatData = { "speaker": ChatMessage.getSpeaker({ actor: actor }), "sound":CONFIG.sounds.notification};
             if (num.indexOf('D') != -1){
                 

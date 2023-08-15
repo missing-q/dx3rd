@@ -203,7 +203,7 @@ export class DX3rdActorSheet extends ActorSheet {
       event.preventDefault();
       const li = event.currentTarget.closest(".item");
       const item = this.actor.items.get(li.dataset.itemId);
-      await item.update({'system.uses.current':item.system.uses.max})
+      await item.update({'system.uses.current':item.system.uses.max, 'system.disabled':false})
     });
     
     //roll effect button
