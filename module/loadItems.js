@@ -27,17 +27,23 @@ async function picked(file) {
     var obj = JSON.parse(request.responseText);
     for (const syndrome in obj){
         let abilitylist = obj[syndrome];
+        let folder = await Folder.create({
+            name: syndrome,
+            type: "Item"
+        });
+
         for (var i = 0; i < abilitylist.length; i++){
             let tmp = abilitylist[i];
             let newItem = {
                 "name": tmp.name,
                 "type": "effect",
+                "folder": folder.id,
                 "img": icons[tmp.syndrome],
-                "data": {
+                "system": {
                     "difficulty": tmp.difficulty,
-                    "timing": tmp.timing,
+                    "timing": tmp.timing.toLowerCase(),
                     "limit": tmp.restrict,
-                    "skill": tmp.skill,
+                    "skill": tmp.skill.toLowerCase(),
                     "target": tmp.target,
                     "range": tmp.range,
                     "description": tmp.description,
@@ -50,6 +56,12 @@ async function picked(file) {
                     },
                     "uses":{}
                 }
+            }
+            if (tmp.skill == "R.C"){
+                newItem.system.skill = "rc"
+            }
+            if (tmp.timing == "Major/Reaction"){
+                newItem.system.timing = "major-reaction"
             }
             //uses formula parser
             if ((tmp.uses != "-") && (tmp.uses != "Refer") ){
@@ -65,15 +77,11 @@ async function picked(file) {
                 if (num.indexOf('[LV]') != -1){
                     num = num.replace("[LV]", "@level");
                 }
-                newItem.data.uses.formula_max = num;
-                newItem.data.uses.formula_timing = freq;
-                newItem.data.uses.active = true
+                newItem.system.uses.formula_max = num;
+                newItem.system.uses.formula_timing = freq;
+                newItem.system.uses.active = true
             }
-            let res = tmp.restrict
-            if (res != "-"){
-                res = "" + Number(res * 100)+"%"
-            }
-            newItem.data.restrict = res
+            newItem.system.restrict = tmp.restrict
             
 
             Item.create(newItem)
