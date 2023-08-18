@@ -69,7 +69,7 @@ export class DisableHooks {
                     }
                 }
                 if (item.system.uses.active){
-                    if (active.findIndex(i => i == item.system.uses.formula_timing)){
+                    if (active.findIndex(i => i == item.system.uses.formula_timing) != -1 ){
                         updates["system.uses.current"] = item.system.uses.max
                     }
                 }

@@ -433,13 +433,14 @@ async function chatListeners(html) {
     const macroList = [];
 
     for (let e of effectItems) {
-      if (e == "-")
+      if (e == "-"){
         continue;
-
+      }
       let effect = actor.items.get(e);
-      if (effect.system.disabled)
+      if (effect.system.disabled){
         continue;
-      if ((effect.system.effect.disable != "-"))
+      }
+      if ((effect.system.effect.disable != "-")){
         appliedList.push(effect);
 
         actor.items.forEach(f => {
@@ -448,44 +449,48 @@ async function chatListeners(html) {
             f.applyTarget(actor, true)
           }
         })
+      }
       
       if (!effect.system.getTarget) {
         const macro = game.macros.contents.find(m => (m.name === effect.system.macro));
 
-        if (macro != undefined)
-            macro.execute();
-        else if (effect.system.macro != "")
-            new Dialog({
-                title: "macro",
-                content: `Do not find this macro: ${effect.system.macro}`,
-                buttons: {}
-            }).render(true);
-      } else if (effect.system.macro != "")
+        if (macro != undefined){
+          macro.execute();
+        }
+        else if (effect.system.macro != ""){
+          new Dialog({
+            title: "macro",
+            content: `Do not find this macro: ${effect.system.macro}`,
+            buttons: {}
+          }).render(true);
+        }
+      } else if (effect.system.macro != ""){
         macroList.push(effect.system.macro);
-
-      let updates = {};
-      if (effect.system.active.disable != '-'){
-        updates["system.active.state"] = true;
+      }
+      let e_updates = {};
+      if (effect.system.active.disable != 'notCheck'){
+        e_updates["system.active.state"] = true;
       }
       if (effect.system.modHP.timing != 'notCheck'){
-        updates["system.modHP.active"] = true;
+        e_updates["system.modHP.active"] = true;
       }
       if (effect.system.modEncroach.timing != 'notCheck'){
-        updates["system.modEncroach.active"] = true;
+        e_updates["system.modEncroach.active"] = true;
       }
       //add in auto decrementing too
       if (effect.system.uses.active){
         let currentUses = effect.system.uses.current - 1
         if (currentUses <= 0){
           currentUses = 0;
-          updates["system.active.state"] = false;
-          updates["system.disabled"] = true;
-          await item.update({'system.active.state':false});
+          e_updates["system.active.state"] = false;
+          e_updates["system.disabled"] = true;
           Hooks.call("dialogNoUsesLeft", actor, effect);
         }
-        updates["system.uses.current"] = currentUses
+        e_updates["system.uses.current"] = currentUses
       }
-      await effect.update(updates);
+      console.log(e_updates)
+      console.log(effect)
+      await effect.update(e_updates);
     }
 
     Hooks.call("setActorEncroach", actor, item.id, encroach);
@@ -589,8 +594,10 @@ async function chatListeners(html) {
 
       }
 
-    } else
+    } else {
       Hooks.call("updateActorEncroach", actor, item.id, "roll");
+    }
+      
   });
 
   html.on('click', '.roll-attack', async ev => {

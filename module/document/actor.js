@@ -421,6 +421,9 @@ export class DX3rdActor extends Actor {
           num = 0
         }
         i.system.uses.max = num
+        if (num > i.system.uses.current){
+          i.system.uses.current = num
+        }
       }
     }
   }
