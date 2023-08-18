@@ -97,7 +97,7 @@ export class ComboDialog extends Dialog {
           encroach += Number(effect.system.encroach.value);
 
         let updates = {};
-        if (effect.system.active.disable != 'notCheck')
+        if (effect.system.active.disable != '-')
             updates["system.active.state"] = true;
         await effect.update(updates);
       }

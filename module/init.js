@@ -315,13 +315,13 @@ async function chatListeners(html) {
         base = actor.system.attributes.skills[skill].base;
 
       let updates = {};
-      if (item.system.active.disable != 'notCheck'){
+      if (item.system.active.disable != '-'){
         updates["system.active.state"] = true;
       }
-      if (item.system.modHP.timing != 'notCheck'){
+      if (item.system.modHP.timing != '-'){
         updates["system.modHP.active"] = true;
       }
-      if (item.system.modEncroach.timing != 'notCheck'){
+      if (item.system.modEncroach.timing != '-'){
         updates["system.modEncroach.active"] = true;
       }
       await item.update(updates);
@@ -412,7 +412,7 @@ async function chatListeners(html) {
     const item = actor.items.get(itemInfo.dataset.itemId);
 
     let updates = {};
-    if (item.system.active.disable != 'notCheck')
+    if (item.system.active.disable != '-')
         updates["system.active.state"] = true;
     await item.update(updates);
 
@@ -468,13 +468,13 @@ async function chatListeners(html) {
         macroList.push(effect.system.macro);
       }
       let e_updates = {};
-      if (effect.system.active.disable != 'notCheck'){
+      if (effect.system.active.disable != '-'){
         e_updates["system.active.state"] = true;
       }
-      if (effect.system.modHP.timing != 'notCheck'){
+      if (effect.system.modHP.timing != '-'){
         e_updates["system.modHP.active"] = true;
       }
-      if (effect.system.modEncroach.timing != 'notCheck'){
+      if (effect.system.modEncroach.timing != '-'){
         e_updates["system.modEncroach.active"] = true;
       }
       //add in auto decrementing too
