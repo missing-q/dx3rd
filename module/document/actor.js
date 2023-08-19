@@ -261,6 +261,43 @@ export class DX3rdActor extends Actor {
             //console.log("bar")
             num = num.replace("@roll", "0")
           }
+          if (num.indexOf('#') != -1){
+            var indices = [];
+            for(var i=0; i<num.length;i++) {
+              if (num[i] === "#") indices.push(i);
+            }
+            //get indices in string
+            if (indices.length == 3){
+              let front = indices[0]
+              let mid = indices[1]
+              let back = indices[2]
+              let str = num.substring(front, back + 1)
+              let id = num.substring(front + 1, mid)
+              let prop = num.substring(mid + 1, back)
+              
+              console.log(id)
+              console.log(prop)
+              let item = game.items.get(id)
+              if (!item){ //check to see if it exists on other char sheets
+                for (let a of game.actors.contents){
+                  if (a.items.get(id)){
+                    item = a.items.get(id)
+                    break;
+                  }
+                }
+              }
+              let tmp = item
+              //dynamic indices access
+              while (prop.indexOf('.') != -1){
+                console.log(tmp)
+                console.log(prop)
+                tmp = tmp[prop.slice(0,prop.indexOf('.'))]
+                prop = prop.slice(prop.indexOf('.') + 1)
+              }
+              num = num.replace(str, tmp[prop])
+              console.log(num)
+            }
+          }
           //console.log(num)
           val = math.evaluate(num);
           //console.log(num)
@@ -271,7 +308,7 @@ export class DX3rdActor extends Actor {
         }
         
       } catch (error) {
-        //console.log(error)
+        console.log(error)
         console.error("Values other than formula, @roll, @level are not allowed.");
       }
 

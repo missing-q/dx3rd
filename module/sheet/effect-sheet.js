@@ -28,9 +28,24 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
           }
           num = num.replace("@maxhp", 0)
           num = num.replace("@currhp", 0)
+          if (num.indexOf('#') != -1){
+            var indices = [];
+            for(var i=0; i<num.length;i++) {
+              if (num[i] === "#") indices.push(i);
+            }
+            //get indices in string
+            if (indices.length == 3){
+              let front = indices[0]
+              let mid = indices[1]
+              let back = indices[2]
+              let str = num.substring(front, back + 1)
+              num = num.replace(str, 0)
+            }
+          }
           math.evaluate(num);
         }
       } catch (error) {
+        console.log(error)
         ui.notifications.error(v.value + ": Values other than formula, @roll, @level are not allowed.");
       }
 
