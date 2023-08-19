@@ -275,8 +275,8 @@ export class DX3rdActor extends Actor {
               let id = num.substring(front + 1, mid)
               let prop = num.substring(mid + 1, back)
               
-              console.log(id)
-              console.log(prop)
+              //console.log(id)
+              //console.log(prop)
               let item = game.items.get(id)
               if (!item){ //check to see if it exists on other char sheets
                 for (let a of game.actors.contents){
@@ -289,13 +289,13 @@ export class DX3rdActor extends Actor {
               let tmp = item
               //dynamic indices access
               while (prop.indexOf('.') != -1){
-                console.log(tmp)
-                console.log(prop)
+                //console.log(tmp)
+                //console.log(prop)
                 tmp = tmp[prop.slice(0,prop.indexOf('.'))]
                 prop = prop.slice(prop.indexOf('.') + 1)
               }
               num = num.replace(str, tmp[prop])
-              console.log(num)
+              //console.log(num)
             }
           }
           //console.log(num)
@@ -449,8 +449,46 @@ export class DX3rdActor extends Actor {
         let num = i.system.uses.formula_max
         try {
           num = num.replace("@level", i.system.level.value);
-          num = math.evaluate(num)
+          if (num.indexOf('#') != -1){
+            var indices = [];
+            for(var j=0; j<num.length;j++) {
+              if (num[j] === "#") indices.push(j);
+            }
+            //get indices in string
+            if (indices.length == 3){
+              let front = indices[0]
+              let mid = indices[1]
+              let back = indices[2]
+              let str = num.substring(front, back + 1)
+              let id = num.substring(front + 1, mid)
+              let prop = num.substring(mid + 1, back)
+              
+              //console.log(id)
+              //console.log(prop)
+              let item = game.items.get(id)
+              if (!item){ //check to see if it exists on other char sheets
+                for (let a of game.actors.contents){
+                  if (a.items.get(id)){
+                    item = a.items.get(id)
+                    break;
+                  }
+                }
+              }
+              let tmp = item
+              //dynamic indices access
+              while (prop.indexOf('.') != -1){
+                //console.log(tmp)
+                //console.log(prop)
+                tmp = tmp[prop.slice(0,prop.indexOf('.'))]
+                prop = prop.slice(prop.indexOf('.') + 1)
+              }
+              num = num.replace(str, tmp[prop])
+              //console.log(num)
+            }
+          }
+          num = math.evaluate(num);
         } catch (error){
+          
           console.log("Values other than formula, @level are not allowed.")
         }
         //console.log(num)
