@@ -6,6 +6,7 @@
     "DX3rd.Syndrome": "Syndrome",
     "DX3rd.CharName": "CharName",
     "DX3rd.CodeName": "CodeName",
+    "DX3rd.Master": "Master",
     "DX3rd.Dice": "Dice",
     "DX3rd.Effect": "Powers",
     "DX3rd.Body": "Body",
@@ -124,6 +125,8 @@
     "DX3rd.AfterScene": "AfterScene",
     "DX3rd.AfterSession": "AfterSession",
     "DX3rd.CheckSyndrome": "CheckSyndrome",
+    "DX3rd.CheckAttackType": "CheckType",
+    "DX3rd.CheckAttackTarget": "CheckTarget",
     "DX3rd.ModHP": "HP Value",
     "DX3rd.ModHPTiming": "HP Timing",
     "DX3rd.ModHPActive": "HP Active",
@@ -163,6 +166,7 @@
   
     "DX3rd.RollType": "RollType",
     "DX3rd.AttackRoll": "AttackRoll",
+    "DX3rd.AttackTarget": "AttackTarget",
     "DX3rd.DodgeRoll": "DodgeRoll",
     "DX3rd.DodgeDice": "DodgeDice",
     "DX3rd.DodgeAdd": "DodgeAdd",
@@ -170,6 +174,8 @@
     "DX3rd.Melee": "Melee",
     "DX3rd.Ranged": "Ranged",
     "DX3rd.Engage": "Engagement",
+    "DX3rd.Single": "Single",
+    "DX3rd.Multi": "Multi",
   
     "DX3rd.DamageApply": "Damage Apply",
     "DX3rd.Use": "Use",

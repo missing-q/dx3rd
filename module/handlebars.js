@@ -4,6 +4,23 @@ export class DX3rdRegisterHelpers {
       return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     });
 
+    Handlebars.registerHelper('isServant', function (item) {
+      return item.document.type == "servant";
+    });
+
+    Handlebars.registerHelper('gameActors', function (item) {
+      let tmp = game.actors.filter(a => a.isOwner)
+      console.log(item)
+      let fin = tmp;
+      for (let i = 0; i < tmp.length; i++){
+        console.log(tmp[i])
+        if (tmp[i].type == "servant"){
+          fin.splice(i,1)
+        }
+      }
+      return fin;
+    });
+
     Handlebars.registerHelper('ifIn', function(arg1, arg2, options) {
       return (arg1[arg2]) ? options.fn(this) : options.inverse(this);
     });

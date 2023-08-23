@@ -54,6 +54,16 @@ export class DX3rdActorSheet extends ActorSheet {
 
     data.enrichedBiography = await TextEditor.enrichHTML(this.object.system.description, {async: true});
 
+    //get list of non-servant owned tokens for servant info
+    let actorlist = game.actors.filter(a => a.isOwner)
+    for (let i = 0; i < actorlist.length; i++){
+      if (actorlist[i].type == "servant"){
+        actorlist.splice(i,1)
+      }
+    }
+    data.myActors = actorlist;
+
+
     return data;
   }
 

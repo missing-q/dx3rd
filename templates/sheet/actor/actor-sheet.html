@@ -34,8 +34,20 @@
           <input class="name" type="text" name="name" value="{{actor.name}}" placeholder="{{localize "DX3rd.CharName"}}">
         </div>
         <div class="stat-box">
+          {{#if (isServant this)}}
+          <label class="title">{{localize "DX3rd.Master"}}</label>
+          <select name="system.master" class="name">
+          {{#select system.master}}
+          <option value="-">-</option>
+          {{#each myActors as |actor|}}
+            <option value="{{actor.id}}">{{actor.name}}</option>
+          {{/each}}
+          {{/select}}
+          </select>
+          {{else}}
           <label class="title">{{localize "DX3rd.CodeName"}}</label>
           <input class="name" type="text" name="system.codeName" value="{{system.codeName}}"placeholder="{{localize "DX3rd.CodeName"}}">
+          {{/if}}
         </div>
 
       </div>

@@ -1,135 +1,145 @@
 {
 "Actor": {
-  "types": ["character"],
-  "character": {
-    "codeName": "",
-
-    "attributes": {
-      "hp": {
-        "value": 0,
-        "min": 0,
-        "max": 0
-      },
-      "encroachment": {
-        "value": 0,
-        "max": 100,
-        "min": 0,
-        "init": {
-          "input": 0
+  "types": ["character", "servant"],
+  "templates":{
+    "base": {
+      "codeName": "",
+  
+      "attributes": {
+        "hp": {
+          "value": 0,
+          "min": 0,
+          "max": 0
         },
-        "type": "-"
-      },
-
-      "attack": {},
-      "add": {},
-      "dice": {
-        "view": "major"
-      },
-      "critical": {},
-
-      "guard": {},
-      "armor": {},
-      "major": {},
-      "reaction": {},
-      "dodge": {},
-
-      "init": {},
-      "move": {},
-      "stock": {
-        "value": 0
-      },
-      "saving": {},
-      "exp": {
-        "init": 130,
-        "append": 0,
-        "total": 0
-      },
-
-      "body": {
-        "point": 0
-      },
-      "sense": {
-        "point": 0
-      },
-      "mind": {
-        "point": 0
-      },
-      "social": {
-        "point": 0
-      },
-
-      "skills": {
-        "melee": {
-          "name": "DX3rd.melee",
-          "point": 0,
-          "base": "body",
-          "delete": false
+        "encroachment": {
+          "value": 0,
+          "max": 100,
+          "min": 0,
+          "init": {
+            "input": 0
+          },
+          "type": "-"
         },
-        "dodge": {
-          "name": "DX3rd.dodge",
-          "point": 0,
-          "base": "body",
-          "delete": false
+  
+        "attack": {},
+        "add": {},
+        "dice": {
+          "view": "major"
         },
-
-        "ranged": {
-          "name": "DX3rd.ranged",
-          "point": 0,
-          "base": "sense",
-          "delete": false
+        "critical": {},
+  
+        "guard": {},
+        "armor": {},
+        "major": {},
+        "reaction": {},
+        "dodge": {},
+  
+        "init": {},
+        "move": {},
+        "stock": {
+          "value": 0
         },
-        "perception": {
-          "name": "DX3rd.perception",
-          "point": 0,
-          "base": "sense",
-          "delete": false
+        "saving": {},
+        "exp": {
+          "init": 130,
+          "append": 0,
+          "total": 0
         },
-
-        "rc": {
-          "name": "DX3rd.rc",
-          "point": 0,
-          "base": "mind",
-          "delete": false
+  
+        "body": {
+          "point": 0
         },
-        "will": {
-          "name": "DX3rd.will",
-          "point": 0,
-          "base": "mind",
-          "delete": false
+        "sense": {
+          "point": 0
         },
-
-        "negotiation": {
-          "name": "DX3rd.negotiation",
-          "point": 0,
-          "base": "social",
-          "delete": false
+        "mind": {
+          "point": 0
         },
-        "procure": {
-          "name": "DX3rd.procure",
-          "point": 0,
-          "base": "social",
-          "delete": false
+        "social": {
+          "point": 0
+        },
+  
+        "skills": {
+          "melee": {
+            "name": "DX3rd.melee",
+            "point": 0,
+            "base": "body",
+            "delete": false
+          },
+          "dodge": {
+            "name": "DX3rd.dodge",
+            "point": 0,
+            "base": "body",
+            "delete": false
+          },
+  
+          "ranged": {
+            "name": "DX3rd.ranged",
+            "point": 0,
+            "base": "sense",
+            "delete": false
+          },
+          "perception": {
+            "name": "DX3rd.perception",
+            "point": 0,
+            "base": "sense",
+            "delete": false
+          },
+  
+          "rc": {
+            "name": "DX3rd.rc",
+            "point": 0,
+            "base": "mind",
+            "delete": false
+          },
+          "will": {
+            "name": "DX3rd.will",
+            "point": 0,
+            "base": "mind",
+            "delete": false
+          },
+  
+          "negotiation": {
+            "name": "DX3rd.negotiation",
+            "point": 0,
+            "base": "social",
+            "delete": false
+          },
+          "procure": {
+            "name": "DX3rd.procure",
+            "point": 0,
+            "base": "social",
+            "delete": false
+          }
+        },
+        "applied": {},
+        "syndrome": {},
+        "sublimation": {
+          "dice": 0,
+          "critical": 0
         }
+  
       },
-      "applied": {},
-      "syndrome": {},
-      "sublimation": {
-        "dice": 0,
-        "critical": 0
+      "details": {
+        "cover": "",
+        "ancestry": "",
+        "experience": "",
+        "meet": "",
+        "awaken": "",
+        "impulse": "",
+        "desire": ""
       }
-
-    },
-    "details": {
-      "cover": "",
-      "ancestry": "",
-      "experience": "",
-      "meet": "",
-      "awaken": "",
-      "impulse": "",
-      "desire": ""
+      
+  
     }
-    
-
+  },
+  "character":{
+    "templates": ["base"],
+    "isLinked": false
+  },
+  "servant": {
+    "templates": ["base"],
+    "master": ""
   }
 
 },
@@ -165,6 +175,7 @@
     "range": "",
     "roll": "-",
     "attackRoll": "-",
+    "attackTarget": "-",
 
     "encroach": {
       "init": 0,
@@ -211,6 +222,8 @@
     "macro": "",
     "syndrome":"-",
     "checkSyndrome": false,
+    "typeCheck":"-",
+    "targetCheck":"-",
     "modHP": {
       "value":"",
       "timing":""

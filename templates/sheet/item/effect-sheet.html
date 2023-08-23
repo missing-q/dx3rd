@@ -293,6 +293,39 @@
           <tr>
             <th><span>{{localize "DX3rd.CheckSyndrome"}}</span></th>
             <td><input type="checkbox" name="system.checkSyndrome" {{#if system.checkSyndrome}} checked {{/if}}></td>
+            <th><span>{{localize "DX3rd.CheckAttackType"}}</span></th>
+            <td>
+              <select name = "system.typeCheck">
+                {{#select system.typeCheck}}
+                <option value="-">-</option>
+                <option value="melee">{{localize "DX3rd.Melee"}}</option>
+                <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
+                {{/select}}
+              </select>
+            </td>
+            <th><span>{{localize "DX3rd.CheckAttackTarget"}}</span></th>
+            <td>
+              <select name = "system.targetCheck">
+                {{#select system.targetCheck}}
+                <option value="-">-</option>
+                <option value="single">{{localize "DX3rd.Single"}}</option>
+                <option value="multi">{{localize "DX3rd.Multi"}}</option>
+                {{/select}}
+              </select>
+            </td>
+            
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.AttackTarget"}}</span></th>
+            <td>
+              <select name = "system.attackTarget">
+                {{#select system.attackTarget}}
+                <option value="-">-</option>
+                <option value="single">{{localize "DX3rd.Single"}}</option>
+                <option value="multi">{{localize "DX3rd.Multi"}}</option>
+                {{/select}}
+              </select>
+            </td>
           </tr>
         </table>
 

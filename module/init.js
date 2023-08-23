@@ -299,15 +299,31 @@ async function chatListeners(html) {
       base = skill;
       skill = "-";
     }
-
-    //check for conditional syndrome apply
     
-    actor.items.forEach(e => {
-      if ((e.type == "effect") && (e.system.active.state) && (e.system.checkSyndrome) && (item.system.syndrome == e.system.syndrome) && (e != item)){
-        console.log("yay match :)")
-        e.applyTarget(actor, true)
+    //check for conditionals apply - combined version
+    actor.items.forEach(e => { 
+      let cont =  true;
+      if ((e.type == "effect") && (e.system.active.state)){
+        const preconds = [(e.system.checkSyndrome),(e.system.typeCheck != "-"),(e.system.targetCheck != "-") ]
+        const postconds = [(item.system.syndrome == e.system.syndrome), (item.system.attackRoll == e.system.typeCheck), (item.system.attackTarget == e.system.targetCheck)]
+
+        if (!preconds.every(v => v === false)){ //make sure not every single entry in the array is false so we dont erroneously apply
+          for (let i = 0; i < preconds.length; i++){
+            if (preconds[i]){ //we dont do anything if the precond is false because that just determines whether we should proceed down that condition line
+              if (!postconds[i]){ //however if at least one postcond is false then we should cancel 
+                cont = false; 
+              }
+            }
+          }
+
+          if (cont){
+            console.log("yay match :)")
+            e.applyTarget(actor, true)
+          }
+        }
       }
     })
+
     console.log(actor)
 
     if (!item.system.disabled) {

@@ -136,7 +136,7 @@ export class DX3rdActor extends Actor {
 
     attributes.critical.min = 10;
     for (let e of effect) {
-      if (!e.system.checkSyndrome){ // this isn't fully implemented yet :')
+      if ((!e.system.checkSyndrome) && (e.system.typeCheck == "-") && (e.system.targetCheck == "-")){ // this isn't fully implemented yet :')
         values = this._updateEffectData(values, e.system.attributes, e.system.level.value);
         if ("critical_min" in e.system.attributes && e.system.attributes.critical_min.value < attributes.critical.min)
           attributes.critical.min = Number(e.system.attributes.critical_min.value);
