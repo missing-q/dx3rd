@@ -73,8 +73,12 @@ export class DisableHooks {
                         updates["system.uses.current"] = item.system.uses.max
                     }
                 }
+                item.update(updates);
+            } else if (item.type == "weapon" || "protect"){
+                if (active.findIndex(i => i == item.system.timing) != -1){
+                    actor.deleteEmbeddedDocuments("Item", [item.id]);
+                }
             }
-            item.update(updates);
         }
         //smiles
         //evaluate applied

@@ -218,6 +218,9 @@
     },
     "disabled":false,
     "attributes": {},
+    "flags": {},
+    "createItem":{},
+    "applied": {},
     "getTarget": false,
     "macro": "",
     "syndrome":"-",
@@ -285,7 +288,8 @@
     "attack": 0,
     "guard": 0,
     "range": "",
-    "linked": ""
+    "timing": "",
+    "applied": {}
   },
   "protect": {
     "templates": [
@@ -294,7 +298,8 @@
     "dodge": 0,
     "init": 0,
     "armor": 0,
-    "linked":""
+    "timing":"",
+    "applied": {}
 
   },
   "vehicle": {

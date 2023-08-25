@@ -1,6 +1,24 @@
 
 export class DX3rdActor extends Actor {
 
+  /** @Override */
+  async _onCreate(data, options, userId) {
+    await super._onCreate(data, options, userId);
+    //add Fists to newly created character's sheet
+    let newItem = {
+      "name": "Fists",
+      "type": "weapon",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "type": "melee",
+        "skill": "melee",
+        "attack": -5,
+        "range": "Close"
+      }
+    }
+    this.createEmbeddedDocuments("Item", [newItem])
+  }
+
   prepareData() {
     super.prepareData();
 

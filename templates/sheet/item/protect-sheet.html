@@ -3,14 +3,6 @@
     <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
     <div class="header-fields flexrow">
       <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
-      <select name = "system.linked">
-        {{#select system.linked}}
-        <option value = "">-</option>
-        {{#each (getActorEffects item) as |effect|}}
-        <option value="effect.id">{{effect.name}}</option>
-        {{/each}}
-        {{/select}}
-      </select>
     </div>
   </header>
 
@@ -27,28 +19,35 @@
       <div class="sheet-wrapper margin-top-10">
         <section class="sheet-attributes">
 
-          <div class="cell grid-3">
+          <div class="cell grid-5">
             <label class="cell--title">
               {{localize "DX3rd.Dodge"}}
             </label>
             <input type="text" name="system.dodge" value="{{system.dodge}}" data-dtype="Number"/>
           </div>
 
-          <div class="cell grid-3">
+          <div class="cell grid-6">
             <label class="cell--title">
               {{localize "DX3rd.Init"}}
             </label>
             <input type="text" name="system.init" value="{{system.init}}" data-dtype="Number"/>
           </div>
 
-          <div class="cell grid-3">
+          <div class="cell grid-5">
             <label class="cell--title">
               {{localize "DX3rd.Armor"}}
             </label>
             <input type="text" name="system.armor" value="{{system.armor}}" data-dtype="Number"/>
           </div>
 
-          <div class="cell grid-4">
+          <div class="cell grid-5">
+            <label class="cell--title">
+              {{localize "DX3rd.EXP"}}
+            </label>
+            <input type="text" name="system.exp" value="{{system.exp}}" data-dtype="Number"/>
+          </div>
+
+          <div class="cell grid-6">
             <label class="cell--title">
               {{localize "DX3rd.SellSaving"}}
             </label>
@@ -59,11 +58,23 @@
             </div>
           </div>
 
-          <div class="cell grid-3">
+          <div class="cell grid-5">
             <label class="cell--title">
-              {{localize "DX3rd.EXP"}}
+              {{localize "DX3rd.DestroyTiming"}}
             </label>
-            <input type="text" name="system.exp" value="{{system.exp}}" data-dtype="Number"/>
+            <select name="system.timing" data-dtype="String">
+              {{#select system.timing}}
+              <option value="-">-</option>
+              <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+              <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+              <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+              <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+              <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+              <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+              <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+              <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+              {{/select}}
+            </select>
           </div>
 
         </section>

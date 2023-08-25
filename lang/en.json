@@ -115,6 +115,7 @@
     "DX3rd.Macro": "Macro",
     "DX3rd.Active": "Active",
     "DX3rd.DisableTiming": "DisableTiming",
+    "DX3rd.DestroyTiming": "DestroyTiming",
     "DX3rd.NotCheck": "NotCheck",
     "DX3rd.AfterRoll": "AfterRoll",
     "DX3rd.AfterMajor": "AfterMajor",
