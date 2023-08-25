@@ -1,6 +1,10 @@
 ## This is a modification of the original DX3RD system for FoundryVTT, including additional features (Effect uses & related mechanics), bugfixes, & more. Stability & compatibility with the original system is not guaranteed. 
 Planned features:
 - A full compendium of all abilities as listed in the original DX3RD and Infinity Code source books, fully automated when possible.
+- Further automation mechanics:
+    - Servant mechanics implementation (linked abilities, encroach etc.)
+    - Ability to create weapons from abilities, for abilities that do so
+    - Much more to come
 
 Implemented features:
 - Syndrome checking functionality for abilities whose bonuses only apply to abilities of the same Syndrome (such as Balor's Dark Matter.)
