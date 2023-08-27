@@ -6,6 +6,11 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
     formData = this.updateEffectAttributes(formData);
+    formData = this.updateCreatedWeapons(formData);
+    formData = this.updateCreatedArmor(formData);
+    formData = this.updateCreatedVehicles(formData);
+    formData = this.updateCreatedItems(formData);
+    console.log(this)
     return formData;
   }
 
@@ -68,8 +73,129 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
     return formData;
   }
 
+  updateCreatedWeapons (formData) {
+    // Handle the free-form attributes list
+    const formAttrs = expandObject(formData).system.createItem.weapons || {};
+
+    const attributes = Object.values(formAttrs)
+
+    // Remove attributes which are no longer used
+    if (this.object.system.createItem.weapons != null)
+    for ( let k of Object.keys(this.object.system.createItem.weapons) ) {
+      if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.createItem.weapons")).reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {id: this.object.id, "system.createItem.weapons": attributes});
+
+    return formData;
+  }
+
+  updateCreatedArmor (formData) {
+    // Handle the free-form attributes list
+    const formAttrs = expandObject(formData).system.createItem.armor || {};
+
+    const attributes = Object.values(formAttrs)
+
+    // Remove attributes which are no longer used
+    if (this.object.system.createItem.armor != null)
+    for ( let k of Object.keys(this.object.system.createItem.armor) ) {
+      if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.createItem.armor")).reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {id: this.object.id, "system.createItem.armor": attributes});
+
+    return formData;
+  }
+
+  updateCreatedVehicles (formData) {
+    // Handle the free-form attributes list
+    const formAttrs = expandObject(formData).system.createItem.vehicles || {};
+
+    const attributes = Object.values(formAttrs)
+
+    // Remove attributes which are no longer used
+    if (this.object.system.createItem.vehicles != null)
+    for ( let k of Object.keys(this.object.system.createItem.vehicles) ) {
+      if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.createItem.vehicles")).reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {id: this.object.id, "system.createItem.vehicles": attributes});
+
+    return formData;
+  }
+
+  updateCreatedItems (formData) {
+    // Handle the free-form attributes list
+    const formAttrs = expandObject(formData).system.createItem.items || {};
+
+    const attributes = Object.values(formAttrs)
+
+    // Remove attributes which are no longer used
+    if (this.object.system.createItem.items != null)
+    for ( let k of Object.keys(this.object.system.createItem.items) ) {
+      if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.createItem.items")).reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {id: this.object.id, "system.createItem.items": attributes});
+
+    return formData;
+  }
+
   /** @inheritdoc */
   activateListeners(html) {
     super.activateListeners(html);
+
+    html.find(".weapon").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
+    html.find(".armor").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
+
   }
+
+  async _onClickEquipControl(event) {
+    event.preventDefault();
+    const a = event.currentTarget;
+    const action = a.dataset.action;
+    const pos = a.dataset.pos;
+    const form = this.form;
+
+    // Add new attribute
+    if ( action === "create" ) {
+      let attr = 'system.createItem.' + pos
+      
+
+      if ($(form).find(`select[name='${attr}.-.key']`).length != 0)
+        return;
+
+      let newKey = document.createElement("div");
+      const skill = `<input type="hidden" name="${attr}.-.key" value="-"/>`;
+      newKey.innerHTML = skill;
+
+      newKey = newKey.children[0];
+      form.appendChild(newKey);
+      await this._onSubmit(event);
+    }
+
+    // Remove existing attribute
+    else if ( action === "delete" ) {
+      const li = a.closest(".equip");
+      li.parentElement.removeChild(li);
+      await this._onSubmit(event);
+    }
+  }
+
 }

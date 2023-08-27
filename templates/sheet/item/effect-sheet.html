@@ -188,6 +188,121 @@
           {{!-- We're avoiding WYSIWYGs... for now... --}}
           {{editor enrichedBiography target="system.description" button=true editable=editable }}
         </div>
+
+        <!--Equipment Creation-->
+        <div class="cell cell--uses space-between" >
+          <label class="cell--title">
+            {{localize "DX3rd.CreateEquipment"}}
+            <input type="checkbox" name="system.createItem.active" {{#if system.createItem.active}} checked {{/if}} data-dtype="Boolean"/>
+          </label>
+          {{#if system.createItem.active}}
+          <!--weapons-->
+          <div class="weapon">
+            <header class="equipment-header flexrow">
+              <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.EquipType"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Skill"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Add"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Attack"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Guard"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Range"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.EXP"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Saving"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Sell"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.DestroyTiming"}}</span>
+              <a class="equipment-control" data-action="create" data-pos="weapons" data-type="equipment"><i class="fas fa-plus"></i></a>
+            </header>
+      
+            <ol class="equipment-list">
+            {{#each system.createItem.weapons as |attr key|}}
+              <li class="equip flexrow" data-attribute="{{key}}">
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.name" value="{{attr.name}}" data-dtype="String"/>
+                <select class="equip-key" name="system.createItem.weapons.{{key}}.equiptype" data-dtype="String">
+                  {{#select equiptype}}
+                  <option value="-">-</option>
+                  <option value="melee">{{localize "DX3rd.Melee"}}</option>
+                  <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
+                  {{/select}}
+                </select>
+                <select class="equip-key" name="system.createItem.weapons.{{key}}.skill" data-dtype="String">
+                  {{#select skill}}
+                  <option value="-">-</option>
+                  {{#each ../system.actorSkills as |value key2|}}
+                  <option value="{{key2}}">{{skill value.name}}</option>
+                  {{/each}}
+                  {{/select}}
+                </select>
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.add" value="{{attr.add}}" data-dtype="Number"/>
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.attack" value="{{attr.attack}}" data-dtype="String"/>
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.guard" value="{{attr.guard}}" data-dtype="String"/>
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.range" value="{{attr.range}}" data-dtype="String"/>
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.exp" value="{{attr.exp}}" data-dtype="Number"/>
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.stock" value="{{attr.stock}}" data-dtype="Number"/>
+                <input class="equip-value" type="text" name="system.createItem.weapons.{{key}}.procure" value="{{attr.procure}}" data-dtype="Number"/>
+                <select class="equip-value" name="system.createItem.weapons.{{key}}.timing" data-dtype="String">
+                  {{#select timing}}
+                  <option value="-">-</option>
+                  <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                  <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                  <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                  <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                  <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                  <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                  <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                  <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                  {{/select}}
+                </select>
+                <a class="equipment-control" data-action="delete"><i class="fas fa-trash"></i></a>
+              </li>
+            {{/each}}
+            </ol>
+          </div>
+          <!--armor-->
+          <div class="armor">
+            <header class="equipment-header flexrow">
+              <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Dodge"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Init"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Armor"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.EXP"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Saving"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Sell"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.DestroyTiming"}}</span>
+              <a class="equipment-control" data-action="create" data-pos="armor" data-type="equipment"><i class="fas fa-plus"></i></a>
+            </header>
+      
+            <ol class="equipment-list">
+            {{#each system.createItem.armor as |attr key|}}
+              <li class="equip flexrow" data-attribute="{{key}}">
+                <input class="equip-value" type="text" name="system.createItem.armor.{{key}}.name" value="{{attr.name}}" data-dtype="String"/>
+                <input class="equip-value" type="text" name="system.createItem.armor.{{key}}.dodge" value="{{attr.dodge}}" data-dtype="Number"/>
+                <input class="equip-value" type="text" name="system.createItem.armor.{{key}}.init" value="{{attr.init}}" data-dtype="Number"/>
+                <input class="equip-value" type="text" name="system.createItem.armor.{{key}}.armor" value="{{attr.armor}}" data-dtype="String"/>
+                <input class="equip-value" type="text" name="system.createItem.armor.{{key}}.exp" value="{{attr.exp}}" data-dtype="Number"/>
+                <input class="equip-value" type="text" name="system.createItem.armor.{{key}}.stock" value="{{attr.stock}}" data-dtype="Number"/>
+                <input class="equip-value" type="text" name="system.createItem.armor.{{key}}.procure" value="{{attr.procure}}" data-dtype="Number"/>
+                <select class="equip-value" name="system.createItem.armor.{{key}}.timing" data-dtype="String">
+                  {{#select timing}}
+                  <option value="-">-</option>
+                  <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                  <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                  <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                  <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                  <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                  <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                  <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                  <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                  {{/select}}
+                </select>
+                <a class="equipment-control" data-action="delete"><i class="fas fa-trash"></i></a>
+              </li>
+            {{/each}}
+            </ol>
+          </div>
+          {{/if}}
+          
+        </div>
+
       </div>
 
     </div>

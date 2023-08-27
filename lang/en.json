@@ -143,6 +143,7 @@
     "DX3rd.Target": "Target",
     "DX3rd.EquipType": "EquipType",
     "DX3rd.SellSaving": "Procure/Stock",
+    "DX3rd.Sell": "Procure",
   
     "DX3rd.Weapon": "Weapon",
     "DX3rd.Protect": "Armour",
@@ -164,6 +165,7 @@
     "DX3rd.Actor": "Actor",
     "DX3rd.DamageRoll": "DamageRoll",
     "DX3rd.WeaponSelect": "WeaponSelect",
+    "DX3rd.CreateEquipment": "Created Equipment",
   
     "DX3rd.RollType": "RollType",
     "DX3rd.AttackRoll": "AttackRoll",

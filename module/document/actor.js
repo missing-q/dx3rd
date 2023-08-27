@@ -153,9 +153,10 @@ export class DX3rdActor extends Actor {
     delete values["exp"];
 
     attributes.critical.min = 10;
+    let after = [];
     for (let e of effect) {
-      if ((!e.system.checkSyndrome) && (e.system.typeCheck == "-") && (e.system.targetCheck == "-")){ // this isn't fully implemented yet :')
-        values = this._updateEffectData(values, e.system.attributes, e.system.level.value);
+      if ((!e.system.checkSyndrome) && (e.system.typeCheck == "-") && (e.system.targetCheck == "-")){
+        values = this._updateEffectData(values, e.system.attributes, e.system.level.value, after);
         if ("critical_min" in e.system.attributes && e.system.attributes.critical_min.value < attributes.critical.min)
           attributes.critical.min = Number(e.system.attributes.critical_min.value);
       }
@@ -233,8 +234,13 @@ export class DX3rdActor extends Actor {
       }
     }
 
-    for (const [key, value] of Object.entries(values))
+    //post processing for effects that need it 
+     for (let i = 0; i < after.length; i++){
+      values = this._updateEffectData(values, after[i].attributes, after[i].level);
+     }
+    for (const [key, value] of Object.entries(values)){
       attributes[key].value = value.value;
+    }
   }
 
   _updateSkillData(attributes) {
@@ -250,7 +256,7 @@ export class DX3rdActor extends Actor {
     }
   }
 
-  _updateEffectData(values, attributes, level) {
+  _updateEffectData(values, attributes, level, after) {
     //console.log(values)
     //console.log(attributes)
     for (const [key, value] of Object.entries(attributes)) {
@@ -263,13 +269,18 @@ export class DX3rdActor extends Actor {
           //console.log(value)
           let num = value.value.replace("@level", level);
           if (num.indexOf('@currhp') != -1){
-            num = num.replace("@currhp", this.system.attributes.hp.value);
+            if (after){
+              num = num.replace("@currhp", 0);
+            } else {
+              num = num.replace("@currhp", this.system.attributes.hp.value);
+            }
           }
           if (num.indexOf('@maxhp') != -1){
-            if (values.hp){
-              num = num.replace("@maxhp", (values.body.value * 2) + (values.mind.value +20) + (values.hp.value)) // this doesnt work properly :P
+            if (after){
+              after.push({attributes,level})
+              num = num.replace("@maxhp", 0)
             } else {
-              num = num.replace("@maxhp", (values.body.value * 2) + (values.mind.value +20))
+              num = num.replace("@maxhp", this.system.attributes.hp.max)
             }
           }
           if (value.rollvalue != undefined){

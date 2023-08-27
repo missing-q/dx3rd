@@ -279,6 +279,20 @@ Hooks.on("hotbarDrop", async (bar, data, slot) => {
 Hooks.on("renderChatLog", (app, html, data) => chatListeners(html));
 Hooks.on("renderChatPopout", (app, html, data) => chatListeners(html));
 
+function parseItemVals(str, level){
+  let num = str
+  if (isNaN(num)){
+    try {
+      if (num.indexOf('@level') != -1){
+        num = num.replace("@level", level);
+      }
+    } catch (e){
+      num = 0;
+    }
+  }
+  return math.evaluate(num)
+}
+
 async function chatListeners(html) {
   html.on('click', '.use-effect', async ev => {
     ev.preventDefault();
@@ -325,6 +339,59 @@ async function chatListeners(html) {
     })
 
     console.log(actor)
+    //check for item creation
+    if (item.system.createItem.active){
+      let itemList = []
+      //create all weapons
+      for (let i = 0; i < item.system.createItem.weapons.length; i++){
+        let val = item.system.createItem.weapons[i]
+        let newItem = {
+          type : "weapon",
+          name: val.name,
+          img: "icons/svg/sword.svg",
+          system: {
+            type: val.equiptype,
+            skill: val.skill,
+            add: parseItemVals(val.add, item.system.level.value),
+            attack: parseItemVals(val.attack,item.system.level.value),
+            guard: parseItemVals(val.guard,item.system.level.value),
+            range: val.range,
+            timing: val.timing,
+            exp: val.exp,
+            saving: {
+              value: val.stock,
+              difficulty: val.procure
+            }
+          }
+        }
+        itemList.push(newItem)
+      }
+      //create all armor
+      for (let i = 0; i < item.system.createItem.armor.length; i++){
+        let val = item.system.createItem.armor[i]
+        let newItem = {
+          type : "protect",
+          name: val.name,
+          img: "icons/svg/shield.svg",
+          system: {
+            dodge: parseItemVals(val.dodge, item.system.level.value),
+            armor: parseItemVals(val.armor, item.system.level.value),
+            init: parseItemVals(val.init, item.system.level.value),
+            timing: val.timing,
+            exp: val.exp,
+            saving: {
+              value: val.stock,
+              difficulty: val.procure
+            }
+          }
+        }
+        itemList.push(newItem)
+      }
+      //implement vehicles and items later
+      actor.createEmbeddedDocuments("Item", itemList)
+      
+
+    }
 
     if (!item.system.disabled) {
       if (skill in actor.system.attributes.skills)

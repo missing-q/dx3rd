@@ -8,6 +8,10 @@ export class DX3rdRegisterHelpers {
       return item.document.type == "servant";
     });
 
+    Handlebars.registerHelper('isWeapon', function (item) {
+      return item == "weapon";
+    });
+
     Handlebars.registerHelper('gameActors', function (item) {
       let tmp = game.actors.filter(a => a.isOwner)
       console.log(item)

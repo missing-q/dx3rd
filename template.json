@@ -219,7 +219,13 @@
     "disabled":false,
     "attributes": {},
     "flags": {},
-    "createItem":{},
+    "createItem":{
+      "active": false,
+      "weapons": {},
+      "armor" : {},
+      "vehicles": {},
+      "items": {}
+    },
     "applied": {},
     "getTarget": false,
     "macro": "",
@@ -289,7 +295,8 @@
     "guard": 0,
     "range": "",
     "timing": "",
-    "applied": {}
+    "applied": {},
+    "flags": {}
   },
   "protect": {
     "templates": [
@@ -299,7 +306,8 @@
     "init": 0,
     "armor": 0,
     "timing":"",
-    "applied": {}
+    "applied": {},
+    "flags": {}
 
   },
   "vehicle": {

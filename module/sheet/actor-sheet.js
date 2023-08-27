@@ -244,7 +244,12 @@ export class DX3rdActorSheet extends ActorSheet {
           try {
               num = attr.rollformula
               if (num.indexOf('@level') != -1){
+                if (item.system.level.value){
+                  num = num.replace("@level", item.system.level.value);
+                } else {
                   num = num.replace("@level", item.system.level.init);
+                }
+                  
               }
               console.log(num)
               if (num.indexOf('D') != -1){
@@ -290,7 +295,11 @@ export class DX3rdActorSheet extends ActorSheet {
           try {
               num = attr.rollformula
               if (num.indexOf('@level') != -1){
+                if (item.system.level.value){
+                  num = num.replace("@level", item.system.level.value);
+                } else {
                   num = num.replace("@level", item.system.level.init);
+                }
               }
               console.log(num)
               if (num.indexOf('D') != -1){
