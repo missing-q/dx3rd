@@ -158,7 +158,10 @@
       "exp": 0,
       "equipment": true,
       "skillTmp": "melee",
-      "skills": {}
+      "skills": {},
+      "timing": "",
+      "applied": {},
+      "flags": {}
     }
   },
   "effect": {
@@ -218,7 +221,11 @@
     },
     "disabled":false,
     "attributes": {},
-    "flags": {},
+    "flags": {
+      "active": false,
+      "owned": {},
+      "seek": {}
+    },
     "createItem":{
       "active": false,
       "weapons": {},
@@ -293,10 +300,7 @@
     "add": 0,
     "attack": 0,
     "guard": 0,
-    "range": "",
-    "timing": "",
-    "applied": {},
-    "flags": {}
+    "range": ""
   },
   "protect": {
     "templates": [
@@ -304,11 +308,7 @@
     ],
     "dodge": 0,
     "init": 0,
-    "armor": 0,
-    "timing":"",
-    "applied": {},
-    "flags": {}
-
+    "armor": 0
   },
   "vehicle": {
     "templates": [

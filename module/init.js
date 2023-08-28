@@ -387,6 +387,48 @@ async function chatListeners(html) {
         }
         itemList.push(newItem)
       }
+      //create all vehicles
+      for (let i = 0; i < item.system.createItem.vehicles.length; i++){
+        let val = item.system.createItem.vehicles[i]
+        let newItem = {
+          type : "vehicle",
+          name: val.name,
+          img: "icons/svg/wing.svg",
+          system: {
+            skill: val.skill,
+            move: val.move,
+            attack: parseItemVals(val.attack,item.system.level.value),
+            armor: parseItemVals(val.armor, item.system.level.value),
+            init: parseItemVals(val.init, item.system.level.value),
+            timing: val.timing,
+            exp: val.exp,
+            saving: {
+              value: val.stock,
+              difficulty: val.procure
+            }
+          }
+        }
+        itemList.push(newItem)
+      }
+      //create all items
+      for (let i = 0; i < item.system.createItem.items.length; i++){
+        let val = item.system.createItem.items[i]
+        let newItem = {
+          type : "items",
+          name: val.name,
+          img: "icons/svg/wing.svg",
+          system: {
+            type: val.type,
+            timing: val.timing,
+            exp: val.exp,
+            saving: {
+              value: val.stock,
+              difficulty: val.procure
+            }
+          }
+        }
+        itemList.push(newItem)
+      }
       //implement vehicles and items later
       actor.createEmbeddedDocuments("Item", itemList)
       

@@ -163,6 +163,8 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
 
     html.find(".weapon").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
     html.find(".armor").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
+    html.find(".vehicles").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
+    html.find(".consumables").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
 
   }
 
@@ -176,6 +178,7 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
     // Add new attribute
     if ( action === "create" ) {
       let attr = 'system.createItem.' + pos
+      console.log(attr)
       
 
       if ($(form).find(`select[name='${attr}.-.key']`).length != 0)
@@ -187,6 +190,7 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
 
       newKey = newKey.children[0];
       form.appendChild(newKey);
+      console.log(newKey)
       await this._onSubmit(event);
     }
 
