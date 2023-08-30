@@ -161,7 +161,11 @@
       "skills": {},
       "timing": "",
       "applied": {},
-      "flags": {}
+      "backup": {},
+      "flags": {
+        "active": false,
+        "owned": {}
+      }
     }
   },
   "effect": {
@@ -224,7 +228,17 @@
     "flags": {
       "active": false,
       "owned": {},
-      "seek": {}
+      "checkFlag": "",
+      "itemType": "",
+      "itemOverride": false,
+      "effects": {},
+      "items": {}
+    },
+    "flag-embeds":{
+      "weapons": {},
+      "armor" : {},
+      "vehicles": {},
+      "items": {}
     },
     "createItem":{
       "active": false,
@@ -234,6 +248,7 @@
       "items": {}
     },
     "applied": {},
+    "backup": {},
     "getTarget": false,
     "macro": "",
     "syndrome":"-",

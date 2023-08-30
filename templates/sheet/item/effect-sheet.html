@@ -196,6 +196,9 @@
             <input type="checkbox" name="system.createItem.active" {{#if system.createItem.active}} checked {{/if}} data-dtype="Boolean"/>
           </label>
           {{#if system.createItem.active}}
+          <label class="cell--title">
+            {{localize "DX3rd.Weapon"}}
+          </label>
           <!--weapons-->
           <div class="weapon">
             <header class="equipment-header flexrow">
@@ -257,6 +260,9 @@
             {{/each}}
             </ol>
           </div>
+          <label class="cell--title">
+            {{localize "DX3rd.Protect"}}
+          </label>
           <!--armor-->
           <div class="armor">
             <header class="equipment-header flexrow">
@@ -299,6 +305,9 @@
             {{/each}}
             </ol>
           </div>
+          <label class="cell--title">
+            {{localize "DX3rd.Vehicle"}}
+          </label>
           <!--vehicles-->
           <div class="vehicles">
             <header class="equipment-header flexrow">
@@ -352,6 +361,9 @@
             {{/each}}
             </ol>
           </div>
+          <label class="cell--title">
+            {{localize "DX3rd.Item"}} / {{localize "DX3rd.Once"}}
+          </label>
           <!--items-->
           <div class="consumables">
             <header class="equipment-header flexrow">
@@ -396,6 +408,170 @@
             {{/each}}
             </ol>
           </div>
+          
+          {{/if}}
+          
+        </div>
+
+        <!--Flags-->
+        <div class="cell cell--uses space-between" >
+          <label class="cell--title">
+            {{localize "DX3rd.Flags"}}
+            <input type="checkbox" name="system.flags.active" {{#if system.flags.active}} checked {{/if}} data-dtype="Boolean"/>
+          </label>
+          {{#if system.flags.active}}
+          <input class="flag-value" type="text" name="system.flags.checkFlag" value="{{system.flags.checkFlag}}" data-dtype="String"/>
+          <!--Owned-->
+          <label class="cell--title">
+            {{localize "DX3rd.Owned"}}
+          </label>
+          <div class="flags">
+            <header class="flags-header flexrow">
+              <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
+              <a class="flags-control" data-action="create" data-pos="owned" data-type="equipment"><i class="fas fa-plus"></i></a>
+            </header>
+      
+            <ol class="flags-list">
+            {{#each system.flags.owned as |attr key|}}
+              <li class="flag flexrow" data-attribute="{{key}}">
+                <input class="flag-value" type="text" name="system.flags.owned.{{key}}.name" value="{{attr.name}}" data-dtype="String"/>
+                <a class="flags-control" data-action="delete"><i class="fas fa-trash"></i></a>
+              </li>
+            {{/each}}
+            </ol>
+          </div>
+
+          <!--Abilities modifications-->
+          <label class="cell--title">
+            {{localize "DX3rd.Effect"}}
+          </label>
+          <div class="flags">
+            <header class="flags-header flexrow">
+              <span class="attribute-key">{{localize "DX3rd.Key"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Value"}}</span>
+              <a class="flags-control" data-action="create" data-pos="effects" data-type="equipment"><i class="fas fa-plus"></i></a>
+            </header>
+      
+            <ol class="flags-list">
+            {{#each system.flags.effects as |attr k|}}
+              <li class="flag flexrow" data-attribute="{{k}}">
+                <select class="flag-key" name="system.flags.effects.{{k}}.key" data-dtype="String">
+                  {{#select key}}
+                  <option value="-">-</option>
+                  <option value="attack">{{localize "DX3rd.Attack"}}</option>
+                  <option value="dice">{{localize "DX3rd.Dice"}}</option>
+                  <option value="add">{{localize "DX3rd.Add"}}</option>
+                  <option value="critical">{{localize "DX3rd.Critical"}}</option>
+                  <option value="critical_min">{{localize "DX3rd.CriticalMin"}}</option>
+  
+                  <option value="hp">{{localize "DX3rd.HP"}}</option>
+                  <option value="init">{{localize "DX3rd.Init"}}</option>
+                  <option value="armor">{{localize "DX3rd.Armor"}}</option>
+                  <option value="guard">{{localize "DX3rd.Guard"}}</option>
+                  <option value="saving">{{localize "DX3rd.Saving"}}</option>
+                  <option value="move">{{localize "DX3rd.Move"}}</option>
+  
+                  <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
+                  <option value="major">{{localize "DX3rd.MajorAdd"}}</option>
+                  <option value="major_critical">{{localize "DX3rd.MajorCritical"}}</option>
+                  <option value="reaction_dice">{{localize "DX3rd.ReactionDice"}}</option>
+                  <option value="reaction">{{localize "DX3rd.ReactionAdd"}}</option>
+                  <option value="reaction_critical">{{localize "DX3rd.ReactionCritical"}}</option>
+                  <option value="dodge_dice">{{localize "DX3rd.DodgeDice"}}</option>
+                  <option value="dodge">{{localize "DX3rd.DodgeAdd"}}</option>
+                  <option value="dodge_critical">{{localize "DX3rd.DodgeCritical"}}</option>
+  
+                  <option value="body_add">{{localize "DX3rd.BodyAdd"}}</option>
+                  <option value="body_dice">{{localize "DX3rd.BodyDice"}}</option>
+                  <option value="sense_add">{{localize "DX3rd.SenseAdd"}}</option>
+                  <option value="sense_dice">{{localize "DX3rd.SenseDice"}}</option>
+                  <option value="mind_add">{{localize "DX3rd.MindAdd"}}</option>
+                  <option value="mind_dice">{{localize "DX3rd.MindDice"}}</option>
+                  <option value="social_add">{{localize "DX3rd.SocialAdd"}}</option>
+                  <option value="social_dice">{{localize "DX3rd.SocialDice"}}</option>
+
+                  <!--Directly modifies an ability's properties. these are specially handled-->
+                  <option value="current_uses">{{localize "DX3rd.Uses"}}</option>
+                  <option value="modhp">{{localize "DX3rd.ModHP"}}</option>
+                  <option value="modhp_max">{{localize "DX3rd.ModHP"}}{{localize "DX3rd.Max"}}</option>
+                  <option value="modhp_min">{{localize "DX3rd.ModHP"}}{{localize "DX3rd.Min"}}</option>
+                  <option value="modenc">{{localize "DX3rd.ModEncroach"}}</option>
+                  <option value="modenc_max">{{localize "DX3rd.ModEncroach"}}{{localize "DX3rd.Max"}}</option>
+                  <option value="modenc_min">{{localize "DX3rd.ModEncroach"}}{{localize "DX3rd.Min"}}</option>
+                  <option value="timing">{{localize "DX3rd.Timing"}}</option>
+                  {{/select}}
+                </select>
+                <input class="flag-value" type="text" name="system.flags.effects.{{k}}.value" value="{{attr.value}}" data-dtype="String"/>
+                
+                <a class="flags-control" data-action="delete"><i class="fas fa-trash"></i></a>
+              </li>
+            {{/each}}
+            </ol>
+          </div>
+
+          <!--Items modification-->
+          <label class="cell--title">
+            {{localize "DX3rd.Items"}}
+            <div class="flexrow">
+              <span>{{localize "DX3rd.Override"}} </span>
+              <input type="checkbox" name="system.flags.itemOverride" {{#if system.flags.itemOverride}} checked {{/if}} data-dtype="Boolean"/>
+            </div>
+          </label>
+          <div class="flags">
+            <select class="flag-key" name="system.flags.itemType" data-dtype="String">
+              {{#select system.flags.itemType}}
+              <option value="-">-</option>
+              <option value="weapon">{{localize "DX3rd.Weapon"}}</option>
+              <option value="protect">{{localize "DX3rd.Protect"}}</option>
+              <option value="vehicle">{{localize "DX3rd.Vehicle"}}</option>
+              <option value="item">{{localize "DX3rd.Items"}}</option>
+              {{/select}}
+            </select>
+            <header class="flags-header flexrow">
+              <span class="attribute-key">{{localize "DX3rd.Key"}}</span>
+              <span class="attribute-key">{{localize "DX3rd.Value"}}</span>
+
+              <a class="flags-control" data-action="create" data-pos="items" data-type="equipment"><i class="fas fa-plus"></i></a>
+            </header>
+      
+            <ol class="flags-list">
+            {{#each system.flags.items as |attr k|}}
+              <li class="flag flexrow" data-attribute="{{k}}">
+                <select class="flag-key" name="system.flags.items.{{k}}.key" data-dtype="String">
+                  {{#select key}}
+                  <option value="-">-</option>
+                  <!--Weapon-->
+                  {{#if (eq ../system.flags.itemType "weapon")}}
+                  <option value="add">{{localize "DX3rd.Add"}}</option>
+                  <option value="attack">{{localize "DX3rd.Attack"}}</option>
+                  <option value="guard">{{localize "DX3rd.Guard"}}</option>
+                  <option value="range">{{localize "DX3rd.Range"}}</option>
+                  {{/if}}
+                  <!--armor-->
+                  {{#if (eq ../system.flags.itemType "protect")}}
+                  <option value="dodge">{{localize "DX3rd.Dodge"}}</option>
+                  <option value="init">{{localize "DX3rd.Init"}}</option>
+                  <option value="armor">{{localize "DX3rd.Armor"}}</option>
+                  {{/if}}
+                  <!--vehicle-->
+                  {{#if (eq ../system.flags.itemType "vehicle")}}
+                  <option value="attack">{{localize "DX3rd.Attack"}}</option>
+                  <option value="init">{{localize "DX3rd.Init"}}</option>
+                  <option value="armor">{{localize "DX3rd.Armor"}}</option>
+                  <option value="move">{{localize "DX3rd.Move"}}</option>
+                  {{/if}}
+                  <option value="exp">{{localize "DX3rd.EXP"}}</option>
+                  <option value="stock">{{localize "DX3rd.Saving"}}</option>
+                  {{/select}}
+                </select>
+                <input class="flag-value" type="text" name="system.flags.items.{{k}}.value" value="{{attr.value}}" data-dtype="String"/>
+                <a class="flags-control" data-action="delete"><i class="fas fa-trash"></i></a>
+              </li>
+            {{/each}}
+            </ol>
+          </div>
+
+
           
           {{/if}}
           

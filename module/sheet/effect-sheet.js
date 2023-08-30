@@ -10,6 +10,9 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
     formData = this.updateCreatedArmor(formData);
     formData = this.updateCreatedVehicles(formData);
     formData = this.updateCreatedItems(formData);
+    formData = this.updateFlagsEffects(formData);
+    formData = this.updateFlagsItems(formData);
+    formData = this.updateFlagsOwned(formData);
     console.log(this)
     return formData;
   }
@@ -157,6 +160,69 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
     return formData;
   }
 
+  updateFlagsEffects (formData) {
+    // Handle the free-form attributes list
+    const formAttrs = expandObject(formData).system.flags.effects || {};
+
+    const attributes = Object.values(formAttrs)
+
+    // Remove attributes which are no longer used
+    if (this.object.system.flags.effects != null)
+    for ( let k of Object.keys(this.object.system.flags.effects) ) {
+      if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.flags.effects")).reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {id: this.object.id, "system.flags.effects": attributes});
+
+    return formData;
+  }
+
+  updateFlagsItems (formData) {
+    // Handle the free-form attributes list
+    const formAttrs = expandObject(formData).system.flags.items || {};
+
+    const attributes = Object.values(formAttrs)
+
+    // Remove attributes which are no longer used
+    if (this.object.system.flags.items != null)
+    for ( let k of Object.keys(this.object.system.flags.items) ) {
+      if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.flags.items")).reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {id: this.object.id, "system.flags.items": attributes});
+
+    return formData;
+  }
+
+  updateFlagsOwned (formData) {
+    // Handle the free-form attributes list
+    const formAttrs = expandObject(formData).system.flags.owned || {};
+
+    const attributes = Object.values(formAttrs)
+
+    // Remove attributes which are no longer used
+    if (this.object.system.flags.owned != null)
+    for ( let k of Object.keys(this.object.system.flags.owned) ) {
+      if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.flags.owned")).reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {id: this.object.id, "system.flags.owned": attributes});
+
+    return formData;
+  }
+
   /** @inheritdoc */
   activateListeners(html) {
     super.activateListeners(html);
@@ -165,6 +231,7 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
     html.find(".armor").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
     html.find(".vehicles").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
     html.find(".consumables").on("click", "a.equipment-control", this._onClickEquipControl.bind(this));
+    html.find(".flags").on("click", "a.flags-control", this._onClickFlagControl.bind(this));
 
   }
 
@@ -197,6 +264,40 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
     // Remove existing attribute
     else if ( action === "delete" ) {
       const li = a.closest(".equip");
+      li.parentElement.removeChild(li);
+      await this._onSubmit(event);
+    }
+  }
+
+  async _onClickFlagControl(event) {
+    event.preventDefault();
+    const a = event.currentTarget;
+    const action = a.dataset.action;
+    const pos = a.dataset.pos;
+    const form = this.form;
+
+    // Add new attribute
+    if ( action === "create" ) {
+      let attr = 'system.flags.' + pos
+      console.log(attr)
+      
+
+      if ($(form).find(`select[name='${attr}.-.key']`).length != 0)
+        return;
+
+      let newKey = document.createElement("div");
+      const skill = `<input type="hidden" name="${attr}.-.key" value="-"/>`;
+      newKey.innerHTML = skill;
+
+      newKey = newKey.children[0];
+      form.appendChild(newKey);
+      console.log(newKey)
+      await this._onSubmit(event);
+    }
+
+    // Remove existing attribute
+    else if ( action === "delete" ) {
+      const li = a.closest(".flag");
       li.parentElement.removeChild(li);
       await this._onSubmit(event);
     }

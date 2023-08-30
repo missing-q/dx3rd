@@ -49,13 +49,24 @@ export class DisableHooks {
                     //evaluate HP modification at interval
                     if ((item.system.modHP.value != "") && (item.system.modHP.active) && (active.findIndex(i => i == item.system.modHP.timing) != -1)){
                         console.log("HP applied")
-                        let num = await this.evalEffect(item, true, actor, true)
+                        let num;
+                        //add modifiers from applied, if any
+                        if (item.system.applied){
+                            num = await this.evalEffect(item, true, actor, true, true)
+                        } else {
+                            num = await this.evalEffect(item, true, actor, true, false)
+                        }
                         actorupdates["system.attributes.hp.value"] = actor.system.attributes.hp.value + num
                     }
                     //evaluate encroach modification at interval
                     if ((item.system.modEncroach.value != "") && (item.system.modEncroach.active) && (active.findIndex(i => i == item.system.modEncroach.timing) != -1)){
                         console.log("encroach self")
-                        let num = await this.evalEffect(item, false, actor, true)
+                        let num;
+                        if (item.system.applied){
+                            num = await this.evalEffect(item, false, actor, true, true)
+                        } else {
+                            num = await this.evalEffect(item, false, actor, true, false)
+                        }
                         actorupdates["system.attributes.encroachment.value"] = actor.system.attributes.encroachment.value + num
                     }
                     if (active.findIndex(i => i == item.system.active.disable) != -1){
@@ -66,6 +77,21 @@ export class DisableHooks {
                     }
                     if (active.findIndex(i => i == item.system.modEncroach.timing) != -1){
                         updates["system.modEncroach.active"] = false;
+                    }
+                    //check for applied timing on ability
+                    if (item.system.applied){
+                        for (let [key, effect] of Object.entries(item.system.applied)) {
+                            let disable = false;
+                            for (let [k,v] of Object.entries(effect)){
+                              if (v.key == "timing" && (active.findIndex(i => i == v.value) != -1 )){
+                                disable = true;
+                              }
+                            }
+                            console.log("disabling!")
+                            if (disable){
+                              updates[`system.applied.-=${key}`] = null;
+                            }
+                          }
                     }
                 }
                 if (item.system.uses.active){
@@ -100,10 +126,11 @@ export class DisableHooks {
                 actorupdates[`system.attributes.applied.-=${key}`] = null;
             }
         }
+
         //console.log(actorupdates)
         actor.update(actorupdates);
     }
-    static async evalEffect(effect, isHP, actor, self){
+    static async evalEffect(effect, isHP, actor, self, applied){
         let num = 0
         var isRoll = false
         var rollData;
@@ -239,10 +266,10 @@ export class DisableHooks {
                 
                 let front = num.substring(0,num.indexOf('D'))
                 let back = num.substring(num.indexOf('D')+1)
-                front += "d10"
+                front += "d10" + back
                 let roll = new Roll(front);
                 await roll.roll({async: true});
-                num = roll.total + back
+                num = roll.total
                 isRoll = true
                 rollData = await roll.render();
                 chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
@@ -250,6 +277,65 @@ export class DisableHooks {
                 chatData.roll = roll;
             }
             num = math.evaluate(num)
+            //applied evaluation
+            if (applied){
+                let min;
+                let max;
+                let val = 0;
+                if (isHP){
+                    for (let [k,v] of Object.entries(effect.system.applied)){
+                        for (let [key, value] of Object.entries(v)){
+                            let curr = value.value
+                            if (value.key == "modhp"){
+                                val += curr
+                            } else if (value.key == "modhp_max"){ //greatest max
+                                if (max){
+                                    if (max < curr) max = curr
+                                } else {
+                                    max = Number.parseInt(curr)
+                                }
+                            }  else if (value.key == "modhp_min"){ //least min
+                                if (min){
+                                    if (min > curr) min = curr
+                                } else {
+                                    min = curr
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (let [k,v] of Object.entries(item.system.applied)){
+                        for (let [key, value] of Object.entries(v)){
+                            if (value.key == "modenc"){
+                                val += value.value 
+                            } else if (value.key == "modenc_max"){ //greatest max
+                                if (max){
+                                    if (max < value.value) max = value.value
+                                } else {
+                                    max = Number.parseInt(value.value)
+                                }
+                            }  else if (value.key == "modenc_min"){ //least min
+                                if (min){
+                                    if (min > value.value) min = value.value
+                                } else {
+                                    min = value.value
+                                }
+                            }
+                        }
+                    }
+                }
+                num += val;
+                if (max){
+                    if (num > max){
+                        num = max;
+                    }
+                }
+                if (min){
+                    if (num < min){
+                        num = min;
+                    }
+                }
+            }
             console.log(num)
             
             if (isHP){

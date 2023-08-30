@@ -54,7 +54,7 @@
     "DX3rd.Key": "Key",
     "DX3rd.Name": "Name",
     "DX3rd.Value": "Value",
-    "DX3rd.Add": "Add",
+    "DX3rd.Add": "Accuracy",
     "DX3rd.Base": "Base",
     "DX3rd.RollFormula": "Roll Formula",
     "DX3rd.RollValue": "Roll Value",
@@ -77,6 +77,7 @@
     "DX3rd.Encroach": "Encroach",
     "DX3rd.Uses": "Uses",
     "DX3rd.Replenish": "Refresh",
+    "DX3rd.Override": "Override",
   
     "DX3rd.Text": "Refer",
     "DX3rd.Minor": "Minor",
@@ -139,6 +140,8 @@
     "DX3rd.Round": "Round",
     "DX3rd.Scene": "Scene",
     "DX3rd.Session": "Scenario",
+    "DX3rd.Max": "Max",
+    "DX3rd.Min": "Min",
   
     "DX3rd.Target": "Target",
     "DX3rd.EquipType": "EquipType",
@@ -150,6 +153,7 @@
     "DX3rd.Vehicle": "Vehicle",
     "DX3rd.Connection": "Connection",
     "DX3rd.Item": "Miscellaneous",
+    "DX3rd.Items": "Items",
     "DX3rd.Etc": "Other",
     "DX3rd.Once": "Consumable",
   
@@ -166,6 +170,8 @@
     "DX3rd.DamageRoll": "DamageRoll",
     "DX3rd.WeaponSelect": "WeaponSelect",
     "DX3rd.CreateEquipment": "Created Equipment",
+    "DX3rd.Flags": "Flags",
+    "DX3rd.Owned": "Owned",
   
     "DX3rd.RollType": "RollType",
     "DX3rd.AttackRoll": "AttackRoll",

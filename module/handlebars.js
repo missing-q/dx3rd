@@ -4,6 +4,10 @@ export class DX3rdRegisterHelpers {
       return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     });
 
+    Handlebars.registerHelper('eq', function(arg1, arg2) {
+      return (arg1 == arg2)
+    });
+
     Handlebars.registerHelper('isServant', function (item) {
       return item.document.type == "servant";
     });

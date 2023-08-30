@@ -3,7 +3,85 @@ export class DX3rdItem extends Item {
 
   prepareData() {
     super.prepareData();
-
+    this._prepareItem();
+  }
+  _prepareItem(){
+    let attrs = this.system
+    //add or replace applied values
+    if (attrs.applied){
+      let overwrites = {};
+      for (let [k,v] of Object.entries(attrs.applied)){
+        for (let [key, value] of Object.entries(v)){
+          if (value.key in attrs){
+            if (value.key == "range" || "timing"){
+              //timing is an overwrite every time since you can't "add" range
+              if (overwrites[value.key]){
+                overwrites[value.key].push(value.value)
+              } else {
+                overwrites[value.key] = [value.value]
+              }
+            } else {
+              if (value.overwrite){
+                //either create an array with the value in it, or push if it already exists
+                if (overwrites[value.key]){
+                  overwrites[value.key].push(value.value)
+                } else {
+                  overwrites[value.key] = [value.value]
+                }
+                //console.log(overwrites)
+              } else {
+                attrs[value.key] += value.value;
+              }
+            }
+          }
+        }
+      }
+      if (overwrites){
+        for (let [key,value] of Object.entries(overwrites)){
+          let newval;
+          if (key in attrs){
+            if (key == "range"){
+              let max = 0;
+              let tmp = []
+              for (let i = 0; i < value.length; i ++ ){
+                if (value[i] == "View"){
+                  tmp[i] = 99
+                } else if (value[i] == "Close"){
+                  tmp[i] = 0;
+                } else {
+                  tmp[i] = Number.parseInt(i)
+                }
+              }
+              max = Math.max(...tmp)
+              if (max == 99){
+                newval = "View"
+              } else if (max == 0){
+                newval = "Close"
+              } else {
+                newval = `${max}m`
+              }
+            } else if (key == "timing"){
+              //'use','roll','major', 'reaction', 'turn', 'round', 'battle', 'session'
+              let tmp = []
+              let timings = ['use','roll','major', 'reaction', 'turn', 'round', 'battle', 'session']
+              for (let i = 0; i < value.length; i ++ ){
+                tmp[i] = timings.indexOf(value[i])
+              }
+              let max = Math.min(...tmp)
+              newval = timings[max]
+            } else {
+              newval = Math.max(...value)
+            }
+            //apply overwritten value
+            if (key == "timing"){ //specific handling for overwriting timing. the timing attribute refers to in-turn timing, we want to overwrite the disabletiming
+              attrs.active.disable = newval;
+            } else {
+              attrs[key] = newval;
+            }
+          }
+        }
+      }
+    }
   }
 
   async toMessage() {

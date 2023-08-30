@@ -1,4 +1,3 @@
-
 export class DX3rdActor extends Actor {
 
   /** @Override */
@@ -118,6 +117,74 @@ export class DX3rdActor extends Actor {
       if (syndrome.length == 1)
         values = this._updateData(values, s.system.attributes);
     }
+    //before anything else is evaluated, we need to make sure all modifiers are accounted for
+    //clear all old flags
+    //scary infinite recursion hell... be careful!
+    let itemsupdates = {}
+    let abilitiesupdates = {}
+    for (let e of effect) {
+      abilitiesupdates[e.id] = {'system.applied': {}}
+      for (let [key, effect] of Object.entries(e.system.applied)) {
+        let disable = false;
+        for (let [k,v] of Object.entries(effect)){
+          if (v.key == "timing"){ //handle timing disabling on timing, not here
+            disable = true;
+          }
+        }
+        if (!disable){
+          abilitiesupdates[e.id][`system.applied.-=${key}`] = null;
+        }
+      }
+    }
+    
+    for (let i of item) {
+      itemsupdates[i.id] = {'system.applied': {}}
+      for (let [key, effect] of Object.entries(i.system.applied)) {
+        itemsupdates[i.id][`system.applied.-=${key}`] = null;
+      }
+    }
+   
+    console.log(abilitiesupdates)
+    console.log(itemsupdates)
+    for (let e of effect) {
+      if (e.system.flags.active){
+        //check for matches on every other effect
+        for (let j of effect){
+          for (let [key,value] of Object.entries(j.system.flags.owned)){
+            if (e.system.flags.checkFlag == value.name){
+              //match found!
+              console.log("ability match found!")
+              abilitiesupdates[j.id]['system.applied'][e.id] = this._parseAppliedData(e.system.flags.effects, e.system.level.value);
+              delete abilitiesupdates[j.id][`system.applied.-=${e.id}`] //delete the "erase" flag for this item
+            }
+          }
+        }
+        //check for matches on items
+        
+        for (let i of item){
+          let updates = {}
+          for (let [key,value] of Object.entries(i.system.flags.owned)){
+            //console.log(key)
+            //console.log(value)
+            if ((e.system.flags.checkFlag == value.name) && (e.system.flags.itemType == i.type)){
+              //match found!
+              console.log("item match found!")
+              itemsupdates[i.id]['system.applied'][e.id] = this._parseAppliedData(e.system.flags.items,e.system.level.value, e.system.flags.itemOverride);
+              delete itemsupdates[i.id][`system.applied.-=${e.id}`] //delete the "erase" flag for this item
+            }
+          }
+        }
+
+      }
+    }
+
+    //evaluate effects
+    for (let e of effect){
+      e.update(abilitiesupdates[e.id])
+    }
+    for (let i of item){
+      i.update(itemsupdates[i.id])
+    }
 
     let fullMove = 0;
     let weaponAdd = { "melee": 0, "ranged": 0 };
@@ -130,9 +197,11 @@ export class DX3rdActor extends Actor {
     for (let i of item) {
       let iData = i.system;
 
-      for (let [key, value] of Object.entries(tmp))
-        if (key in iData)
+      for (let [key, value] of Object.entries(tmp)){
+        if (key in iData){
           tmp[key].value += iData[key];
+        }
+      }
 
       if (i.type == "weapon" && iData.type != "-")
         weaponAdd[iData.type] += iData.add;
@@ -157,6 +226,7 @@ export class DX3rdActor extends Actor {
     for (let e of effect) {
       if ((!e.system.checkSyndrome) && (e.system.typeCheck == "-") && (e.system.targetCheck == "-")){
         values = this._updateEffectData(values, e.system.attributes, e.system.level.value, after);
+        values = this._updateEffectData(values, e.system.applied, 0)
         if ("critical_min" in e.system.attributes && e.system.attributes.critical_min.value < attributes.critical.min)
           attributes.critical.min = Number(e.system.attributes.critical_min.value);
       }
@@ -347,6 +417,110 @@ export class DX3rdActor extends Actor {
     return values;
   }
 
+  //like updateeffectdata, but for applied values instead
+  _parseAppliedData(attributes, level, overwrite) {
+    //console.log(values)
+    //console.log(attributes)
+    let obj = {}
+    for (const [key, value] of Object.entries(attributes)) {
+      obj[key] = {
+        'key': value.key,
+        'value': value.value
+      }
+      if (value.key != "range" && value.key != "timing"){
+        //console.log(obj)
+        let val = 0;
+        try {
+          if (value.value != "") {
+            //console.log(value)
+            let num = value.value.replace("@level", level);
+            if (num.indexOf('@currhp') != -1){
+              if (after){
+                num = num.replace("@currhp", 0);
+              } else {
+                num = num.replace("@currhp", this.system.attributes.hp.value);
+              }
+            }
+            if (num.indexOf('@maxhp') != -1){
+              if (after){
+                after.push({attributes,level})
+                num = num.replace("@maxhp", 0)
+              } else {
+                num = num.replace("@maxhp", this.system.attributes.hp.max)
+              }
+            }
+            if (value.rollvalue != undefined){
+              //console.log("foo")
+              num = num.replace("@roll", value.rollvalue.toString())
+            } else {
+              //console.log("bar")
+              num = num.replace("@roll", "0")
+            }
+            if (num.indexOf('#') != -1){
+              var indices = [];
+              for(var i=0; i<num.length;i++) {
+                if (num[i] === "#") indices.push(i);
+              }
+              //get indices in string
+              if (indices.length == 3){
+                let front = indices[0]
+                let mid = indices[1]
+                let back = indices[2]
+                let str = num.substring(front, back + 1)
+                let id = num.substring(front + 1, mid)
+                let prop = num.substring(mid + 1, back)
+                
+                //console.log(id)
+                //console.log(prop)
+                let item = game.items.get(id)
+                if (!item){ //check to see if it exists on other char sheets
+                  for (let a of game.actors.contents){
+                    if (a.items.get(id)){
+                      item = a.items.get(id)
+                      break;
+                    }
+                  }
+                }
+                let tmp = item
+                //dynamic indices access
+                while (prop.indexOf('.') != -1){
+                  //console.log(tmp)
+                  //console.log(prop)
+                  tmp = tmp[prop.slice(0,prop.indexOf('.'))]
+                  prop = prop.slice(prop.indexOf('.') + 1)
+                }
+                num = num.replace(str, tmp[prop])
+                //console.log(num)
+              }
+            }
+            //console.log(num)
+            val = math.evaluate(num);
+            //console.log(num)
+            //console.log(this.system.attributes.hp)
+            //console.log(this.system.attributes.hp.value)
+            //console.log(this.system.attributes.hp.max)
+            //console.log(this)
+          }
+          
+        } catch (error) {
+          console.log(error)
+          console.error("Values other than formula, @roll, @level are not allowed.");
+          val = attributes[key].value;
+        }
+  
+        obj[key].value = val;
+        if (overwrite){
+          obj[key].overwrite = true
+        }
+      }
+      //console.log('waves')
+      //console.log(obj)
+      //console.log(overwrite)
+    }
+
+    return obj;
+  }
+
   _updateData(values, attributes) {
     for (const [key, value] of Object.entries(attributes))
       if (key != '-')
@@ -524,10 +698,21 @@ export class DX3rdActor extends Actor {
         if (isNaN(num)){
           num = 0
         }
+        //check for additional uses
+        if (i.system.applied){
+          for (let [k,v] of Object.entries(i.system.applied)){
+            for (let [key, value] of Object.entries(v)){
+              if (value.key == "current_uses"){
+                num += Number.parseInt(value.value)
+              }
+            }
+          }
+        }
         i.system.uses.max = num
         if (num > i.system.uses.current){
           i.system.uses.current = num
         }
+        
       }
     }
   }
