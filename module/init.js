@@ -11,7 +11,7 @@ import { DX3rdRoisSheet } from "./sheet/rois-sheet.js";
 import { DX3rdEquipmentSheet } from "./sheet/equipment-sheet.js";
 
 import { WeaponDialog } from "./dialog/weapon-dialog.js";
-import { DefenseDialog } from "./dialog/defense-dialog.js";
+import { DamageDialog } from "./dialog/damage-dialog.js";
 import { DX3rdDiceTerm } from "./dice/dice-term.js";
 
 import { DX3rdRegisterHelpers } from "./handlebars.js";
@@ -894,7 +894,7 @@ async function chatListeners(html) {
 }
 
 Hooks.on("applyDamage", ({actor, data}) => {
-  new DefenseDialog(actor, data).render(true);
+  new DamageDialog(actor, data).render(true);
 })
 
 Hooks.on("enterScene", (actor) => {
