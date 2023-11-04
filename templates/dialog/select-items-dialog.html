@@ -6,12 +6,11 @@
 
 
     <section class="sheet-attributes">
+
       <div class="cell grid-full">
         <div class="cell--title">
-          <label>{{localize "DX3rd.Equipment"}}</label>
-
+          <label>{{localize "DX3rd.Weapon"}}</label>
         </div>
-
         <ol class="items-list margin-top-10">
           {{#each weaponList as |item id|}}
           <li class="item flexrow combo-item" data-item-id="{{item._id}}" draggable="true">
@@ -54,9 +53,46 @@
 
       <div class="cell grid-full">
         <div class="cell--title">
+          <label>{{localize "DX3rd.Protect"}}</label>
+        </div>
+        <ol class="items-list margin-top-10">
+          {{#each armorList as |item id|}}
+          <li class="item flexrow combo-item" data-item-id="{{item._id}}" draggable="true">
+            <h4 class="item-name">
+              <span class="item-label">
+                <img src="{{item.img}}" class="echo-item" title="{{item.name}}" width="32" height="32" style="vertical-align : middle;margin-right:4px;">
+                {{item.name}}
+
+                <div class="item-controls">
+                  <input type="checkbox" class="check-equipment" data-attack="{{item.system.attack}}" data-guard="0" data-name="{{item.name}}">
+                </div>
+              </span>
+
+            </h4>
+            <table class="info-table">
+              <tr>
+                <th class="width-18">{{localize "DX3rd.Dodge"}}</th>
+                <th class="width-18">{{localize "DX3rd.Init"}}</th>
+                <th class="width-18">{{localize "DX3rd.Armor"}}</th>
+              </tr>
+              <tr>
+                <td class="width-18">{{item.system.dodge}}</td>
+                <td class="width-18">{{item.system.init}}</td>
+                <td class="width-18">{{item.system.armor}}</td>
+              </tr>
+            </table>
+
+            <div class="item-description">{{{item.system.description}}}</div>
+          </li>
+          {{/each}}
+
+        </ol>
+      </div>
+
+      <div class="cell grid-full">
+        <div class="cell--title">
           <label>{{localize "DX3rd.Vehicle"}}</label>
         </div>
-
         <ol class="items-list margin-top-10">
           {{#each vehicleList as |item id|}}
           <li class="item flexrow combo-item" data-item-id="{{item._id}}" draggable="true">
@@ -73,23 +109,47 @@
             </h4>
             <table class="info-table">
               <tr>
-                <th class="width-18">{{localize "DX3rd.Type"}}</th>
                 <th class="width-18">{{localize "DX3rd.Skill"}}</th>
                 <th class="width-18">{{localize "DX3rd.Range"}}</th>
-                <th class="width-18">{{localize "DX3rd.Add"}}</th>
-                <th class="width-14">{{localize "DX3rd.Attack"}}</th>
-                <th class="width-14">{{localize "DX3rd.Guard"}}</th>
+                <th class="width-14">{{localize "DX3rd.Move"}}</th>
+                <th class="width-14">{{localize "DX3rd.Init"}}</th>
+                <th class="width-14">{{localize "DX3rd.Armor"}}</th>
               </tr>
               <tr>
-                <td class="width-18">{{localize "DX3rd.Melee"}}</td>
                 <td class="width-18">{{skillByKey ../actor item.system.skill}}</td>
-                <td class="width-18">{{localize "DX3rd.Engage"}}</td>
-                <td class="width-18">0</td>
+                <td class="width-18">{{item.system.move}}</td>
                 <td class="width-14">{{item.system.attack}}</td>
-                <td class="width-14">0</td>
+                <td class="width-14">{{item.system.init}}</td>
+                <td class="width-14">{{item.system.armor}}</td>
               </tr>
             </table>
 
+            <div class="item-description">{{{item.system.description}}}</div>
+          </li>
+          {{/each}}
+
+        </ol>
+      </div>
+
+      <div class="cell grid-full">
+        <div class="cell--title">
+          <label>{{localize "DX3rd.Item"}}</label>
+        </div>
+        <ol class="items-list margin-top-10">
+          {{#each itemList as |item id|}}
+          <li class="item flexrow combo-item" data-item-id="{{item._id}}" draggable="true">
+            <h4 class="item-name">
+              <span class="item-label">
+                <img src="{{item.img}}" class="echo-item" title="{{item.name}}" width="32" height="32" style="vertical-align : middle;margin-right:4px;">
+                {{item.name}}
+
+                <div class="item-controls">
+                  <input type="checkbox" class="check-equipment" data-attack="{{item.system.attack}}" data-guard="0" data-name="{{item.name}}">
+                </div>
+              </span>
+
+            </h4>
+            <!--no table since its items LOL-->
             <div class="item-description">{{{item.system.description}}}</div>
           </li>
           {{/each}}

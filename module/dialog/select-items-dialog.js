@@ -36,18 +36,31 @@ export class SelectItemsDialog extends Dialog {
 
     html.find('.item-label').click(this._onShowItemDetails.bind(this));
     html.find(".echo-item").click(this._echoItemDescription.bind(this));
+    html.find('.check-equipment').change(this._updateItemTotals.bind(this))
+    
   }
 
   /** @override */
   getData() {
     let vehicleList = [];
     let weaponList = [];
+    let itemList = [];
+    let armorList = [];
 
     for (let i of this.actor.items) {
-      if (i.type == 'weapon')
+      if (i.type == 'weapon'){
         weaponList.push(i);
-      else if (i.type == 'vehicle')
+      }
+      else if (i.type == 'vehicle'){
         vehicleList.push(i);
+      }
+      else if (i.type == 'protect'){
+        armorList.push(i);
+      }
+      else if (i.type == 'item'){
+        itemList.push(i);
+      }
+        
     }
 
     return {
@@ -57,7 +70,9 @@ export class SelectItemsDialog extends Dialog {
       
       actor: this.actor,
       vehicleList: vehicleList,
-      weaponList: weaponList
+      weaponList: weaponList,
+      armorList: armorList,
+      itemList: itemList
     }
   }
 
@@ -108,6 +123,13 @@ export class SelectItemsDialog extends Dialog {
 
     item.toMessage();
   }
+
+  /* -------------------------------------------- */
+  _updateItemTotals(event){
+    event.preventDefault();
+    console.log(event)
+  }
+
 
   /* -------------------------------------------- */
 
