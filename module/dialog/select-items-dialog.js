@@ -81,25 +81,24 @@ export class SelectItemsDialog extends Dialog {
   }
 
   async _onSubmit() {
-    let attack = 0;
-    let guard = 0;
-    let list = [];
+    let names = [];
+    let itemList = [];
 
     await $(".check-equipment").each((i, val) => {
       if ($(val).is(":checked")) {
-        list.push( '<h4>' + val.dataset.name + ` (${val.dataset.attack} / ${val.dataset.guard})</h4>`);
-
-        attack += Number(val.dataset.attack);
-        guard += Number(val.dataset.guard);
+        names.push( val.dataset.name);
       }
     });
+    console.log(names)
+    for (let item of this.items){
+      console.log(item)
+      if (names.includes(item.name)){
+        itemList.push(item)
+      }
+    }
+    console.log(itemList)
 
-    ChatMessage.create({
-      "content": `<h2><b>${game.i18n.localize("DX3rd.WeaponSelect")} (${attack} / ${guard})</b></h2>${list.join("")}`, 
-      "speaker": ChatMessage.getSpeaker({actor: this.actor})
-    });
-
-    this.callback({attack, guard});
+    this.callback(itemList);
   }
 
 

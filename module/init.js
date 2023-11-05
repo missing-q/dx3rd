@@ -432,8 +432,7 @@ async function chatListeners(html) {
       }
       if (item.system.createItem.select){
         let confirm = async (itemData) => {
-          //actor.createEmbeddedDocuments("Item", itemData)
-          //we comment it out for now
+          actor.createEmbeddedDocuments("Item", itemData)
         }
         console.log(itemList)
         let count = parseItemVals(item.system.createItem.count,item.system.level.value)
