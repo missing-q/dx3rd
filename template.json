@@ -243,6 +243,7 @@
     "createItem":{
       "active": false,
       "select": false,
+      "count" : "",
       "weapons": {},
       "armor" : {},
       "vehicles": {},

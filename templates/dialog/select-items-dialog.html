@@ -9,7 +9,7 @@
 
       <div class="cell grid-full">
         <div class="cell--title">
-          <label>{{localize "DX3rd.Weapon"}}</label>
+          <label>Select up to {{count}} items. </label>
         </div>
         <ol class="items-list margin-top-10">
           {{#each weaponList as |item id|}}
@@ -20,7 +20,7 @@
                 {{item.name}}
 
                 <div class="item-controls">
-                  <input type="checkbox" class="check-equipment" data-attack="{{item.system.attack}}" data-guard="{{item.system.guard}}" data-name="{{item.name}}">
+                  <input type="checkbox" class="check-equipment" data-attack="{{item.system.attack}}" data-guard="{{item.system.guard}}" data-name="{{item.name}}" />
                 </div>
               </span>
 

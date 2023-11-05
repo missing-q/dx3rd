@@ -1,9 +1,12 @@
 export class SelectItemsDialog extends Dialog {
 
-  constructor(actor, callback, options) {
+  constructor(actor, items, count, callback, options) {
     super(options);
 
     this.actor = actor;
+    this.items = items;
+    this.count = count;
+    this.curr = 0;
     this.callback = callback;
 
     this.data = {
@@ -47,7 +50,7 @@ export class SelectItemsDialog extends Dialog {
     let itemList = [];
     let armorList = [];
 
-    for (let i of this.actor.items) {
+    for (let i of this.items) {
       if (i.type == 'weapon'){
         weaponList.push(i);
       }
@@ -72,7 +75,8 @@ export class SelectItemsDialog extends Dialog {
       vehicleList: vehicleList,
       weaponList: weaponList,
       armorList: armorList,
-      itemList: itemList
+      itemList: itemList,
+      count: this.count
     }
   }
 
@@ -128,6 +132,26 @@ export class SelectItemsDialog extends Dialog {
   _updateItemTotals(event){
     event.preventDefault();
     console.log(event)
+    if (event.currentTarget.checked){
+      this.curr += 1;
+    } else {
+      this.curr -= 1;
+    }
+    console.log(this.curr)
+    console.log(this.count)
+    if (this.curr >= this.count){
+      $(".check-equipment").each((i, val) => {
+        if (!$(val).is(":checked")) {
+          $(val)[0].disabled = true;
+          console.log("disabled!")
+          console.log($(val))
+        }
+      });
+    } else {
+      $(".check-equipment").each((i, val) => {
+        $(val)[0].disabled = false;
+      });
+    }
   }
 
 

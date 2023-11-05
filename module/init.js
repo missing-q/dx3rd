@@ -11,6 +11,7 @@ import { DX3rdRoisSheet } from "./sheet/rois-sheet.js";
 import { DX3rdEquipmentSheet } from "./sheet/equipment-sheet.js";
 
 import { WeaponDialog } from "./dialog/weapon-dialog.js";
+import { SelectItemsDialog } from "./dialog/select-items-dialog.js";
 import { DamageDialog } from "./dialog/damage-dialog.js";
 import { DX3rdDiceTerm } from "./dice/dice-term.js";
 
@@ -414,7 +415,7 @@ async function chatListeners(html) {
       for (let i = 0; i < item.system.createItem.items.length; i++){
         let val = item.system.createItem.items[i]
         let newItem = {
-          type : "items",
+          type : "item",
           name: val.name,
           img: "icons/svg/wing.svg",
           system: {
@@ -429,10 +430,17 @@ async function chatListeners(html) {
         }
         itemList.push(newItem)
       }
-      //implement vehicles and items later
-      actor.createEmbeddedDocuments("Item", itemList)
-      
-
+      if (item.system.createItem.select){
+        let confirm = async (itemData) => {
+          //actor.createEmbeddedDocuments("Item", itemData)
+          //we comment it out for now
+        }
+        console.log(itemList)
+        let count = parseItemVals(item.system.createItem.count,item.system.level.value)
+        new SelectItemsDialog(actor, itemList, count, confirm).render(true);
+      } else {
+        actor.createEmbeddedDocuments("Item", itemList)
+      }
     }
 
     if (!item.system.disabled) {

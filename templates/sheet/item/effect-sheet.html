@@ -194,6 +194,10 @@
           <label class="cell--title">
             {{localize "DX3rd.CreateEquipment"}}
             <input type="checkbox" name="system.createItem.active" {{#if system.createItem.active}} checked {{/if}} data-dtype="Boolean"/>
+            <input type="checkbox" name="system.createItem.select" {{#if system.createItem.select}} checked {{/if}} data-dtype="Boolean"/>
+            {{#if system.createItem.select}}
+            <input type="text" name="system.createItem.count" value="{{system.createItem.count}}" data-dtype="String"/>
+            {{/if}}
           </label>
           {{#if system.createItem.active}}
           <label class="cell--title">
