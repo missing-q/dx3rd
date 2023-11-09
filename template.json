@@ -207,6 +207,8 @@
 
     "effect": {
       "disable": "-",
+      "checkDamage": false,
+      "checkIfHits": false,
       "attributes": {},
       "modHP": {
         "value":"",

@@ -142,6 +142,8 @@
     "DX3rd.Session": "Scenario",
     "DX3rd.Max": "Max",
     "DX3rd.Min": "Min",
+    "DX3rd.CheckDamage": "CheckDamage",
+    "DX3rd.CheckIfHits": "CheckIfHits",
   
     "DX3rd.Target": "Target",
     "DX3rd.EquipType": "EquipType",
