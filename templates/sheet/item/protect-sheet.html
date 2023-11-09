@@ -91,6 +91,37 @@
           {{!-- We're avoiding WYSIWYGs... for now... --}}
           {{editor enrichedBiography target="system.description" button=true editable=editable }}
         </div>
+
+        <div class="cell cell--uses space-between" >
+          <label class="cell--title">
+            {{localize "DX3rd.Flags"}}
+            <input type="checkbox" name="system.flags.active" {{#if system.flags.active}} checked {{/if}} data-dtype="Boolean"/>
+          </label>
+          {{#if system.flags.active}}
+          <!--Owned-->
+          <label class="cell--title">
+            {{localize "DX3rd.Owned"}}
+          </label>
+          <div class="flags">
+            <header class="flags-header flexrow">
+              <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
+              <a class="flags-control" data-action="create" data-pos="owned" data-type="equipment"><i class="fas fa-plus"></i></a>
+            </header>
+      
+            <ol class="flags-list">
+            {{#each system.flags.owned as |attr key|}}
+              <li class="flag flexrow" data-attribute="{{key}}">
+                <input class="flag-value" type="text" name="system.flags.owned.{{key}}.name" value="{{attr.name}}" data-dtype="String"/>
+                <a class="flags-control" data-action="delete"><i class="fas fa-trash"></i></a>
+              </li>
+            {{/each}}
+            </ol>
+          </div>
+          
+          {{/if}}
+          
+        </div>
+        
       </div>
     </div>
 
