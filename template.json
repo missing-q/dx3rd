@@ -219,7 +219,8 @@
         "value":"",
         "timing":"",
         "active": false
-      }
+      },
+      "modReaction": ""
     },
     "active": {
       "state": false,

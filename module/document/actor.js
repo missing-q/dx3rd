@@ -1070,11 +1070,14 @@ export class DX3rdActor extends Actor {
 
     if ("attack" in diceOptions) {
       let attack = Number(attributes.attack.value) + diceOptions.attack.value;
+      let reaction = diceOptions.reaction;
       console.log(attack)
       if (attack < 0){
         attack = 0;
       }
       content += `<button class="chat-btn calc-damage" data-attack="${attack}">${game.i18n.localize("DX3rd.DamageRoll")}</button>`;
+      //insert defense dialog
+      content += `<button class="chat-btn choose-defense" data-reaction="${reaction}">${game.i18n.localize("DX3rd.Defend")}</button>`;
     }
 
     ChatMessage.create({

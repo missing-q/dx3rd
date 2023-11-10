@@ -13,6 +13,7 @@ import { DX3rdEquipmentSheet } from "./sheet/equipment-sheet.js";
 import { WeaponDialog } from "./dialog/weapon-dialog.js";
 import { SelectItemsDialog } from "./dialog/select-items-dialog.js";
 import { DamageDialog } from "./dialog/damage-dialog.js";
+import { DefenseDialog } from "./dialog/defense-dialog.js";
 import { DX3rdDiceTerm } from "./dice/dice-term.js";
 
 import { DX3rdRegisterHelpers } from "./handlebars.js";
@@ -497,6 +498,9 @@ async function chatListeners(html) {
               "value": weaponData.attack,
               "type": item.system.attackRoll
             };
+            if (item.system.effect.modReaction != ""){
+              diceOptions["reaction"] = parseItemVals(item.system.effect.modReaction, item.system.level.value)
+            }
 
             await actor.rollDice(title, diceOptions, append);
           }
@@ -865,6 +869,36 @@ async function chatListeners(html) {
 
   });
 
+  html.on('click', '.choose-defense', async ev => {
+    event.preventDefault();
+    const dataset = ev.currentTarget.dataset;
+    const reaction = Number(dataset.reaction);
+    const targets = game.users.get(game.user.id).targets;
+
+    for (var target of targets) {
+      let actor = target.actor;
+      let actorData = actor.system;
+      let share = game.user.id;
+      for (let user of game.users)
+          if (user.active && user.character != null && user.character.id === actor.id) {
+              share = user.id;
+              break;
+          }
+          
+      if (share == game.user.id)
+          Hooks.call("chooseDefense", { actor, data: {reaction} });
+      else {
+          game.socket.emit("system.dx3rd", { id: "chooseDefense", sender: game.user.id, receiver: share, data: {
+             actorId: actor.id,
+             reaction
+          } });
+      }
+
+    }
+
+
+});
+
 
 
   html.on('click', '.toggle-btn', async ev => {
@@ -902,6 +936,10 @@ async function chatListeners(html) {
 
 Hooks.on("applyDamage", ({actor, data}) => {
   new DamageDialog(actor, data).render(true);
+})
+
+Hooks.on("chooseDefense", ({actor, data}) => {
+  new DefenseDialog(actor, data).render(true);
 })
 
 Hooks.on("enterScene", (actor) => {

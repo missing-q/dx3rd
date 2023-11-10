@@ -8,12 +8,23 @@ export class SocketController {
       
       switch (id) {
         case "applyDamage":
-          let actor = game.actors.get(data.actorId);
+          var actor = game.actors.get(data.actorId);
           Hooks.call("applyDamage", {
             actor, 
             data: {
                 data: data.data,
                 realDamage: data.realDamage
+            }
+          });
+
+          break;
+
+        case "chooseDefense":
+          var actor = game.actors.get(data.actorId);
+          Hooks.call("chooseDamage", {
+            actor, 
+            data: {
+                reaction: data.reaction
             }
           });
 
