@@ -912,6 +912,7 @@ export class DX3rdActor extends Actor {
 
   async rollDice(title, diceOptions, append) {
     let content = "";
+    var ret;
     let updateOptions = () => {};
     if (append) {
       content = `
@@ -939,31 +940,43 @@ export class DX3rdActor extends Actor {
         major: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize("DX3rd.Major"),
-          callback: () => {
-            if (append)
+          callback: async () => {
+            if (append){
               updateOptions();
+            }
             diceOptions["rollType"] = "major";
-            this._onRollDice(title, diceOptions);
+            ret = await this._onRollDice(title, diceOptions);
+            console.log('first!')
+            console.log(ret)
+            return ret;
           }
         },
         reaction: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize("DX3rd.Reaction"),
-          callback: () => {
-            if (append)
+          callback: async () => {
+            if (append){
               updateOptions();
+            }
             diceOptions["rollType"] = "reaction";
-            this._onRollDice(title, diceOptions);
+            ret = await this._onRollDice(title, diceOptions);
+            console.log('second!')
+            console.log(ret)
+            return ret;
           }
         },
         dodge: {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize("DX3rd.Dodge"),
-          callback: () => {
-            if (append)
+          callback: async () => {
+            if (append){
               updateOptions();
+            }
             diceOptions["rollType"] = "dodge";
-            this._onRollDice(title, diceOptions);
+            ret = await this._onRollDice(title, diceOptions);
+            console.log('third!')
+            console.log(ret)
+            return ret;
           }
         }
     }
@@ -973,23 +986,28 @@ export class DX3rdActor extends Actor {
         "major": {
           icon: '<i class="fas fa-check"></i>',
           label: game.i18n.localize("DX3rd.Roll"),
-          callback: () => {
-            if (append)
+          callback: async () => {
+            if (append){
               updateOptions();
-            this._onRollDice(title, diceOptions);
+            }
+            ret = await this._onRollDice(title, diceOptions);
+            console.log('fourth!')
+            console.log(ret)
+            return ret;
           }
         }
       }
     }
 
 
-    new Dialog({
+    ret = Dialog.wait({
         title: game.i18n.localize("DX3rd.RollType"),
         content: content,
         buttons: buttons,
         default: "major"
-    }).render(true);
-    //console.log("hello???")
+    });
+    console.log(ret)
+    return ret;
   }
 
   _getDiceData(diceOptions) {
@@ -1071,13 +1089,14 @@ export class DX3rdActor extends Actor {
     if ("attack" in diceOptions) {
       let attack = Number(attributes.attack.value) + diceOptions.attack.value;
       let reaction = diceOptions.reaction;
+      let critical = diceOptions.critical;
       console.log(attack)
       if (attack < 0){
         attack = 0;
       }
       content += `<button class="chat-btn calc-damage" data-attack="${attack}">${game.i18n.localize("DX3rd.DamageRoll")}</button>`;
       //insert defense dialog
-      content += `<button class="chat-btn choose-defense" data-reaction="${reaction}">${game.i18n.localize("DX3rd.Defend")}</button>`;
+      content += `<button class="chat-btn choose-defense" data-reaction="${reaction}" data-critical="${critical}" data-roll="${roll._total}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
     }
 
     ChatMessage.create({
@@ -1094,10 +1113,17 @@ export class DX3rdActor extends Actor {
 
     if (rollType == "major") 
       Hooks.call("afterMajor", this);
-    else if (rollType == "reaction" || rollType == "dodge") 
+    else if (rollType == "reaction" || rollType == "dodge") {
       Hooks.call("afterReaction", this);
 
       await this.update({ "system.attributes.sublimation.dice": 0, "system.attributes.sublimation.critical": 0 });
+    }
+    let val = 0;
+    if ("return" in diceOptions){
+      val = roll._total
+    }
+    console.log(val)
+    return val;
   }
 
 

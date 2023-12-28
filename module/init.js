@@ -501,6 +501,9 @@ async function chatListeners(html) {
             if (item.system.effect.modReaction != ""){
               diceOptions["reaction"] = parseItemVals(item.system.effect.modReaction, item.system.level.value)
             }
+            if (item.system.effect.modCritical != ""){
+              diceOptions["critical"] = parseItemVals(item.system.effect.modCritical, item.system.level.value)
+            }
 
             await actor.rollDice(title, diceOptions, append);
           }
@@ -872,7 +875,9 @@ async function chatListeners(html) {
   html.on('click', '.choose-defense', async ev => {
     event.preventDefault();
     const dataset = ev.currentTarget.dataset;
-    const reaction = Number(dataset.reaction);
+    const reaction = Number(dataset.reaction) || 0;
+    const critical = Number(dataset.critical) || 0;
+    const roll = Number(dataset.roll) || 0;
     const targets = game.users.get(game.user.id).targets;
 
     for (var target of targets) {
@@ -886,11 +891,13 @@ async function chatListeners(html) {
           }
           
       if (share == game.user.id)
-          Hooks.call("chooseDefense", { actor, data: {reaction} });
+          Hooks.call("chooseDefense", { actor, data: {reaction:reaction, critical:critical, roll:roll} });
       else {
           game.socket.emit("system.dx3rd", { id: "chooseDefense", sender: game.user.id, receiver: share, data: {
              actorId: actor.id,
-             reaction
+             reaction,
+              critical,
+              roll
           } });
       }
 

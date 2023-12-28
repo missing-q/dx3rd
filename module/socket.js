@@ -21,10 +21,12 @@ export class SocketController {
 
         case "chooseDefense":
           var actor = game.actors.get(data.actorId);
-          Hooks.call("chooseDamage", {
+          Hooks.call("chooseDefense", {
             actor, 
             data: {
-                reaction: data.reaction
+                reaction: data.reaction,
+                critical: data.critical,
+                roll: data.roll
             }
           });
 

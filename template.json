@@ -220,7 +220,8 @@
         "timing":"",
         "active": false
       },
-      "modReaction": ""
+      "modReaction": "",
+      "modCritical": ""
     },
     "active": {
       "state": false,
