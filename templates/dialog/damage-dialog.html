@@ -19,7 +19,7 @@
       <tr>
         <th>{{localize "DX3rd.Guard"}}</th>
         <td colspan="3"><input type="text" id="guard" value="{{guard}}" ></td>
-        <td><input type="checkbox" id="guard-check" {{guardCheck}} ></td>
+        <td><input type="checkbox" id="guard-check" {{guardCheck}} {{#if guardCheck}} checked {{/if}} ></td>
       </tr>
       <tr>
         <th>{{localize "DX3rd.Weapon"}}</th>

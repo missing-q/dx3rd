@@ -15,12 +15,15 @@ export class DefenseDialog extends Dialog {
           label: "Confirm",
           callback: async () => {
             let isGuard = $("#guard").is(":checked")
+            let damageData = this.reactionData.damageData
+            console.log(this.reactionData)
+            let chatData = { "speaker": ChatMessage.getSpeaker({ actor: this.actor }), "sound":CONFIG.sounds.notification}
             if (isGuard){
-              console.log("guarding!")
-              //doGuard();
+              //console.log("guarding!")
+              chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${true}">${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
+              //TODO: call "attack hits" event
             } else {
               console.log("dodging!")
-              //doDodge(this.reactionData);
               const diceOptions = {
                 "rollType": "dodge",
                 "base": "body",
@@ -29,17 +32,22 @@ export class DefenseDialog extends Dialog {
                 "appendCritical": this.reactionData.critical,
                 "return": true
               };
-              console.log(this.reactionData)
+              //console.log(this.reactionData)
               let result = await actor.rollDice("Dodge", diceOptions)
-              console.log(result)
+              //console.log(result)
               if (result > this.reactionData.roll ){
                 //dodged!
-                console.log("yay!")
+                chatData.content = `<div class="context-box"> ${actor.name} dodged! </div>`
+                //console.log("yay!")
               } else {
                 //dodge unsuccessful
-                console.log("oh no :(")
+                //console.log("oh no :(")
+                chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${false}">${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
+                //TODO: call "attack hits" event
               }
             }
+            ChatMessage.create(chatData);
+
           }
         }
       },

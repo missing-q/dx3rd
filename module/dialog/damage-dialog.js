@@ -17,11 +17,15 @@ export class DamageDialog extends Dialog {
             let defense = this.getDefense();
             let {life, realDamage} = this.calcDefenseDamage(defense);
         
-            Hooks.call("afterReaction", this.actor);
+            //Hooks.call("afterReaction", this.actor);
             
             await this.actor.update({"system.attributes.hp.value": life});
             let chatData = {"content": this.actor.name + " (" + realDamage + ")", "speaker": ChatMessage.getSpeaker({ actor: this.actor })};
             ChatMessage.create(chatData);
+            //TODO: attack deals damage event
+            if (realDamage > 1){
+
+            }
           }
         }
       },
@@ -65,8 +69,10 @@ export class DamageDialog extends Dialog {
       guard: Number(this.actor.system.attributes.guard.value),
       reduce: 0,
       double: false,
-      guardCheck: false
+      guardCheck: this.damageData.data.guard == "true" || false
     }
+    console.log(this.damageData)
+    console.log(defense)
     
     let {life, realDamage} = this.calcDefenseDamage(defense);
     
@@ -78,6 +84,7 @@ export class DamageDialog extends Dialog {
       damage: "-" + this.damageData.realDamage,
       armor: defense.armor,
       guard: defense.guard,
+      guardCheck: defense.guardCheck,
       weaponList: weaponList,
       reduce: defense.reduce,
       double: (defense.double) ? "checked" : "",
