@@ -1,3 +1,4 @@
+import { ComboDialog } from "../dialog/combo-dialog.js";
 
 export class DefenseDialog extends Dialog {
   constructor(actor, data, options) {
@@ -19,7 +20,8 @@ export class DefenseDialog extends Dialog {
             console.log(this.reactionData)
             let diceOptions = {
               "base": null,
-              "skill": null
+              "skill": null,
+              "noRoll": true
             };
             let chatData = { "speaker": ChatMessage.getSpeaker({ actor: this.actor }), "sound":CONFIG.sounds.notification}
             if (isGuard){

@@ -580,6 +580,7 @@ async function chatListeners(html) {
             if (item.system.effect.modCritical != ""){
               diceOptions["critical"] = parseItemVals(item.system.effect.modCritical, item.system.level.value)
             }
+            console.log(diceOptions)
 
             await actor.rollDice(title, diceOptions, append);
           }
@@ -938,6 +939,8 @@ async function chatListeners(html) {
             let confirm = async (weaponData) => {
             diceOptions["attack"] = {
               "value": weaponData.attack + item.system.attack.value,
+              "reaction": reaction_dice,
+              "critical": reaction_crit,
               "type": attackRoll
             };
 
@@ -951,6 +954,8 @@ async function chatListeners(html) {
 
           diceOptions["attack"] = {
             "value": attack + item.system.attack.value,
+            "reaction": reaction_dice,
+            "critical": reaction_crit,
             "type": attackRoll
           };
 
@@ -998,7 +1003,9 @@ async function chatListeners(html) {
       ev.preventDefault();
       const data = ev.currentTarget.dataset;
       const attack = Number(data.attack);
-      const reactiondata = data.reactiondata
+      const reaction = data.reaction
+      const critical = data.critical
+      const rolldata = data.roll 
       console.log(ev)
       const rollResult = Number($(ev.currentTarget).parent().find(".dice-total").first().text());
 
@@ -1046,7 +1053,7 @@ async function chatListeners(html) {
               //content += <button class="chat-btn apply-damage" data-damage="${roll.total}" data-ignore-armor="${ignoreArmor}">${game.i18n.localize("DX3rd.ApplyDamage")}</button>
               //
 
-              content += `<button class="chat-btn choose-defense" data-reaction="${reactiondata.reaction}" data-critical="${reactiondata.critical}" data-roll="${reactiondata.roll}" data-damage="${roll.total}" data-ignorearmor="${ignoreArmor}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
+              content += `<button class="chat-btn choose-defense" data-reaction="${reaction}" data-critical="${critical}" data-roll="${rolldata}" data-damage="${roll.total}" data-ignorearmor="${ignoreArmor}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
               content += '</div>'
 
               ChatMessage.create({

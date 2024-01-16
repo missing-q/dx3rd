@@ -14,6 +14,7 @@ export class ComboDialog extends Dialog {
     this.return = diceOptions.return || false
     this.appendDice = diceOptions.appendDice || 0;
     this.appendCritical = diceOptions.appendCritical || 0;
+    this.noRoll = diceOptions.noRoll;
 
     if (this.skillId != null)
       this.skill = actor.system.attributes.skills[this.skillId];
@@ -54,7 +55,7 @@ export class ComboDialog extends Dialog {
     html.find(".echo-item").click(this._echoItemDescription.bind(this));
   }
 
-  async rollAbilityValue(rolls, item, actor, updates ){
+  async _rollAbilityValue(rolls, item, actor, updates ){
     for (const [key, attr] of Object.entries(rolls)){
       let num = 0;
         try {
@@ -103,6 +104,20 @@ export class ComboDialog extends Dialog {
     return updates;
   }
 
+  _parseItemVals(str, level){
+    let num = str
+    if (isNaN(num)){
+      try {
+        if (num.indexOf('@level') != -1){
+          num = num.replace("@level", level);
+        }
+      } catch (e){
+        num = 0;
+      }
+    }
+    return math.evaluate(num)
+  }
+
   /** @override */
   getData() {
     let actorSkills = duplicate(this.actor.system.attributes.skills);
@@ -137,6 +152,8 @@ export class ComboDialog extends Dialog {
     let actor = this.actor;
     let item = this;
     let updates = {}
+    let reaction_dice = 0;
+    let reaction_crit
 
     await $(".active-effect").each(async (i, val) => {
       if ($(val).is(":checked")) {
@@ -169,9 +186,22 @@ export class ComboDialog extends Dialog {
             }
           }
           //console.log(rolls)
-          updates = await rollAbilityValue(rolls, effect, actor, updates)
-          updates = await rollAbilityValue(effectrolls,effect, actor, updates)
+          updates = await this._rollAbilityValue(rolls, effect, actor, updates)
+          updates = await this._rollAbilityValue(effectrolls,effect, actor, updates)
         
+        }
+        if (effect.system.modHP.timing != '-'){
+          updates["system.modHP.active"] = true;
+        }
+        if (effect.system.modEncroach.timing != '-'){
+          updates["system.modEncroach.active"] = true;
+        }
+        //add reaction dice and crit penalty values
+        if (effect.system.effect.modReaction != ""){
+          reaction_dice += this._parseItemVals(effect.system.effect.modReaction, effect.system.level.value)
+        }
+        if (effect.system.effect.modCritical != ""){
+          reaction_crit = this._parseItemVals(effect.system.effect.modCritical, effect.system.level.value)
         }
         await effect.update(updates);
       }
@@ -406,15 +436,20 @@ export class ComboDialog extends Dialog {
       let confirm = async (weaponData) => {
         diceOptions["attack"] = {
           "value": weaponData.attack,
+          "reaction": reaction_dice,
+          "critical": reaction_crit,
           "type": attackRoll
         };
-
-        returnval = await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
+        if (!this.noRoll){
+          returnval = await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
+        }
       }
 
       new WeaponDialog(this.actor, confirm).render(true);
     } else{
-      returnval = await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
+      if (!this.noRoll){
+        returnval = await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
+      }
     }
       
 
