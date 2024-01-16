@@ -38,6 +38,7 @@
     <a class="item" data-tab="description">{{localize "DX3rd.Description" }}</a>
     <a class="item" data-tab="attributes">{{localize "DX3rd.Attributes" }}</a>
     <a class="item" data-tab="target">{{localize "DX3rd.Target" }}</a>
+    <a class="item" data-tab="special">{{localize "DX3rd.Special" }}</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -190,6 +191,361 @@
           {{editor enrichedBiography target="system.description" button=true editable=editable }}
         </div>
 
+        
+        
+
+      </div>
+
+    </div>
+
+    {{!-- Attributes Tab --}}
+    <div class="tab" data-group="primary" data-tab="attributes">
+      <div class="sheet-wrapper margin-top-10">
+        <table>
+          <tr>
+            <th><span>{{localize "DX3rd.RollType"}}</span></th>
+            <td>
+              <select name="system.roll" data-dtype="String">
+                {{#select system.roll}}
+                <option value="-">-</option>
+                <option value="major">{{localize "DX3rd.Major"}}</option>
+                <option value="reaction">{{localize "DX3rd.Reaction"}}</option>
+                <option value="dodge">{{localize "DX3rd.DodgeRoll"}}</option>
+                {{/select}}
+              </select>
+            </td>
+            <th><label for="system.macro">{{localize "DX3rd.Macro"}}</label></th>
+            <td colspan="5"><input type="text" name="system.macro" data-dtype="String" value="{{system.macro}}"></td>
+          </tr>
+          
+          <tr>
+            <th><span>{{localize "DX3rd.AttackRoll"}}</span></th>
+            <td>
+              <select name="system.attackRoll" data-dtype="String" style="width: calc(100% - 17px);">
+                {{#select system.attackRoll}}
+                <option value="-">-</option>
+                <option value="melee">{{localize "DX3rd.Melee"}}</option>
+                <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
+                {{/select}}
+              </select>
+            </td>
+            <th><span>{{localize "DX3rd.Active"}}</span></th>
+            <td><input type="checkbox" name="system.active.state" {{#if system.active.state}} checked {{/if}}></td>
+            <th><span>{{localize "DX3rd.DisableTiming"}}</span></th>
+            <td>
+              <select name="system.active.disable" data-dtype="String">
+                {{#select system.active.disable}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                <option value="session">{{localize "DX3rd.AfterSession"}}</option>
+                <option value="guard">{{localize "DX3rd.AfterGuard"}}</option>
+                {{/select}}
+              </select>
+            </td>
+
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.ModHPActive"}}</span></th>
+            <td><input type="checkbox" name="system.modHP.active" {{#if system.modHP.active}} checked {{/if}}></td>
+            <th><span>{{localize "DX3rd.ModHP"}}</span></th>
+            <td><input type="text" name="system.modHP.value" value="{{system.modHP.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModHPTiming"}}</span></th>
+            <td>
+              <select name="system.modHP.timing" data-dtype="String">
+                {{#select system.modHP.timing}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                <option value="session">{{localize "DX3rd.AfterSession"}}</option>
+                <option value="guard">{{localize "DX3rd.AfterGuard"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.ModEncroachActive"}}</span></th>
+            <td><input type="checkbox" name="system.modEncroach.active" {{#if system.modEncroach.active}} checked {{/if}}></td>
+            <th><span>{{localize "DX3rd.ModEncroach"}}</span></th>
+            <td><input type="text" name="system.modEncroach.value" value="{{system.modEncroach.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModEncroachTiming"}}</span></th>
+            <td>
+              <select name="system.modEncroach.timing" data-dtype="String">
+                {{#select system.modEncroach.timing}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                <option value="session">{{localize "DX3rd.AfterSession"}}</option>
+                <option value="guard">{{localize "DX3rd.AfterGuard"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.CheckSyndrome"}}</span></th>
+            <td><input type="checkbox" name="system.checkSyndrome" {{#if system.checkSyndrome}} checked {{/if}}></td>
+            <th><span>{{localize "DX3rd.CheckAttackType"}}</span></th>
+            <td>
+              <select name = "system.typeCheck">
+                {{#select system.typeCheck}}
+                <option value="-">-</option>
+                <option value="melee">{{localize "DX3rd.Melee"}}</option>
+                <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
+                {{/select}}
+              </select>
+            </td>
+            <th><span>{{localize "DX3rd.CheckAttackTarget"}}</span></th>
+            <td>
+              <select name = "system.targetCheck">
+                {{#select system.targetCheck}}
+                <option value="-">-</option>
+                <option value="single">{{localize "DX3rd.Single"}}</option>
+                <option value="multi">{{localize "DX3rd.Multi"}}</option>
+                {{/select}}
+              </select>
+            </td>
+            
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.AttackTarget"}}</span></th>
+            <td>
+              <select name = "system.attackTarget">
+                {{#select system.attackTarget}}
+                <option value="-">-</option>
+                <option value="single">{{localize "DX3rd.Single"}}</option>
+                <option value="multi">{{localize "DX3rd.Multi"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+        </table>
+
+
+        <div class="attributes">
+          <header class="attributes-header flexrow">
+            <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
+            <span class="attribute-value">{{localize "DX3rd.Value"}}</span>
+            <span class="attribute-roll-value">{{localize "DX3rd.RollValue"}}</span>
+            <span class="attribute-roll-formula">{{localize "DX3rd.RollFormula"}}</span>
+            <a class="attribute-control" data-action="create" data-pos="main" data-type="attributes"><i class="fas fa-plus"></i></a>
+          </header>
+    
+          <ol class="attributes-list">
+          {{#each system.attributes as |attr key|}}
+            <li class="attribute flexrow" data-attribute="{{key}}">
+              <select class="attribute-key" name="system.attributes.{{key}}.key" data-dtype="String">
+                {{#select key}}
+                <option value="-">-</option>
+                <option value="attack">{{localize "DX3rd.Attack"}}</option>
+                <option value="dice">{{localize "DX3rd.Dice"}}</option>
+                <option value="add">{{localize "DX3rd.Add"}}</option>
+                <option value="critical">{{localize "DX3rd.Critical"}}</option>
+                <option value="critical_min">{{localize "DX3rd.CriticalMin"}}</option>
+
+                <option value="hp">{{localize "DX3rd.HP"}}</option>
+                <option value="init">{{localize "DX3rd.Init"}}</option>
+                <option value="armor">{{localize "DX3rd.Armor"}}</option>
+                <option value="guard">{{localize "DX3rd.Guard"}}</option>
+                <option value="saving">{{localize "DX3rd.Saving"}}</option>
+                <option value="move">{{localize "DX3rd.Move"}}</option>
+
+                <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
+                <option value="major">{{localize "DX3rd.MajorAdd"}}</option>
+                <option value="major_critical">{{localize "DX3rd.MajorCritical"}}</option>
+                <option value="reaction_dice">{{localize "DX3rd.ReactionDice"}}</option>
+                <option value="reaction">{{localize "DX3rd.ReactionAdd"}}</option>
+                <option value="reaction_critical">{{localize "DX3rd.ReactionCritical"}}</option>
+                <option value="dodge_dice">{{localize "DX3rd.DodgeDice"}}</option>
+                <option value="dodge">{{localize "DX3rd.DodgeAdd"}}</option>
+                <option value="dodge_critical">{{localize "DX3rd.DodgeCritical"}}</option>
+
+                <option value="body_add">{{localize "DX3rd.BodyAdd"}}</option>
+                <option value="body_dice">{{localize "DX3rd.BodyDice"}}</option>
+                <option value="sense_add">{{localize "DX3rd.SenseAdd"}}</option>
+                <option value="sense_dice">{{localize "DX3rd.SenseDice"}}</option>
+                <option value="mind_add">{{localize "DX3rd.MindAdd"}}</option>
+                <option value="mind_dice">{{localize "DX3rd.MindDice"}}</option>
+                <option value="social_add">{{localize "DX3rd.SocialAdd"}}</option>
+                <option value="social_dice">{{localize "DX3rd.SocialDice"}}</option>
+                {{/select}}
+              </select>
+
+              <input class="attribute-value" type="text" name="system.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="String"/>
+              <input class="attribute-value" type="text" name="system.attributes.{{key}}.rollvalue" value="{{attr.rollvalue}}" readonly data-dtype="Number"/>
+              <input class="attribute-value" type="text" name="system.attributes.{{key}}.rollformula" value="{{attr.rollformula}}" data-dtype="String"/>
+              <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
+            </li>
+          {{/each}}
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+    {{!-- Target Tab --}}
+    <div class="tab" data-group="primary" data-tab="target">
+      <div class="sheet-wrapper margin-top-10">
+        <table>
+          <tr>
+            <th><span>{{localize "DX3rd.Target"}}</span> </th>
+            <td><input type="checkbox" name="system.getTarget" {{#if system.getTarget}} checked {{/if}}></td>
+            
+            <th><span>{{localize "DX3rd.DisableTiming"}}</span></th>
+            <td>
+              <select name="system.effect.disable" data-dtype="String">
+                {{#select system.effect.disable}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.ModHP"}}</span></th>
+            <td><input type="text" name="system.effect.modHP.value" value="{{system.effect.modHP.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModHPTiming"}}</span></th>
+            <td>
+              <select name="system.effect.modHP.timing" data-dtype="String">
+                {{#select system.effect.modHP.timing}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th><span>{{localize "DX3rd.ModEncroach"}}</span></th>
+            <td><input type="text" name="system.effect.modEncroach.value" value="{{system.effect.modEncroach.value}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModEncroachTiming"}}</span></th>
+            <td>
+              <select name="system.effect.modEncroach.timing" data-dtype="String">
+                {{#select system.effect.modEncroach.timing}}
+                <option value="-">-</option>
+                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
+                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
+                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
+                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
+                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
+                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
+                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
+                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
+                {{/select}}
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            
+            <th><span>{{localize "DX3rd.ModReaction"}}</span> </th>
+            <td><input type="text" name="system.effect.modReaction" value="{{system.effect.modReaction}}" data-dtype="String"/></td>
+            <th><span>{{localize "DX3rd.ModCritical"}}</span> </th>
+            <td><input type="text" name="system.effect.modCritical" value="{{system.effect.modCritical}}" data-dtype="String"/></td>
+          </tr>
+
+        </table>
+
+
+        <div class="attributes">
+          <header class="attributes-header flexrow">
+            <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
+            <span class="attribute-value">{{localize "DX3rd.Value"}}</span>
+            <span class="attribute-roll-value">{{localize "DX3rd.RollValue"}}</span>
+            <span class="attribute-roll-formula">{{localize "DX3rd.RollFormula"}}</span>
+            <span class="attribute-conditional">{{localize "DX3rd.Conditional"}}</span>
+            <a class="attribute-control" data-action="create" data-pos="sub" data-type="attributes"><i class="fas fa-plus"></i></a>
+          </header>
+    
+          <ol class="attributes-list">
+          {{#each system.effect.attributes as |attr key|}}
+            <li class="attribute flexrow" data-attribute="{{key}}">
+              <select class="attribute-key" name="system.effect.attributes.{{key}}.key" data-dtype="String">
+                {{#select key}}
+                <option value="-">-</option>
+                <option value="attack">{{localize "DX3rd.Attack"}}</option>
+                <option value="dice">{{localize "DX3rd.Dice"}}</option>
+                <option value="add">{{localize "DX3rd.Add"}}</option>
+                <option value="critical">{{localize "DX3rd.Critical"}}</option>
+                <option value="critical_min">{{localize "DX3rd.CriticalMin"}}</option>
+
+                <option value="hp">{{localize "DX3rd.HP"}}</option>
+                <option value="init">{{localize "DX3rd.Init"}}</option>
+                <option value="armor">{{localize "DX3rd.Armor"}}</option>
+                <option value="guard">{{localize "DX3rd.Guard"}}</option>
+                <option value="saving">{{localize "DX3rd.Saving"}}</option>
+                <option value="move">{{localize "DX3rd.Move"}}</option>
+
+                <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
+                <option value="major">{{localize "DX3rd.MajorAdd"}}</option>
+                <option value="major_critical">{{localize "DX3rd.MajorCritical"}}</option>
+                <option value="reaction_dice">{{localize "DX3rd.ReactionDice"}}</option>
+                <option value="reaction">{{localize "DX3rd.ReactionAdd"}}</option>
+                <option value="reaction_critical">{{localize "DX3rd.ReactionCritical"}}</option>
+                <option value="dodge_dice">{{localize "DX3rd.DodgeDice"}}</option>
+                <option value="dodge">{{localize "DX3rd.DodgeAdd"}}</option>
+                <option value="dodge_critical">{{localize "DX3rd.DodgeCritical"}}</option>
+
+                <option value="body_add">{{localize "DX3rd.BodyAdd"}}</option>
+                <option value="body_dice">{{localize "DX3rd.BodyDice"}}</option>
+                <option value="sense_add">{{localize "DX3rd.SenseAdd"}}</option>
+                <option value="sense_dice">{{localize "DX3rd.SenseDice"}}</option>
+                <option value="mind_add">{{localize "DX3rd.MindAdd"}}</option>
+                <option value="mind_dice">{{localize "DX3rd.MindDice"}}</option>
+                <option value="social_add">{{localize "DX3rd.SocialAdd"}}</option>
+                <option value="social_dice">{{localize "DX3rd.SocialDice"}}</option>
+                {{/select}}
+              </select>
+
+              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="String"/>
+              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.rollvalue" value="{{attr.rollvalue}}" readonly data-dtype="Number"/>
+              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.rollformula" value="{{attr.rollformula}}" data-dtype="String"/>
+              <div>
+                <input class="attribute-value" type="checkbox" name="system.effect.attributes.{{key}}.hitcheck" {{#if attr.hitcheck}} checked {{/if}} />
+                <input class="attribute-value" type="checkbox" name="system.effect.attributes.{{key}}.dmgcheck" {{#if attr.dmgcheck}} checked {{/if}} />
+              </div>
+              <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
+            </li>
+          {{/each}}
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+    {{!-- Special Tab --}}
+    <div class="tab" data-group="primary" data-tab="special">
+      <div class="sheet-wrapper margin-top-10">
         <!--Equipment Creation-->
         <div class="cell cell--uses space-between" >
           <label class="cell--title">
@@ -581,361 +937,8 @@
           {{/if}}
           
         </div>
-        
-
-      </div>
-
-    </div>
-
-    {{!-- Attributes Tab --}}
-    <div class="tab" data-group="primary" data-tab="attributes">
-      <div class="sheet-wrapper margin-top-10">
-        <table>
-          <tr>
-            <th><span>{{localize "DX3rd.RollType"}}</span></th>
-            <td>
-              <select name="system.roll" data-dtype="String">
-                {{#select system.roll}}
-                <option value="-">-</option>
-                <option value="major">{{localize "DX3rd.Major"}}</option>
-                <option value="reaction">{{localize "DX3rd.Reaction"}}</option>
-                <option value="dodge">{{localize "DX3rd.DodgeRoll"}}</option>
-                {{/select}}
-              </select>
-            </td>
-            <th><label for="system.macro">{{localize "DX3rd.Macro"}}</label></th>
-            <td colspan="5"><input type="text" name="system.macro" data-dtype="String" value="{{system.macro}}"></td>
-          </tr>
-          
-          <tr>
-            <th><span>{{localize "DX3rd.AttackRoll"}}</span></th>
-            <td>
-              <select name="system.attackRoll" data-dtype="String" style="width: calc(100% - 17px);">
-                {{#select system.attackRoll}}
-                <option value="-">-</option>
-                <option value="melee">{{localize "DX3rd.Melee"}}</option>
-                <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
-                {{/select}}
-              </select>
-            </td>
-            <th><span>{{localize "DX3rd.Active"}}</span></th>
-            <td><input type="checkbox" name="system.active.state" {{#if system.active.state}} checked {{/if}}></td>
-            <th><span>{{localize "DX3rd.DisableTiming"}}</span></th>
-            <td>
-              <select name="system.active.disable" data-dtype="String">
-                {{#select system.active.disable}}
-                <option value="-">-</option>
-                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
-                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
-                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
-                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
-                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
-                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
-                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
-                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
-                <option value="session">{{localize "DX3rd.AfterSession"}}</option>
-                <option value="guard">{{localize "DX3rd.AfterGuard"}}</option>
-                {{/select}}
-              </select>
-            </td>
-
-          </tr>
-          <tr>
-            <th><span>{{localize "DX3rd.ModHPActive"}}</span></th>
-            <td><input type="checkbox" name="system.modHP.active" {{#if system.modHP.active}} checked {{/if}}></td>
-            <th><span>{{localize "DX3rd.ModHP"}}</span></th>
-            <td><input type="text" name="system.modHP.value" value="{{system.modHP.value}}" data-dtype="String"/></td>
-            <th><span>{{localize "DX3rd.ModHPTiming"}}</span></th>
-            <td>
-              <select name="system.modHP.timing" data-dtype="String">
-                {{#select system.modHP.timing}}
-                <option value="-">-</option>
-                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
-                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
-                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
-                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
-                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
-                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
-                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
-                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
-                <option value="session">{{localize "DX3rd.AfterSession"}}</option>
-                <option value="guard">{{localize "DX3rd.AfterGuard"}}</option>
-                {{/select}}
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th><span>{{localize "DX3rd.ModEncroachActive"}}</span></th>
-            <td><input type="checkbox" name="system.modEncroach.active" {{#if system.modEncroach.active}} checked {{/if}}></td>
-            <th><span>{{localize "DX3rd.ModEncroach"}}</span></th>
-            <td><input type="text" name="system.modEncroach.value" value="{{system.modEncroach.value}}" data-dtype="String"/></td>
-            <th><span>{{localize "DX3rd.ModEncroachTiming"}}</span></th>
-            <td>
-              <select name="system.modEncroach.timing" data-dtype="String">
-                {{#select system.modEncroach.timing}}
-                <option value="-">-</option>
-                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
-                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
-                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
-                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
-                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
-                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
-                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
-                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
-                <option value="session">{{localize "DX3rd.AfterSession"}}</option>
-                <option value="guard">{{localize "DX3rd.AfterGuard"}}</option>
-                {{/select}}
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th><span>{{localize "DX3rd.CheckSyndrome"}}</span></th>
-            <td><input type="checkbox" name="system.checkSyndrome" {{#if system.checkSyndrome}} checked {{/if}}></td>
-            <th><span>{{localize "DX3rd.CheckAttackType"}}</span></th>
-            <td>
-              <select name = "system.typeCheck">
-                {{#select system.typeCheck}}
-                <option value="-">-</option>
-                <option value="melee">{{localize "DX3rd.Melee"}}</option>
-                <option value="ranged">{{localize "DX3rd.Ranged"}}</option>
-                {{/select}}
-              </select>
-            </td>
-            <th><span>{{localize "DX3rd.CheckAttackTarget"}}</span></th>
-            <td>
-              <select name = "system.targetCheck">
-                {{#select system.targetCheck}}
-                <option value="-">-</option>
-                <option value="single">{{localize "DX3rd.Single"}}</option>
-                <option value="multi">{{localize "DX3rd.Multi"}}</option>
-                {{/select}}
-              </select>
-            </td>
-            
-          </tr>
-          <tr>
-            <th><span>{{localize "DX3rd.AttackTarget"}}</span></th>
-            <td>
-              <select name = "system.attackTarget">
-                {{#select system.attackTarget}}
-                <option value="-">-</option>
-                <option value="single">{{localize "DX3rd.Single"}}</option>
-                <option value="multi">{{localize "DX3rd.Multi"}}</option>
-                {{/select}}
-              </select>
-            </td>
-          </tr>
-        </table>
-
-
-        <div class="attributes">
-          <header class="attributes-header flexrow">
-            <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
-            <span class="attribute-value">{{localize "DX3rd.Value"}}</span>
-            <span class="attribute-roll-value">{{localize "DX3rd.RollValue"}}</span>
-            <span class="attribute-roll-formula">{{localize "DX3rd.RollFormula"}}</span>
-            <a class="attribute-control" data-action="create" data-pos="main" data-type="attributes"><i class="fas fa-plus"></i></a>
-          </header>
-    
-          <ol class="attributes-list">
-          {{#each system.attributes as |attr key|}}
-            <li class="attribute flexrow" data-attribute="{{key}}">
-              <select class="attribute-key" name="system.attributes.{{key}}.key" data-dtype="String">
-                {{#select key}}
-                <option value="-">-</option>
-                <option value="attack">{{localize "DX3rd.Attack"}}</option>
-                <option value="dice">{{localize "DX3rd.Dice"}}</option>
-                <option value="add">{{localize "DX3rd.Add"}}</option>
-                <option value="critical">{{localize "DX3rd.Critical"}}</option>
-                <option value="critical_min">{{localize "DX3rd.CriticalMin"}}</option>
-
-                <option value="hp">{{localize "DX3rd.HP"}}</option>
-                <option value="init">{{localize "DX3rd.Init"}}</option>
-                <option value="armor">{{localize "DX3rd.Armor"}}</option>
-                <option value="guard">{{localize "DX3rd.Guard"}}</option>
-                <option value="saving">{{localize "DX3rd.Saving"}}</option>
-                <option value="move">{{localize "DX3rd.Move"}}</option>
-
-                <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
-                <option value="major">{{localize "DX3rd.MajorAdd"}}</option>
-                <option value="major_critical">{{localize "DX3rd.MajorCritical"}}</option>
-                <option value="reaction_dice">{{localize "DX3rd.ReactionDice"}}</option>
-                <option value="reaction">{{localize "DX3rd.ReactionAdd"}}</option>
-                <option value="reaction_critical">{{localize "DX3rd.ReactionCritical"}}</option>
-                <option value="dodge_dice">{{localize "DX3rd.DodgeDice"}}</option>
-                <option value="dodge">{{localize "DX3rd.DodgeAdd"}}</option>
-                <option value="dodge_critical">{{localize "DX3rd.DodgeCritical"}}</option>
-
-                <option value="body_add">{{localize "DX3rd.BodyAdd"}}</option>
-                <option value="body_dice">{{localize "DX3rd.BodyDice"}}</option>
-                <option value="sense_add">{{localize "DX3rd.SenseAdd"}}</option>
-                <option value="sense_dice">{{localize "DX3rd.SenseDice"}}</option>
-                <option value="mind_add">{{localize "DX3rd.MindAdd"}}</option>
-                <option value="mind_dice">{{localize "DX3rd.MindDice"}}</option>
-                <option value="social_add">{{localize "DX3rd.SocialAdd"}}</option>
-                <option value="social_dice">{{localize "DX3rd.SocialDice"}}</option>
-                {{/select}}
-              </select>
-
-              <input class="attribute-value" type="text" name="system.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="String"/>
-              <input class="attribute-value" type="text" name="system.attributes.{{key}}.rollvalue" value="{{attr.rollvalue}}" readonly data-dtype="Number"/>
-              <input class="attribute-value" type="text" name="system.attributes.{{key}}.rollformula" value="{{attr.rollformula}}" data-dtype="String"/>
-              <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
-            </li>
-          {{/each}}
-          </ol>
-        </div>
-
       </div>
     </div>
-
-    {{!-- Target Tab --}}
-    <div class="tab" data-group="primary" data-tab="target">
-      <div class="sheet-wrapper margin-top-10">
-        <table>
-          <tr>
-            <th><span>{{localize "DX3rd.Target"}}</span> </th>
-            <td><input type="checkbox" name="system.getTarget" {{#if system.getTarget}} checked {{/if}}></td>
-            
-            <th><span>{{localize "DX3rd.DisableTiming"}}</span></th>
-            <td>
-              <select name="system.effect.disable" data-dtype="String">
-                {{#select system.effect.disable}}
-                <option value="-">-</option>
-                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
-                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
-                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
-                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
-                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
-                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
-                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
-                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
-                {{/select}}
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th><span>{{localize "DX3rd.ModHP"}}</span></th>
-            <td><input type="text" name="system.effect.modHP.value" value="{{system.effect.modHP.value}}" data-dtype="String"/></td>
-            <th><span>{{localize "DX3rd.ModHPTiming"}}</span></th>
-            <td>
-              <select name="system.effect.modHP.timing" data-dtype="String">
-                {{#select system.effect.modHP.timing}}
-                <option value="-">-</option>
-                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
-                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
-                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
-                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
-                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
-                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
-                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
-                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
-                {{/select}}
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th><span>{{localize "DX3rd.ModEncroach"}}</span></th>
-            <td><input type="text" name="system.effect.modEncroach.value" value="{{system.effect.modEncroach.value}}" data-dtype="String"/></td>
-            <th><span>{{localize "DX3rd.ModEncroachTiming"}}</span></th>
-            <td>
-              <select name="system.effect.modEncroach.timing" data-dtype="String">
-                {{#select system.effect.modEncroach.timing}}
-                <option value="-">-</option>
-                <option value="notCheck">{{localize "DX3rd.NotCheck"}}</option>
-                <option value="roll">{{localize "DX3rd.AfterRoll"}}</option>
-                <option value="major">{{localize "DX3rd.AfterMajor"}}</option>
-                <option value="reaction">{{localize "DX3rd.AfterReaction"}}</option>
-                <option value="turn">{{localize "DX3rd.AfterTurn"}}</option>
-                <option value="use">{{localize "DX3rd.AfterUse"}}</option>
-                <option value="round">{{localize "DX3rd.AfterRound"}}</option>
-                <option value="battle">{{localize "DX3rd.AfterScene"}}</option>
-                {{/select}}
-              </select>
-            </td>
-          </tr>
-
-          <tr>
-            
-            <th><span>{{localize "DX3rd.CheckDamage"}}</span> </th>
-            <td><input type="checkbox" name="system.checkDamage" {{#if system.checkDamage}} checked {{/if}}></td>
-            <th><span>{{localize "DX3rd.CheckIfHits"}}</span> </th>
-            <td><input type="checkbox" name="system.checkIfHits" {{#if system.checkIfHits}} checked {{/if}}></td>
-            
-          </tr>
-
-          <tr>
-            
-            <th><span>{{localize "DX3rd.ModReaction"}}</span> </th>
-            <td><input type="text" name="system.effect.modReaction" value="{{system.effect.modReaction}}" data-dtype="String"/></td>
-            <th><span>{{localize "DX3rd.ModCritical"}}</span> </th>
-            <td><input type="text" name="system.effect.modCritical" value="{{system.effect.modCritical}}" data-dtype="String"/></td>
-          </tr>
-
-        </table>
-
-
-        <div class="attributes">
-          <header class="attributes-header flexrow">
-            <span class="attribute-key">{{localize "DX3rd.Name"}}</span>
-            <span class="attribute-value">{{localize "DX3rd.Value"}}</span>
-            <span class="attribute-roll-value">{{localize "DX3rd.RollValue"}}</span>
-            <span class="attribute-roll-formula">{{localize "DX3rd.RollFormula"}}</span>
-            <a class="attribute-control" data-action="create" data-pos="sub" data-type="attributes"><i class="fas fa-plus"></i></a>
-          </header>
-    
-          <ol class="attributes-list">
-          {{#each system.effect.attributes as |attr key|}}
-            <li class="attribute flexrow" data-attribute="{{key}}">
-              <select class="attribute-key" name="system.effect.attributes.{{key}}.key" data-dtype="String">
-                {{#select key}}
-                <option value="-">-</option>
-                <option value="attack">{{localize "DX3rd.Attack"}}</option>
-                <option value="dice">{{localize "DX3rd.Dice"}}</option>
-                <option value="add">{{localize "DX3rd.Add"}}</option>
-                <option value="critical">{{localize "DX3rd.Critical"}}</option>
-                <option value="critical_min">{{localize "DX3rd.CriticalMin"}}</option>
-
-                <option value="hp">{{localize "DX3rd.HP"}}</option>
-                <option value="init">{{localize "DX3rd.Init"}}</option>
-                <option value="armor">{{localize "DX3rd.Armor"}}</option>
-                <option value="guard">{{localize "DX3rd.Guard"}}</option>
-                <option value="saving">{{localize "DX3rd.Saving"}}</option>
-                <option value="move">{{localize "DX3rd.Move"}}</option>
-
-                <option value="major_dice">{{localize "DX3rd.MajorDice"}}</option>
-                <option value="major">{{localize "DX3rd.MajorAdd"}}</option>
-                <option value="major_critical">{{localize "DX3rd.MajorCritical"}}</option>
-                <option value="reaction_dice">{{localize "DX3rd.ReactionDice"}}</option>
-                <option value="reaction">{{localize "DX3rd.ReactionAdd"}}</option>
-                <option value="reaction_critical">{{localize "DX3rd.ReactionCritical"}}</option>
-                <option value="dodge_dice">{{localize "DX3rd.DodgeDice"}}</option>
-                <option value="dodge">{{localize "DX3rd.DodgeAdd"}}</option>
-                <option value="dodge_critical">{{localize "DX3rd.DodgeCritical"}}</option>
-
-                <option value="body_add">{{localize "DX3rd.BodyAdd"}}</option>
-                <option value="body_dice">{{localize "DX3rd.BodyDice"}}</option>
-                <option value="sense_add">{{localize "DX3rd.SenseAdd"}}</option>
-                <option value="sense_dice">{{localize "DX3rd.SenseDice"}}</option>
-                <option value="mind_add">{{localize "DX3rd.MindAdd"}}</option>
-                <option value="mind_dice">{{localize "DX3rd.MindDice"}}</option>
-                <option value="social_add">{{localize "DX3rd.SocialAdd"}}</option>
-                <option value="social_dice">{{localize "DX3rd.SocialDice"}}</option>
-                {{/select}}
-              </select>
-
-              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="String"/>
-              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.rollvalue" value="{{attr.rollvalue}}" readonly data-dtype="Number"/>
-              <input class="attribute-value" type="text" name="system.effect.attributes.{{key}}.rollformula" value="{{attr.rollformula}}" data-dtype="String"/>
-              <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
-            </li>
-          {{/each}}
-          </ol>
-        </div>
-
-      </div>
-    </div>
-
 
   </section>
 

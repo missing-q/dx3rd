@@ -58,6 +58,9 @@
     "DX3rd.Base": "Base",
     "DX3rd.RollFormula": "Roll Formula",
     "DX3rd.RollValue": "Roll Value",
+    "DX3rd.HitCheck": "Hit?",
+    "DX3rd.DmgCheck": "Dmg?",
+    "DX3rd.Conditional": "Conditional",
   
     "DX3rd.Cover": "Cover",
     "DX3rd.Ancestry": "Origin",
@@ -91,6 +94,7 @@
     "DX3rd.Easy": "Simple",
   
     "DX3rd.Attributes": "Attributes",
+    "DX3rd.Special": "Special",
     "DX3rd.Critical": "Critical",
     "DX3rd.CriticalMin": "CriticalMin",
     "DX3rd.MajorDice": "MajorDice",

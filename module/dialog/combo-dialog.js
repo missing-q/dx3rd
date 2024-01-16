@@ -15,6 +15,8 @@ export class ComboDialog extends Dialog {
     this.appendDice = diceOptions.appendDice || 0;
     this.appendCritical = diceOptions.appendCritical || 0;
     this.noRoll = diceOptions.noRoll;
+    this.rollType = diceOptions.rollType || "major"
+    console.log(this.rollType)
 
     if (this.skillId != null)
       this.skill = actor.system.attributes.skills[this.skillId];
@@ -137,7 +139,8 @@ export class ComboDialog extends Dialog {
       skill: this.skillId,
       base: this.base,
       effectList: effectList,
-      actorSkills: actorSkills
+      actorSkills: actorSkills,
+      rollType: this.rollType
     }
   }
 

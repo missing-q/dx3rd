@@ -41,11 +41,13 @@
         <label class="cell--title">
           {{localize "DX3rd.RollType"}}
         </label>
+        {{#select rollType}}
         <select id="roll" data-dtype="String">
           <option value="major">{{localize "DX3rd.Major"}}</option>
           <option value="reaction">{{localize "DX3rd.Reaction"}}</option>
           <option value="dodge">{{localize "DX3rd.DodgeRoll"}}</option>
         </select>
+        {{/select}}
       </div>
 
       <div class="cell grid-4">
