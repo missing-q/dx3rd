@@ -295,6 +295,55 @@ function parseItemVals(str, level){
   return math.evaluate(num)
 }
 
+async function rollAbilityValue(rolls, item, actor, updates ){
+  for (const [key, attr] of Object.entries(rolls)){
+    let num = 0;
+      try {
+          num = attr.rollformula
+          if (num.indexOf('@level') != -1){
+            num = num.replace("@level", item.system.level.value || item.system.level.init);
+          }
+          console.log(num)
+          if (num.indexOf('D') != -1){
+              
+              let front = num.substring(0,num.indexOf('D'))
+              let back = num.substring(num.indexOf('D')+1)
+              front += "d10"
+              let roll = new Roll(front);
+              await roll.roll({async: true});
+              let rollData = await roll.render();
+              let rollMode = game.settings.get("core", "rollMode");
+              let content = `
+                <div class="dx3rd-roll">
+                  <h2 class="header">
+                    <div class="title">Roll Ability Value: ${key}</div></h2>
+                  <div class="context-box">
+                    ${item.name}
+                  </div>
+                  ${rollData}
+              `;
+              ChatMessage.create({
+                speaker: ChatMessage.getSpeaker({actor: actor}),
+                content: content + `</div>`,
+                type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+                sound: CONFIG.sounds.dice,
+                roll: roll,
+              }, {rollMode});
+          
+              num = roll.total + back
+          }
+          num = math.evaluate(num)
+          
+      } catch (error) {
+        console.log(error)
+        console.error("Values other than formula, @level, D dice are not allowed.");
+      }
+      console.log(num)
+      updates[`system.attributes.${key}.rollvalue`] = num
+  }
+  return updates;
+}
+
 async function chatListeners(html) {
   html.on('click', '.use-effect', async ev => {
     ev.preventDefault();
@@ -341,122 +390,149 @@ async function chatListeners(html) {
     })
 
     console.log(actor)
-    //check for item creation
-    if (item.system.createItem.active){
-      let itemList = []
-      //create all weapons
-      for (let i = 0; i < item.system.createItem.weapons.length; i++){
-        let val = item.system.createItem.weapons[i]
-        let newItem = {
-          type : "weapon",
-          name: val.name,
-          img: "icons/svg/sword.svg",
-          system: {
-            type: val.equiptype,
-            skill: val.skill,
-            add: parseItemVals(val.add, item.system.level.value),
-            attack: parseItemVals(val.attack,item.system.level.value),
-            guard: parseItemVals(val.guard,item.system.level.value),
-            range: val.range,
-            timing: val.timing,
-            exp: val.exp,
-            saving: {
-              value: val.stock,
-              difficulty: val.procure
-            }
-          }
-        }
-        itemList.push(newItem)
-      }
-      //create all armor
-      for (let i = 0; i < item.system.createItem.armor.length; i++){
-        let val = item.system.createItem.armor[i]
-        let newItem = {
-          type : "protect",
-          name: val.name,
-          img: "icons/svg/shield.svg",
-          system: {
-            dodge: parseItemVals(val.dodge, item.system.level.value),
-            armor: parseItemVals(val.armor, item.system.level.value),
-            init: parseItemVals(val.init, item.system.level.value),
-            timing: val.timing,
-            exp: val.exp,
-            saving: {
-              value: val.stock,
-              difficulty: val.procure
-            }
-          }
-        }
-        itemList.push(newItem)
-      }
-      //create all vehicles
-      for (let i = 0; i < item.system.createItem.vehicles.length; i++){
-        let val = item.system.createItem.vehicles[i]
-        let newItem = {
-          type : "vehicle",
-          name: val.name,
-          img: "icons/svg/wing.svg",
-          system: {
-            skill: val.skill,
-            move: val.move,
-            attack: parseItemVals(val.attack,item.system.level.value),
-            armor: parseItemVals(val.armor, item.system.level.value),
-            init: parseItemVals(val.init, item.system.level.value),
-            timing: val.timing,
-            exp: val.exp,
-            saving: {
-              value: val.stock,
-              difficulty: val.procure
-            }
-          }
-        }
-        itemList.push(newItem)
-      }
-      //create all items
-      for (let i = 0; i < item.system.createItem.items.length; i++){
-        let val = item.system.createItem.items[i]
-        let newItem = {
-          type : "item",
-          name: val.name,
-          img: "icons/svg/wing.svg",
-          system: {
-            type: val.type,
-            timing: val.timing,
-            exp: val.exp,
-            saving: {
-              value: val.stock,
-              difficulty: val.procure
-            }
-          }
-        }
-        itemList.push(newItem)
-      }
-      if (item.system.createItem.select){
-        let confirm = async (itemData) => {
-          actor.createEmbeddedDocuments("Item", itemData)
-        }
-        console.log(itemList)
-        let count = parseItemVals(item.system.createItem.count,item.system.level.value)
-        new SelectItemsDialog(actor, itemList, count, confirm).render(true);
-      } else {
-        actor.createEmbeddedDocuments("Item", itemList)
-      }
-    }
-
     if (!item.system.disabled) {
-      if (skill in actor.system.attributes.skills)
+
+      //check for item creation
+      if (item.system.createItem.active){
+        let itemList = []
+        //create all weapons
+        for (let i = 0; i < item.system.createItem.weapons.length; i++){
+          let val = item.system.createItem.weapons[i]
+          let newItem = {
+            type : "weapon",
+            name: val.name,
+            img: "icons/svg/sword.svg",
+            system: {
+              type: val.equiptype,
+              skill: val.skill,
+              add: parseItemVals(val.add, item.system.level.value),
+              attack: parseItemVals(val.attack,item.system.level.value),
+              guard: parseItemVals(val.guard,item.system.level.value),
+              range: val.range,
+              timing: val.timing,
+              exp: val.exp,
+              saving: {
+                value: val.stock,
+                difficulty: val.procure
+              }
+            }
+          }
+          itemList.push(newItem)
+        }
+        //create all armor
+        for (let i = 0; i < item.system.createItem.armor.length; i++){
+          let val = item.system.createItem.armor[i]
+          let newItem = {
+            type : "protect",
+            name: val.name,
+            img: "icons/svg/shield.svg",
+            system: {
+              dodge: parseItemVals(val.dodge, item.system.level.value),
+              armor: parseItemVals(val.armor, item.system.level.value),
+              init: parseItemVals(val.init, item.system.level.value),
+              timing: val.timing,
+              exp: val.exp,
+              saving: {
+                value: val.stock,
+                difficulty: val.procure
+              }
+            }
+          }
+          itemList.push(newItem)
+        }
+        //create all vehicles
+        for (let i = 0; i < item.system.createItem.vehicles.length; i++){
+          let val = item.system.createItem.vehicles[i]
+          let newItem = {
+            type : "vehicle",
+            name: val.name,
+            img: "icons/svg/wing.svg",
+            system: {
+              skill: val.skill,
+              move: val.move,
+              attack: parseItemVals(val.attack,item.system.level.value),
+              armor: parseItemVals(val.armor, item.system.level.value),
+              init: parseItemVals(val.init, item.system.level.value),
+              timing: val.timing,
+              exp: val.exp,
+              saving: {
+                value: val.stock,
+                difficulty: val.procure
+              }
+            }
+          }
+          itemList.push(newItem)
+        }
+        //create all items
+        for (let i = 0; i < item.system.createItem.items.length; i++){
+          let val = item.system.createItem.items[i]
+          let newItem = {
+            type : "item",
+            name: val.name,
+            img: "icons/svg/wing.svg",
+            system: {
+              type: val.type,
+              timing: val.timing,
+              exp: val.exp,
+              saving: {
+                value: val.stock,
+                difficulty: val.procure
+              }
+            }
+          }
+          itemList.push(newItem)
+        }
+        if (item.system.createItem.select){
+          let confirm = async (itemData) => {
+            actor.createEmbeddedDocuments("Item", itemData)
+          }
+          console.log(itemList)
+          let count = parseItemVals(item.system.createItem.count,item.system.level.value)
+          new SelectItemsDialog(actor, itemList, count, confirm).render(true);
+        } else {
+          actor.createEmbeddedDocuments("Item", itemList)
+        }
+      }
+
+      if (skill in actor.system.attributes.skills){
         base = actor.system.attributes.skills[skill].base;
+      }
+        
 
       let updates = {};
       if (item.system.active.disable != '-'){
         updates["system.active.state"] = true;
+        //WE NEED TO DO OUR DICE ROLLS FOR ANY VALUES ON THE ABILITY HERE
+        let rolls = {}
+        let effectrolls = {}
+        if (!(item.system.attributes == {})){
+          for (const [key, attr] of Object.entries(item.system.attributes)){
+            if (attr.rollformula){
+              rolls[key] = attr //add to rolls
+            }
+          }
+        }
+        if (!(item.system.effect.attributes == {})){
+          for (const [key, attr] of Object.entries(item.system.effect.attributes)){
+            if (attr.rollformula){
+              effectrolls[key] = attr //add to effectrolls
+            }
+          }
+        }
+        //console.log(rolls)
+        updates = await rollAbilityValue(rolls,item, actor, updates)
+        updates = await rollAbilityValue(effectrolls,item, actor, updates)
+        
       }
+      
       if (item.system.modHP.timing != '-'){
         updates["system.modHP.active"] = true;
       }
       if (item.system.modEncroach.timing != '-'){
         updates["system.modEncroach.active"] = true;
       }
+      
+
       await item.update(updates);
 
       Hooks.call("setActorEncroach", actor, item.id, encroach);
@@ -570,66 +646,216 @@ async function chatListeners(html) {
     //console.log(effectItems)
     const appliedList = [];
     const macroList = [];
+    let reaction_dice = 0;
+    let reaction_crit = 0;
 
     for (let e of effectItems) {
       if (e == "-"){
         continue;
       }
       let effect = actor.items.get(e);
-      if (effect.system.disabled){
-        continue;
-      }
-      if ((effect.system.effect.disable != "-")){
-        appliedList.push(effect);
-
-        actor.items.forEach(f => {
-          if ((f.type == "effect") && (f.system.active.state) && (f.system.checkSyndrome) && (effect.system.syndrome == f.system.syndrome) && (effect != f)){
-            console.log("yay match :)")
-            f.applyTarget(actor, true)
+      if (!effect.system.disabled){
+        //check for item creation
+        if (effect.system.createItem.active){
+          let itemList = []
+          //create all weapons
+          for (let i = 0; i < effect.system.createItem.weapons.length; i++){
+            let val = effect.system.createItem.weapons[i]
+            let newItem = {
+              type : "weapon",
+              name: val.name,
+              img: "icons/svg/sword.svg",
+              system: {
+                type: val.equiptype,
+                skill: val.skill,
+                add: parseItemVals(val.add, effect.system.level.value),
+                attack: parseItemVals(val.attack,effect.system.level.value),
+                guard: parseItemVals(val.guard,effect.system.level.value),
+                range: val.range,
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
           }
-        })
-      }
-      
-      if (!effect.system.getTarget) {
-        const macro = game.macros.contents.find(m => (m.name === effect.system.macro));
+          //create all armor
+          for (let i = 0; i < effect.system.createItem.armor.length; i++){
+            let val = effect.system.createItem.armor[i]
+            let newItem = {
+              type : "protect",
+              name: val.name,
+              img: "icons/svg/shield.svg",
+              system: {
+                dodge: parseItemVals(val.dodge, effect.system.level.value),
+                armor: parseItemVals(val.armor, effect.system.level.value),
+                init: parseItemVals(val.init, effect.system.level.value),
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
+          }
+          //create all vehicles
+          for (let i = 0; i < effect.system.createItem.vehicles.length; i++){
+            let val = effect.system.createItem.vehicles[i]
+            let newItem = {
+              type : "vehicle",
+              name: val.name,
+              img: "icons/svg/wing.svg",
+              system: {
+                skill: val.skill,
+                move: val.move,
+                attack: parseItemVals(val.attack,effect.system.level.value),
+                armor: parseItemVals(val.armor, effect.system.level.value),
+                init: parseItemVals(val.init, effect.system.level.value),
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
+          }
+          //create all items
+          for (let i = 0; i < effect.system.createItem.items.length; i++){
+            let val = effect.system.createItem.items[i]
+            let newItem = {
+              type : "item",
+              name: val.name,
+              img: "icons/svg/wing.svg",
+              system: {
+                type: val.type,
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
+          }
+          if (effect.system.createItem.select){
+            let confirm = async (itemData) => {
+              actor.createEmbeddedDocuments("Item", itemData)
+            }
+            console.log(itemList)
+            let count = parseItemVals(effect.system.createItem.count,effect.system.level.value)
+            new SelectItemsDialog(actor, itemList, count, confirm).render(true);
+          } else {
+            actor.createEmbeddedDocuments("Item", itemList)
+          }
+        }
 
-        if (macro != undefined){
-          macro.execute();
+        if ((effect.system.effect.disable != "-")){
+          appliedList.push(effect);
+
+          actor.items.forEach(f => { 
+            let cont =  true;
+            if ((f.type == "effect") && (f.system.active.state)){
+              const preconds = [(f.system.checkSyndrome),(f.system.typeCheck != "-"),(f.system.targetCheck != "-") ]
+              const postconds = [(item.system.syndrome == f.system.syndrome), (item.system.attackRoll == f.system.typeCheck), (item.system.attackTarget == f.system.targetCheck)]
+      
+              if (!preconds.every(v => v === false)){ //make sure not every single entry in the array is false so we dont erroneously apply
+                for (let i = 0; i < preconds.length; i++){
+                  if (preconds[i]){ //we dont do anything if the precond is false because that just determines whether we should proceed down that condition line
+                    if (!postconds[i]){ //however if at least one postcond is false then we should cancel 
+                      cont = false; 
+                    }
+                  }
+                }
+      
+                if (cont){
+                  console.log("yay match :)")
+                  f.applyTarget(actor, true)
+                }
+              }
+            }
+          })
+
         }
-        else if (effect.system.macro != ""){
-          new Dialog({
-            title: "macro",
-            content: `Do not find this macro: ${effect.system.macro}`,
-            buttons: {}
-          }).render(true);
+        
+        if (!effect.system.getTarget) {
+          const macro = game.macros.contents.find(m => (m.name === effect.system.macro));
+
+          if (macro != undefined){
+            macro.execute();
+          }
+          else if (effect.system.macro != ""){
+            new Dialog({
+              title: "macro",
+              content: `Do not find this macro: ${effect.system.macro}`,
+              buttons: {}
+            }).render(true);
+          }
+        } else if (effect.system.macro != ""){
+          macroList.push(effect.system.macro);
         }
-      } else if (effect.system.macro != ""){
-        macroList.push(effect.system.macro);
-      }
-      let e_updates = {};
-      if (effect.system.active.disable != '-'){
-        e_updates["system.active.state"] = true;
-      }
-      if (effect.system.modHP.timing != '-'){
-        e_updates["system.modHP.active"] = true;
-      }
-      if (effect.system.modEncroach.timing != '-'){
-        e_updates["system.modEncroach.active"] = true;
-      }
-      //add in auto decrementing too
-      if (effect.system.uses.active){
-        let currentUses = effect.system.uses.current - 1
-        if (currentUses <= 0){
-          currentUses = 0;
-          e_updates["system.active.state"] = false;
-          e_updates["system.disabled"] = true;
-          Hooks.call("dialogNoUsesLeft", actor, effect);
+        let e_updates = {};
+        if (effect.system.active.disable != '-'){
+          e_updates["system.active.state"] = true;
+          //WE NEED TO DO OUR DICE ROLLS FOR ANY VALUES ON THE ABILITY HERE
+          let rolls = {}
+          let effectrolls = {}
+          if (!(effect.system.attributes == {})){
+            for (const [key, attr] of Object.entries(effect.system.attributes)){
+              if (attr.rollformula){
+                rolls[key] = attr //add to rolls
+              }
+            }
+          }
+          if (!(effect.system.effect.attributes == {})){
+            for (const [key, attr] of Object.entries(effect.system.effect.attributes)){
+              if (attr.rollformula){
+                effectrolls[key] = attr //add to effectrolls
+              }
+            }
+          }
+          //console.log(rolls)
+          e_updates = await rollAbilityValue(rolls, effect, actor, e_updates)
+          e_updates = await rollAbilityValue(effectrolls,effect, actor, e_updates)
         }
-        e_updates["system.uses.current"] = currentUses
+        if (effect.system.modHP.timing != '-'){
+          e_updates["system.modHP.active"] = true;
+        }
+        if (effect.system.modEncroach.timing != '-'){
+          e_updates["system.modEncroach.active"] = true;
+        }
+        //add reaction dice and crit penalty values
+        if (effect.system.effect.modReaction != ""){
+          reaction_dice += parseItemVals(effect.system.effect.modReaction, effect.system.level.value)
+        }
+        if (effect.system.effect.modCritical != ""){
+          reaction_crit = parseItemVals(effect.system.effect.modCritical, effect.system.level.value)
+        }
+
+        //add in auto decrementing too
+        if (effect.system.uses.active){
+          let currentUses = effect.system.uses.current - 1
+          if (currentUses <= 0){
+            currentUses = 0;
+            e_updates["system.active.state"] = false;
+            e_updates["system.disabled"] = true;
+            Hooks.call("dialogNoUsesLeft", actor, effect);
+          }
+          e_updates["system.uses.current"] = currentUses
+        }
+        console.log(e_updates)
+        console.log(effect)
+        await effect.update(e_updates);
       }
-      console.log(e_updates)
-      console.log(effect)
-      await effect.update(e_updates);
+
+      
     }
 
     Hooks.call("setActorEncroach", actor, item.id, encroach);

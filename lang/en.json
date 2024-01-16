@@ -126,6 +126,7 @@
     "DX3rd.AfterRound": "AfterRound",
     "DX3rd.AfterScene": "AfterScene",
     "DX3rd.AfterSession": "AfterSession",
+    "DX3rd.AfterGuard": "AfterGuard",
     "DX3rd.CheckSyndrome": "CheckSyndrome",
     "DX3rd.CheckAttackType": "CheckType",
     "DX3rd.CheckAttackTarget": "CheckTarget",

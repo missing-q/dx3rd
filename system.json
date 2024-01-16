@@ -2,10 +2,10 @@
   "id": "dx3rd",
   "title": "Double Cross 3rd",
   "description": "Double Cross 3rd",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "compatibility": {
     "minimum": 10,
-    "verified": "10.303"
+    "verified": "11.315"
   },
   "templateVersion": 1,
   "authors": [

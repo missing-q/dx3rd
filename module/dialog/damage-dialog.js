@@ -16,8 +16,12 @@ export class DamageDialog extends Dialog {
           callback: async () => {
             let defense = this.getDefense();
             let {life, realDamage} = this.calcDefenseDamage(defense);
-        
-            //Hooks.call("afterReaction", this.actor);
+
+            //after guard hooks timer
+            if (this.damageData.data.guard == "true"){
+              Hooks.call("afterGuard", this.actor);
+            }
+            
             
             await this.actor.update({"system.attributes.hp.value": life});
             let chatData = {"content": this.actor.name + " (" + realDamage + ")", "speaker": ChatMessage.getSpeaker({ actor: this.actor })};

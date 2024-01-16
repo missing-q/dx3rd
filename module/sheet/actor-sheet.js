@@ -217,6 +217,7 @@ export class DX3rdActorSheet extends ActorSheet {
     });
     
     //roll effect button
+    /* 
     html.find('.roll-effect-vals').on('click', async event => {
       event.preventDefault();
       const li = event.currentTarget.closest(".item");
@@ -340,6 +341,7 @@ export class DX3rdActorSheet extends ActorSheet {
           await item.update({[`system.effect.attributes.${key}.rollvalue`]: num});
       }
     });
+    */
 
 
     html.find('.skill-create').click(this._onSkillCreate.bind(this));

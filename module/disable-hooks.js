@@ -13,6 +13,10 @@ export class DisableHooks {
             await this.disableTalents(actor, ['roll', 'reaction']);
         });
 
+        Hooks.on("afterGuard", async actor => {
+            await this.disableTalents(actor, ['guard']);
+        });
+
         Hooks.on("afterTurn", async actor => {
             await this.disableTalents(actor, ['roll', 'major', 'reaction', 'turn']);
         });

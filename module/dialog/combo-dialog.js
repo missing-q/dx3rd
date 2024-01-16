@@ -11,6 +11,9 @@ export class ComboDialog extends Dialog {
     this.chatTitle = game.i18n.localize("DX3rd.Combo") + ": " + title; 
     this.skillId = diceOptions.skill;
     this.base = diceOptions.base;
+    this.return = diceOptions.return || false
+    this.appendDice = diceOptions.appendDice || 0;
+    this.appendCritical = diceOptions.appendCritical || 0;
 
     if (this.skillId != null)
       this.skill = actor.system.attributes.skills[this.skillId];
@@ -49,6 +52,55 @@ export class ComboDialog extends Dialog {
 
     html.find('.item-label').click(this._onShowItemDetails.bind(this));
     html.find(".echo-item").click(this._echoItemDescription.bind(this));
+  }
+
+  async rollAbilityValue(rolls, item, actor, updates ){
+    for (const [key, attr] of Object.entries(rolls)){
+      let num = 0;
+        try {
+            num = attr.rollformula
+            if (num.indexOf('@level') != -1){
+              num = num.replace("@level", item.system.level.value || item.system.level.init);
+            }
+            console.log(num)
+            if (num.indexOf('D') != -1){
+                
+                let front = num.substring(0,num.indexOf('D'))
+                let back = num.substring(num.indexOf('D')+1)
+                front += "d10"
+                let roll = new Roll(front);
+                await roll.roll({async: true});
+                let rollData = await roll.render();
+                let rollMode = game.settings.get("core", "rollMode");
+                let content = `
+                  <div class="dx3rd-roll">
+                    <h2 class="header">
+                      <div class="title">Roll Ability Value: ${key}</div></h2>
+                    <div class="context-box">
+                      ${item.name}
+                    </div>
+                    ${rollData}
+                `;
+                ChatMessage.create({
+                  speaker: ChatMessage.getSpeaker({actor: actor}),
+                  content: content + `</div>`,
+                  type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+                  sound: CONFIG.sounds.dice,
+                  roll: roll,
+                }, {rollMode});
+            
+                num = roll.total + back
+            }
+            num = math.evaluate(num)
+            
+        } catch (error) {
+          console.log(error)
+          console.error("Values other than formula, @level, D dice are not allowed.");
+        }
+        console.log(num)
+        updates[`system.attributes.${key}.rollvalue`] = num
+    }
+    return updates;
   }
 
   /** @override */
@@ -97,8 +149,30 @@ export class ComboDialog extends Dialog {
           encroach += Number(effect.system.encroach.value);
 
         let updates = {};
-        if (effect.system.active.disable != '-')
-            updates["system.active.state"] = true;
+        if (effect.system.active.disable != '-'){
+          updates["system.active.state"] = true;
+          //WE NEED TO DO OUR DICE ROLLS FOR ANY VALUES ON THE ABILITY HERE
+          let rolls = {}
+          let effectrolls = {}
+          if (!(effect.system.attributes == {})){
+            for (const [key, attr] of Object.entries(effect.system.attributes)){
+              if (attr.rollformula){
+                rolls[key] = attr //add to rolls
+              }
+            }
+          }
+          if (!(effect.system.effect.attributes == {})){
+            for (const [key, attr] of Object.entries(effect.system.effect.attributes)){
+              if (attr.rollformula){
+                effectrolls[key] = attr //add to effectrolls
+              }
+            }
+          }
+          //console.log(rolls)
+          updates = await rollAbilityValue(rolls, effect, actor, updates)
+          updates = await rollAbilityValue(effectrolls,effect, actor, updates)
+        
+        }
         await effect.update(updates);
       }
     });
@@ -107,46 +181,165 @@ export class ComboDialog extends Dialog {
         encroach += "+" + encroachStr.join("+");
 
     for (let effect of effectList) {
-      if (effect.system.disabled)
-        continue;
-      actor.items.forEach(f => {
-        if ((f.type == "effect") && (f.system.active.state) && (f.system.checkSyndrome) && (effect.system.syndrome == f.system.syndrome) && (effect != f)){
-          console.log("yay match :)")
-          f.applyTarget(actor, true)
+      if (!effect.system.disabled){
+        //check for item creation
+        if (effect.system.createItem.active){
+          let itemList = []
+          //create all weapons
+          for (let i = 0; i < effect.system.createItem.weapons.length; i++){
+            let val = effect.system.createItem.weapons[i]
+            let newItem = {
+              type : "weapon",
+              name: val.name,
+              img: "icons/svg/sword.svg",
+              system: {
+                type: val.equiptype,
+                skill: val.skill,
+                add: parseItemVals(val.add, effect.system.level.value),
+                attack: parseItemVals(val.attack,effect.system.level.value),
+                guard: parseItemVals(val.guard,effect.system.level.value),
+                range: val.range,
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
+          }
+          //create all armor
+          for (let i = 0; i < effect.system.createItem.armor.length; i++){
+            let val = effect.system.createItem.armor[i]
+            let newItem = {
+              type : "protect",
+              name: val.name,
+              img: "icons/svg/shield.svg",
+              system: {
+                dodge: parseItemVals(val.dodge, effect.system.level.value),
+                armor: parseItemVals(val.armor, effect.system.level.value),
+                init: parseItemVals(val.init, effect.system.level.value),
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
+          }
+          //create all vehicles
+          for (let i = 0; i < effect.system.createItem.vehicles.length; i++){
+            let val = effect.system.createItem.vehicles[i]
+            let newItem = {
+              type : "vehicle",
+              name: val.name,
+              img: "icons/svg/wing.svg",
+              system: {
+                skill: val.skill,
+                move: val.move,
+                attack: parseItemVals(val.attack,effect.system.level.value),
+                armor: parseItemVals(val.armor, effect.system.level.value),
+                init: parseItemVals(val.init, effect.system.level.value),
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
+          }
+          //create all items
+          for (let i = 0; i < effect.system.createItem.items.length; i++){
+            let val = effect.system.createItem.items[i]
+            let newItem = {
+              type : "item",
+              name: val.name,
+              img: "icons/svg/wing.svg",
+              system: {
+                type: val.type,
+                timing: val.timing,
+                exp: val.exp,
+                saving: {
+                  value: val.stock,
+                  difficulty: val.procure
+                }
+              }
+            }
+            itemList.push(newItem)
+          }
+          if (effect.system.createItem.select){
+            let confirm = async (itemData) => {
+              actor.createEmbeddedDocuments("Item", itemData)
+            }
+            console.log(itemList)
+            let count = parseItemVals(effect.system.createItem.count,effect.system.level.value)
+            new SelectItemsDialog(actor, itemList, count, confirm).render(true);
+          } else {
+            actor.createEmbeddedDocuments("Item", itemList)
+          }
         }
-      })
 
-      if (!effect.system.getTarget) {
-        const macro = game.macros.contents.find(m => (m.name === effect.system.macro));
-        if (macro != undefined)
-            macro.execute();
-        else if (effect.system.macro != "")
-            new Dialog({
-                title: "macro",
-                content: `Do not find this macro: ${effect.system.macro}`,
-                buttons: {}
-            }).render(true);
-      } else {
-        macroList.push(effect);
-      }
+        if ((effect.system.effect.disable != "-")){
+          actor.items.forEach(f => { 
+            let cont =  true;
+            if ((f.type == "effect") && (f.system.active.state)){
+              const preconds = [(f.system.checkSyndrome),(f.system.typeCheck != "-"),(f.system.targetCheck != "-") ]
+              const postconds = [(item.system.syndrome == f.system.syndrome), (item.system.attackRoll == f.system.typeCheck), (item.system.attackTarget == f.system.targetCheck)]
       
-      let updates = {};
-      if (effect.system.active.disable != '-')
-          updates["system.active.state"] = true;
-      //add in auto decrementing too
-      if (effect.system.uses.active){
-        let currentUses = effect.system.uses.current - 1
-        if (currentUses <= 0){
-          currentUses = 0;
-          updates["system.active.state"] = false;
-          updates["system.disabled"] = true;
-          await item.update({'system.active.state':false});
-          Hooks.call("dialogNoUsesLeft", actor, effect);
+              if (!preconds.every(v => v === false)){ //make sure not every single entry in the array is false so we dont erroneously apply
+                for (let i = 0; i < preconds.length; i++){
+                  if (preconds[i]){ //we dont do anything if the precond is false because that just determines whether we should proceed down that condition line
+                    if (!postconds[i]){ //however if at least one postcond is false then we should cancel 
+                      cont = false; 
+                    }
+                  }
+                }
+      
+                if (cont){
+                  console.log("yay match :)")
+                  f.applyTarget(actor, true)
+                }
+              }
+            }
+          })
+    
+          if (!effect.system.getTarget) {
+            const macro = game.macros.contents.find(m => (m.name === effect.system.macro));
+            if (macro != undefined)
+                macro.execute();
+            else if (effect.system.macro != "")
+                new Dialog({
+                    title: "macro",
+                    content: `Do not find this macro: ${effect.system.macro}`,
+                    buttons: {}
+                }).render(true);
+          } else {
+            macroList.push(effect);
+          }
+          
+          let updates = {};
+          if (effect.system.active.disable != '-')
+              updates["system.active.state"] = true;
+          //add in auto decrementing too
+          if (effect.system.uses.active){
+            let currentUses = effect.system.uses.current - 1
+            if (currentUses <= 0){
+              currentUses = 0;
+              updates["system.active.state"] = false;
+              updates["system.disabled"] = true;
+              await item.update({'system.active.state':false});
+              Hooks.call("dialogNoUsesLeft", actor, effect);
+            }
+            updates["system.uses.current"] = currentUses
+          }
+          await effect.update(updates);
         }
-        updates["system.uses.current"] = currentUses
       }
-      await effect.update(updates);
-      
     }
 
     Hooks.call("setActorEncroach", this.actor, key, encroach);
@@ -194,13 +387,20 @@ export class ComboDialog extends Dialog {
     }
     content += `</div>`;
 
-    const diceOptions = {
+    let diceOptions = {
       "key": key,
       "rollType": rollType,
       "base": base,
       "skill": skill,
-      "content": content
+      "content": content,
+      "appendDice": this.appendDice,
+      "appendCritical": this.appendCritical
     };
+    let returnval;
+
+    if (this.return){
+      diceOptions["return"] = true;
+    }
 
     if (attackRoll != "-") {
       let confirm = async (weaponData) => {
@@ -209,12 +409,14 @@ export class ComboDialog extends Dialog {
           "type": attackRoll
         };
 
-        await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
+        returnval = await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
       }
 
       new WeaponDialog(this.actor, confirm).render(true);
-    } else
-      await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
+    } else{
+      returnval = await this.actor.rollDice(this.chatTitle, diceOptions, this.append);
+    }
+      
 
 
     let getTarget = false;
@@ -268,6 +470,7 @@ export class ComboDialog extends Dialog {
       }, {top: 300, left: 20}).render(true);
     }
     
+    return returnval;
 
 
   }

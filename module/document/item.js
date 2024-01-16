@@ -61,9 +61,9 @@ export class DX3rdItem extends Item {
                 newval = `${max}m`
               }
             } else if (key == "timing"){
-              //'use','roll','major', 'reaction', 'turn', 'round', 'battle', 'session'
+              //'use','roll','major', 'reaction', 'turn', 'round', 'battle', 'session', 'guard
               let tmp = []
-              let timings = ['use','roll','major', 'reaction', 'turn', 'round', 'battle', 'session']
+              let timings = ['use','roll','major', 'reaction', 'turn', 'round', 'battle', 'session', 'guard']
               for (let i = 0; i < value.length; i ++ ){
                 tmp[i] = timings.indexOf(value[i])
               }
