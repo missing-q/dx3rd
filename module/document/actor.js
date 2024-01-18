@@ -1090,10 +1090,12 @@ export class DX3rdActor extends Actor {
       let attack = Number(attributes.attack.value) + diceOptions.attack.value;
       let reaction = diceOptions.reaction;
       let critical = diceOptions.critical;
+      let actor = diceOptions.actor;
+      let id = diceOptions.key;
       if (attack < 0){
         attack = 0;
       }
-      content += `<button class="chat-btn calc-damage" data-attack="${attack}" data-reaction="${reaction}" data-critical="${critical}" data-roll="${roll._total}" >${game.i18n.localize("DX3rd.DamageRoll")}</button>`;
+      content += `<button class="chat-btn calc-damage" data-attack="${attack}" data-reaction="${reaction}" data-critical="${critical}" data-roll="${roll._total}" data-actor="${actor}" data-id="${id}" >${game.i18n.localize("DX3rd.DamageRoll")}</button>`;
       //insert defense dialog + this has been moved to the damage roll handler
       //content += `<button class="chat-btn choose-defense" data-reaction="${reaction}" data-critical="${critical}" data-roll="${roll._total}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
     }

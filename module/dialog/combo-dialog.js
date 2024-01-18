@@ -427,7 +427,8 @@ export class ComboDialog extends Dialog {
       "skill": skill,
       "content": content,
       "appendDice": this.appendDice,
-      "appendCritical": this.appendCritical
+      "appendCritical": this.appendCritical,
+      "actor": this.actor.id
     };
     let returnval;
 

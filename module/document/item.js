@@ -519,7 +519,7 @@ export class DX3rdItem extends Item {
   }
 
 
-  async applyTarget(actor, self) {
+  async applyTarget(actor, self, hit, dmg) {
     //console.log("Do we ever get to applying to target????")
     let attributes = this.system.effect.attributes;
     if (self){
@@ -530,8 +530,18 @@ export class DX3rdItem extends Item {
 
     let copy = duplicate(attributes);
     for (const [key, value] of Object.entries(attributes)) {
-      if (key == '-' || key == 'critical_min')
+      if (key == '-' || key == 'critical_min'){
         continue;
+      }
+      
+      //conditionals checking - this means that on conditional runs, normal effects arent applied
+      if (value.hitcheck != hit){
+        continue;
+      }
+
+      if (value.dmgcheck != dmg){
+        continue;
+      }
 
       let val = "0";
       try {

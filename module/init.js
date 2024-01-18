@@ -561,7 +561,8 @@ async function chatListeners(html) {
         "key": item.id,
         "rollType": rollType,
         "base": base,
-        "skill": skill
+        "skill": skill,
+        "actor": actor.id
       };
 
       const title = item.name;
@@ -927,7 +928,8 @@ async function chatListeners(html) {
       "key": item.id,
       "rollType": rollType,
       "base": base,
-      "skill": skill
+      "skill": skill,
+      "actor": actor.id
     };
     //console.log(item.system.attack)
     if (rollType != "-") {
@@ -1006,6 +1008,9 @@ async function chatListeners(html) {
       const reaction = data.reaction
       const critical = data.critical
       const rolldata = data.roll 
+      const actor = data.actor
+      const id = data.id
+
       console.log(ev)
       const rollResult = Number($(ev.currentTarget).parent().find(".dice-total").first().text());
 
@@ -1053,7 +1058,7 @@ async function chatListeners(html) {
               //content += <button class="chat-btn apply-damage" data-damage="${roll.total}" data-ignore-armor="${ignoreArmor}">${game.i18n.localize("DX3rd.ApplyDamage")}</button>
               //
 
-              content += `<button class="chat-btn choose-defense" data-reaction="${reaction}" data-critical="${critical}" data-roll="${rolldata}" data-damage="${roll.total}" data-ignorearmor="${ignoreArmor}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
+              content += `<button class="chat-btn choose-defense" data-reaction="${reaction}" data-critical="${critical}" data-roll="${rolldata}" data-damage="${roll.total}" data-ignorearmor="${ignoreArmor}" data-actor="${actor}" data-id="${id}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
               content += '</div>'
 
               ChatMessage.create({
@@ -1117,6 +1122,8 @@ async function chatListeners(html) {
     const roll = Number(dataset.roll) || 0;
     const damage = Number(dataset.damage) || 0;
     const ignoreArmor = dataset.ignorearmor
+    const baseactor = dataset.actor
+    const id = dataset.id
     const damageData = {
       damage: damage,
       ignoreArmor: ignoreArmor
@@ -1134,14 +1141,16 @@ async function chatListeners(html) {
           }
           
       if (share == game.user.id)
-          Hooks.call("chooseDefense", { actor, data: {reaction:reaction, critical:critical, roll:roll, damageData:damageData} });
+          Hooks.call("chooseDefense", { actor, data: {reaction:reaction, critical:critical, roll:roll, damageData:damageData, actor:baseactor, id:id} });
       else {
           game.socket.emit("system.dx3rd", { id: "chooseDefense", sender: game.user.id, receiver: share, data: {
              actorId: actor.id,
              reaction,
               critical,
               roll,
-              damageData
+              damageData,
+              baseactor,
+              id
           } });
       }
 

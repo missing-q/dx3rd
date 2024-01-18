@@ -27,7 +27,9 @@ export class SocketController {
                 reaction: data.reaction,
                 critical: data.critical,
                 roll: data.roll,
-                damageData: damageData
+                damageData: data.damageData,
+                actor: data.baseactor,
+                id: data.id
             }
           });
 

@@ -23,6 +23,10 @@ export class DefenseDialog extends Dialog {
               "skill": null,
               "noRoll": true
             };
+            //get original combo or effects this originated from
+            console.log(this.reactionData.actor)
+            console.log(this.reactionData.id)
+            let origin = game.actors.get(this.reactionData.actor).items.get(this.reactionData.id)
             let chatData = { "speaker": ChatMessage.getSpeaker({ actor: this.actor }), "sound":CONFIG.sounds.notification}
             if (isGuard){
               //console.log("guarding!")
@@ -33,8 +37,16 @@ export class DefenseDialog extends Dialog {
                 yes: async () => await new ComboDialog(actor, game.i18n.localize("DX3rd.Guard"), diceOptions, false).render(true),
                 defaultYes: false
               });
-              chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${true}">${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
+              chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${true}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
               //TODO: call "attack hits" event
+              if (origin.type == "combo"){
+                for (e of origin.system.effectItems){
+                  e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                }
+              } else {
+                origin.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+              }
+
             } else {
               console.log("dodging!")
                diceOptions = {
@@ -63,8 +75,17 @@ export class DefenseDialog extends Dialog {
               } else {
                 //dodge unsuccessful
                 //console.log("oh no :(")
-                chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${false}">${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
+                chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${false}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
                 //TODO: call "attack hits" event
+
+                if (origin.type == "combo"){
+                  for (e of origin.system.effectItems){
+                    e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                  }
+                } else {
+                  origin.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                }
+                
               }
             }
             ChatMessage.create(chatData);
