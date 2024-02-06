@@ -623,6 +623,18 @@ export class DX3rdItem extends Item {
       console.log(applied)
       //console.log(actor)
       await actor.update({'system.attributes.applied': applied});
+      let chatData = {
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({ actor: actor }),
+        content: `${actor.name} ${game.i18n.localize("DX3rd.Status")} ${this.name}:`
+      };
+      //add to chat message
+      for (const [key, value] of Object.entries(copy)) {
+        console.log(key)
+        chatData.content += `<p> ${key}: ${value.value}</p>`
+      }
+  
+      await ChatMessage.create(chatData);
       console.log("OKAY SO WE SHOULD HAVE THE APPLIED VERSION HERE RIGHT????")
       console.log(actor)
     }

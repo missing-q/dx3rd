@@ -24,27 +24,31 @@ export class DefenseDialog extends Dialog {
               "noRoll": true
             };
             //get original combo or effects this originated from
-            console.log(this.reactionData.actor)
-            console.log(this.reactionData.id)
-            let origin = game.actors.get(this.reactionData.actor).items.get(this.reactionData.id)
+            //console.log(this.reactionData.actor)
+            //console.log(this.reactionData.id)
+            let list = this.reactionData.list
+            //error handling for undefined list yay!
+            if (list){
+              list = list.split(" ")
+            } else {
+              list = []
+            }
             let chatData = { "speaker": ChatMessage.getSpeaker({ actor: this.actor }), "sound":CONFIG.sounds.notification}
             if (isGuard){
               //console.log("guarding!")
               //normal, nice simple combo dialog
-              Dialog.confirm({
+              await Dialog.confirm({
                 title: game.i18n.localize("DX3rd.Combo"),
                 content: "",
-                yes: async () => await new ComboDialog(actor, game.i18n.localize("DX3rd.Guard"), diceOptions, false).render(true),
+                yes: async () => ComboDialog.wait(actor, game.i18n.localize("DX3rd.Guard"), diceOptions, false),
                 defaultYes: false
               });
               chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${true}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
               //TODO: call "attack hits" event
-              if (origin.type == "combo"){
-                for (e of origin.system.effectItems){
-                  e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
-                }
-              } else {
-                origin.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+              for (let item of list){
+                let e = game.actors.get(this.reactionData.actor).items.get(item)
+                console.log(e.name)
+                e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
               }
 
             } else {
@@ -78,12 +82,10 @@ export class DefenseDialog extends Dialog {
                 chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${false}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
                 //TODO: call "attack hits" event
 
-                if (origin.type == "combo"){
-                  for (e of origin.system.effectItems){
-                    await e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
-                  }
-                } else {
-                  await origin.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                for (let item of list){
+                  let e = game.actors.get(this.reactionData.actor).items.get(item)
+                  console.log(e.name)
+                  e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
                 }
                 
               }

@@ -368,7 +368,7 @@ export class ComboDialog extends Dialog {
             let cont =  true;
             if ((f.type == "effect") && (f.system.active.state)){
               const preconds = [(f.system.checkSyndrome),(f.system.typeCheck != "-"),(f.system.targetCheck != "-") ]
-              const postconds = [(item.system.syndrome == f.system.syndrome), (item.system.attackRoll == f.system.typeCheck), (item.system.attackTarget == f.system.targetCheck)]
+              const postconds = [(effect.system.syndrome == f.system.syndrome), (effect.system.attackRoll == f.system.typeCheck), (effect.system.attackTarget == f.system.targetCheck)]
       
               if (!preconds.every(v => v === false)){ //make sure not every single entry in the array is false so we dont erroneously apply
                 for (let i = 0; i < preconds.length; i++){
@@ -474,8 +474,18 @@ export class ComboDialog extends Dialog {
       "content": content,
       "appendDice": this.appendDice,
       "appendCritical": this.appendCritical,
-      "actor": this.actor.id
+      "actor": this.actor.id,
+      "list": ""
     };
+    for (let effect of effectList){ // space separate all ids
+      diceOptions.list += effect.id + " "
+    }
+    console.log(effectList)
+    console.log(diceOptions.list)
+
+    //remove last space from end :)
+    diceOptions.list = diceOptions.list.substring(0, diceOptions.list.length - 1);
+
     let returnval;
 
     if (this.return){

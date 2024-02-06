@@ -228,5 +228,7 @@
     "DX3rd.SubAction4": "Recover from Incapacitation",
     "DX3rd.SubAction5": "Remove Disadvantageous Effects",
     
-    "DX3rd.Goodbye": "All active abilities cleared. The session is over, thank you for playing!"
+    "DX3rd.Goodbye": "All active abilities cleared. The session is over, thank you for playing!",
+    "DX3rd.Status": "received the following effects from",
+    "DX3rd.BadStatus": "received the following Bad Statuses from"
   }

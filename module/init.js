@@ -557,12 +557,13 @@ async function chatListeners(html) {
       if (event.ctrlKey)
         append = true;
 
-      const diceOptions = {
+      let diceOptions = {
         "key": item.id,
         "rollType": rollType,
         "base": base,
         "skill": skill,
-        "actor": actor.id
+        "actor": actor.id,
+        "list": item.id
       };
 
       const title = item.name;
@@ -766,7 +767,7 @@ async function chatListeners(html) {
             let cont =  true;
             if ((f.type == "effect") && (f.system.active.state)){
               const preconds = [(f.system.checkSyndrome),(f.system.typeCheck != "-"),(f.system.targetCheck != "-") ]
-              const postconds = [(item.system.syndrome == f.system.syndrome), (item.system.attackRoll == f.system.typeCheck), (item.system.attackTarget == f.system.targetCheck)]
+              const postconds = [(e.system.syndrome == f.system.syndrome), (e.system.attackRoll == f.system.typeCheck), (e.system.attackTarget == f.system.targetCheck)]
       
               if (!preconds.every(v => v === false)){ //make sure not every single entry in the array is false so we dont erroneously apply
                 for (let i = 0; i < preconds.length; i++){
@@ -924,13 +925,19 @@ async function chatListeners(html) {
       append = true;
 
     const title = item.name;
-    const diceOptions = {
+    let diceOptions = {
       "key": item.id,
       "rollType": rollType,
       "base": base,
       "skill": skill,
       "actor": actor.id
     };
+    //add to list
+    for (let e of effectItems){
+      diceOptions.list += e.id + " "
+    }
+    diceOptions.list = diceOptions.list.substring(0, diceOptions.list.length - 1);
+
     //console.log(item.system.attack)
     if (rollType != "-") {
       if (attackRoll == "-")
@@ -1009,6 +1016,7 @@ async function chatListeners(html) {
       const critical = data.critical
       const rolldata = data.roll 
       const actor = data.actor
+      const list = data.list
       const id = data.id
 
       console.log(ev)
@@ -1058,7 +1066,7 @@ async function chatListeners(html) {
               //content += <button class="chat-btn apply-damage" data-damage="${roll.total}" data-ignore-armor="${ignoreArmor}">${game.i18n.localize("DX3rd.ApplyDamage")}</button>
               //
 
-              content += `<button class="chat-btn choose-defense" data-reaction="${reaction}" data-critical="${critical}" data-roll="${rolldata}" data-damage="${roll.total}" data-ignorearmor="${ignoreArmor}" data-actor="${actor}" data-id="${id}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
+              content += `<button class="chat-btn choose-defense" data-reaction="${reaction}" data-critical="${critical}" data-roll="${rolldata}" data-damage="${roll.total}" data-ignorearmor="${ignoreArmor}" data-actor="${actor}" data-id="${id}" data-list="${list}" >${game.i18n.localize("DX3rd.Defend")}</button>`;
               content += '</div>'
 
               ChatMessage.create({
@@ -1124,6 +1132,7 @@ async function chatListeners(html) {
     const ignoreArmor = dataset.ignorearmor
     const baseactor = dataset.actor
     const id = dataset.id
+    const list = dataset.list
     const damageData = {
       damage: damage,
       ignoreArmor: ignoreArmor
@@ -1141,7 +1150,7 @@ async function chatListeners(html) {
           }
           
       if (share == game.user.id)
-          Hooks.call("chooseDefense", { actor, data: {reaction:reaction, critical:critical, roll:roll, damageData:damageData, actor:baseactor, id:id} });
+          Hooks.call("chooseDefense", { actor, data: {reaction:reaction, critical:critical, roll:roll, damageData:damageData, actor:baseactor, id:id, list:list} });
       else {
           game.socket.emit("system.dx3rd", { id: "chooseDefense", sender: game.user.id, receiver: share, data: {
              actorId: actor.id,
@@ -1150,7 +1159,8 @@ async function chatListeners(html) {
               roll,
               damageData,
               baseactor,
-              id
+              id,
+              list
           } });
       }
 
