@@ -27,8 +27,23 @@ export class DamageDialog extends Dialog {
             let chatData = {"content": this.actor.name + " (" + realDamage + ")", "speaker": ChatMessage.getSpeaker({ actor: this.actor })};
             ChatMessage.create(chatData);
             //TODO: attack deals damage event
-            if (realDamage > 1){
+            console.log(realDamage)
+            if (realDamage < 0){
+              console.log(this.damageData)
+              let list = this.damageData.data.list
+              console.log(list)
+              //error handling for undefined list yay!
+              if (list){
+                list = list.split(" ")
+              } else {
+                list = []
+              }
 
+              for (let item of list){
+                let e = game.actors.get(this.damageData.data.origin).items.get(item)
+                console.log(e.name)
+                e.applyTarget(this.actor,this.actor==this.damageData.data.origin,false,true)
+              }
             }
           }
         }

@@ -43,7 +43,7 @@ export class DefenseDialog extends Dialog {
                 yes: async () => ComboDialog.wait(actor, game.i18n.localize("DX3rd.Guard"), diceOptions, false),
                 defaultYes: false
               });
-              chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${true}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
+              chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${true}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" data-list ="${this.reactionData.list}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
               //TODO: call "attack hits" event
               for (let item of list){
                 let e = game.actors.get(this.reactionData.actor).items.get(item)
@@ -79,7 +79,7 @@ export class DefenseDialog extends Dialog {
               } else {
                 //dodge unsuccessful
                 console.log("oh no :(")
-                chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${false}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
+                chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${false}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" data-list ="${this.reactionData.list}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
                 //TODO: call "attack hits" event
 
                 for (let item of list){

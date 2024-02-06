@@ -1092,7 +1092,7 @@ async function chatListeners(html) {
       const dataset = ev.currentTarget.dataset;
       const damage = Number(dataset.damage);
       const ignoreArmor = dataset.ignoreArmor == 'true';
-      const data = { ignoreArmor: ignoreArmor, guard: dataset.guard };
+      const data = { ignoreArmor: ignoreArmor, guard: dataset.guard, list: dataset.list, origin: dataset.actor};
 
       const targets = game.users.get(game.user.id).targets;
       for (var target of targets) {
