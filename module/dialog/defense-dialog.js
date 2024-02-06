@@ -57,33 +57,33 @@ export class DefenseDialog extends Dialog {
                 "appendCritical": this.reactionData.critical,
                 "return": true
               };
-              let result;
-              Dialog.confirm({
+
+              const result = await Dialog.confirm({
                 title: game.i18n.localize("DX3rd.Combo"),
                 content: "",
-                yes: async () => result = await new ComboDialog(actor, game.i18n.localize("DX3rd.Dodge"), diceOptions).render(true),
-                no: async () => result = await actor.rollDice(game.i18n.localize("DX3rd.Dodge"), diceOptions),
+                yes: () => ComboDialog.wait(actor, game.i18n.localize("DX3rd.Dodge"), diceOptions, false),
+                no: () => actor.rollDice(game.i18n.localize("DX3rd.Dodge"), diceOptions),
                 defaultYes: false
               });
 
               //console.log(this.reactionData)
-              //console.log(result)
+              console.log(result)
               if (result > this.reactionData.roll ){
                 //dodged!
                 chatData.content = `<div class="context-box"> ${actor.name} dodged! </div>`
-                //console.log("yay!")
+                console.log("yay!")
               } else {
                 //dodge unsuccessful
-                //console.log("oh no :(")
+                console.log("oh no :(")
                 chatData.content = `<div class="context-box"> <button class="chat-btn apply-damage" data-damage="${damageData.damage}" data-ignore-armor="${damageData.ignoreArmor}" data-guard="${false}" data-actor="${this.reactionData.actor}" data-id ="${this.reactionData.id}" >${game.i18n.localize("DX3rd.ApplyDamage")}</button> </div>`
                 //TODO: call "attack hits" event
 
                 if (origin.type == "combo"){
                   for (e of origin.system.effectItems){
-                    e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                    await e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
                   }
                 } else {
-                  origin.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                  await origin.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
                 }
                 
               }

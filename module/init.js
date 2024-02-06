@@ -383,7 +383,7 @@ async function chatListeners(html) {
 
           if (cont){
             console.log("yay match :)")
-            e.applyTarget(actor, true)
+            e.applyTarget(actor, true, false, false)
           }
         }
       }

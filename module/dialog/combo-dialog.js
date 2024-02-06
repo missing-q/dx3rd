@@ -3,7 +3,7 @@ import { WeaponDialog } from "./weapon-dialog.js";
 
 export class ComboDialog extends Dialog {
 
-  constructor(actor, title, diceOptions, append, options) {
+  constructor(actor, title, diceOptions, append, data, options) {
     super(options);
 
     this.actor = actor;
@@ -25,7 +25,7 @@ export class ComboDialog extends Dialog {
 
     this.append = append;
 
-    this.data = {
+    this.data = data || {
       title: game.i18n.localize("DX3rd.Combo"),
       content: "",
       buttons: {
@@ -38,6 +38,52 @@ export class ComboDialog extends Dialog {
       default: 'create'
     };
 
+  }
+
+  //custom wait implement
+  static async wait(actor, title, diceOptions, append) {
+    return new Promise((resolve, reject) => {
+
+      let data = {
+        title: game.i18n.localize("DX3rd.Combo"),
+        content: "",
+        buttons: {
+          create: {
+            label: "Apply",
+            //callback: () => this._onSubmit()
+  
+          }
+        },
+        default: 'create'
+      };
+
+      // Wrap buttons with Promise resolution.
+      const buttons = foundry.utils.deepClone(data.buttons);
+      for ( const [id, button] of Object.entries(buttons) ) {
+        const cb = button.callback;
+        function callback(html, event) {
+          const result = this._onSubmit()
+          resolve(result === undefined ? id : result);
+        }
+        button.callback = callback;
+      }
+
+      // Wrap close with Promise resolution or rejection.
+      const originalClose = data.close;
+      const close = () => {
+        const result = originalClose instanceof Function ? originalClose() : undefined;
+        if ( result !== undefined ) resolve(result);
+        else reject(new Error("The Dialog was closed without a choice being made."));
+      };
+      data.close = close;
+      data.buttons = buttons;
+
+      console.log(data)
+
+      // Construct the dialog.
+      const dialog = new this(actor, title, diceOptions, append, data);
+      dialog.render(true);
+    });
   }
 
   /** @override */

@@ -530,102 +530,102 @@ export class DX3rdItem extends Item {
 
     let copy = duplicate(attributes);
     for (const [key, value] of Object.entries(attributes)) {
-      if (key == '-' || key == 'critical_min'){
-        continue;
-      }
-      
-      //conditionals checking - this means that on conditional runs, normal effects arent applied
-      if (value.hitcheck != hit){
-        continue;
-      }
-
-      if (value.dmgcheck != dmg){
-        continue;
-      }
-
-      let val = "0";
-      try {
-        if (value.value != "") {
-          let num = value.value.replace("@level", level);
-          if (num.indexOf('@currhp') != -1){
-            num = num.replace("@currhp", this.actor.system.attributes.hp.value);
-          }
-          if (num.indexOf('@maxhp') != -1){
-            num = num.replace("@maxhp", this.actor.system.attributes.hp.max);
-          }
-          if (value.rollvalue != undefined ){
-            num = num.replace("@roll", value.rollvalue)
-          } else {
-            num = num.replace("@roll", 0)
-          }
-          if (num.indexOf('#') != -1){
-            var indices = [];
-            for(var i=0; i<num.length;i++) {
-              if (num[i] === "#") indices.push(i);
-            }
-            //get indices in string
-            if (indices.length == 3){
-              let front = indices[0]
-              let mid = indices[1]
-              let back = indices[2]
-              let str = num.substring(front, back + 1)
-              let id = num.substring(front + 1, mid)
-              let prop = num.substring(mid + 1, back)
-              
-              console.log(id)
-              console.log(prop)
-              let item = game.items.get(id)
-              if (!item){ //check to see if it exists on other char sheets
-                for (let a of game.actors.contents){
-                  if (a.items.get(id)){
-                    item = a.items.get(id)
-                    break;
+      if (!(key == '-' || key == 'critical_min')){
+        if (!(value.hitcheck != hit) && !(value.dmgcheck != dmg)){
+          console.log("if there are conditionals we should NOT be here & something went wrong. what's up?")
+          console.log(value)
+          console.log(hit)
+          console.log(dmg)
+          
+          let val = "0";
+          try {
+            if (value.value != "") {
+              let num = value.value.replace("@level", level);
+              if (num.indexOf('@currhp') != -1){
+                num = num.replace("@currhp", this.actor.system.attributes.hp.value);
+              }
+              if (num.indexOf('@maxhp') != -1){
+                num = num.replace("@maxhp", this.actor.system.attributes.hp.max);
+              }
+              if (value.rollvalue != undefined ){
+                num = num.replace("@roll", value.rollvalue)
+              } else {
+                num = num.replace("@roll", 0)
+              }
+              if (num.indexOf('#') != -1){
+                var indices = [];
+                for(var i=0; i<num.length;i++) {
+                  if (num[i] === "#") indices.push(i);
+                }
+                //get indices in string
+                if (indices.length == 3){
+                  let front = indices[0]
+                  let mid = indices[1]
+                  let back = indices[2]
+                  let str = num.substring(front, back + 1)
+                  let id = num.substring(front + 1, mid)
+                  let prop = num.substring(mid + 1, back)
+                  
+                  console.log(id)
+                  console.log(prop)
+                  let item = game.items.get(id)
+                  if (!item){ //check to see if it exists on other char sheets
+                    for (let a of game.actors.contents){
+                      if (a.items.get(id)){
+                        item = a.items.get(id)
+                        break;
+                      }
+                    }
                   }
+                  let tmp = item
+                  //dynamic indices access
+                  while (prop.indexOf('.') != -1){
+                    console.log(tmp)
+                    console.log(prop)
+                    tmp = tmp[prop.slice(0,prop.indexOf('.'))]
+                    prop = prop.slice(prop.indexOf('.') + 1)
+                  }
+                  num = num.replace(str, tmp[prop])
+                  console.log(num)
                 }
               }
-              let tmp = item
-              //dynamic indices access
-              while (prop.indexOf('.') != -1){
-                console.log(tmp)
-                console.log(prop)
-                tmp = tmp[prop.slice(0,prop.indexOf('.'))]
-                prop = prop.slice(prop.indexOf('.') + 1)
-              }
-              num = num.replace(str, tmp[prop])
-              console.log(num)
+              //handling for dice rolls expressions
+              val = String(math.evaluate(num));
             }
+            
+          } catch (error) {
+            console.error("Values other than formula, @level, @roll are not allowed.");
           }
-          //handling for dice rolls expressions
-          val = String(math.evaluate(num));
+
+          copy[key].value = val;
+        } else {
+          console.log("conditions check failed")
+          delete copy[key]
+          console.log(copy)
         }
-        
-      } catch (error) {
-        console.error("Values other than formula, @level, @roll are not allowed.");
       }
 
-      copy[key].value = val;
-
     }
 
-
-    let applied = {};
-    applied[this.id] = {
-      actorId: this.actor.id,
-      itemId: this.id,
-      disable: this.system.effect.disable,
-      attributes: copy,
-      modHP: this.system.effect.modHP,
-      modEncroach: this.system.effect.modEncroach
+    if (!jQuery.isEmptyObject(copy)){
+      let applied = {};
+      applied[this.id] = {
+        actorId: this.actor.id,
+        itemId: this.id,
+        disable: this.system.effect.disable,
+        attributes: copy,
+        modHP: this.system.effect.modHP,
+        modEncroach: this.system.effect.modEncroach
+      }
+      if (self){
+        applied[this.id].disable = "roll"
+      }
+      console.log(applied)
+      //console.log(actor)
+      await actor.update({'system.attributes.applied': applied});
+      console.log("OKAY SO WE SHOULD HAVE THE APPLIED VERSION HERE RIGHT????")
+      console.log(actor)
     }
-    if (self){
-      applied[this.id].disable = "roll"
-    }
-    //console.log(applied)
-    //console.log(actor)
-    console.log
-    await actor.update({'system.attributes.applied': applied});
-    console.log("OKAY SO WE SHOULD HAVE THE APPLIED VERSION HERE RIGHT????")
-    console.log(actor)
   }
 
   async setTitus() {
