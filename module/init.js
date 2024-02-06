@@ -76,6 +76,46 @@ Hooks.once("init", async function() {
 
   CONFIG.Combat.documentClass = DX3rdCombat;
   CONFIG.Combat.initiative.formula = "@attributes.init.value"
+  //define bad statuses
+  CONFIG.statusEffects = [
+    {
+      id: "pressure",
+      name: "Pressure",
+      icon: "icons/svg/downgrade.svg"
+    },
+    {
+      id: "rigor",
+      name: "Rigor",
+      icon: "icons/svg/falling.svg",
+      changes: [
+        { key: "system.attributes.move.battle", mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE, value: 0 },
+        { key: "system.attributes.move.full", mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE, value: 0 }
+      ]
+    },
+    {
+      id: "taint",
+      name: "Taint",
+      icon: "icons/svg/poison.svg"
+    },
+    {
+      id: "dazed",
+      name: "Dazed",
+      icon: "icons/svg/daze.svg",
+      changes: [
+        { key: "system.attributes.dice.value", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -2 }
+      ]
+    },
+    {
+      id: "berserk",
+      name: "Berserk",
+      icon: "icons/svg/terror.svg"
+    },
+    {
+      id: "hatred",
+      name: "Hatred",
+      icon: "icons/svg/cancel.svg"
+    }
+  ];
 
   Roll.TOOLTIP_TEMPLATE = "systems/dx3rd/templates/dice/tooltip.html";
   DiceTerm.fromMatch = (match) => {

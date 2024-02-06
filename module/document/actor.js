@@ -29,6 +29,13 @@ export class DX3rdActor extends Actor {
     this._prepareActorSkills();
 
     this._prepareCombo();
+
+    for (let e of this.appliedEffects){
+      console.log(e)
+      for (let i of e.changes){
+        e.apply(this, i)
+      }
+    }
   }
 
   _prepareActorItem() {
@@ -870,8 +877,12 @@ export class DX3rdActor extends Actor {
     super._onCreateEmbeddedDocuments(embeddedName, documents, result, options, userId);
 
     for (let doc of documents) {
-      if (doc.type == "effect" || doc.type == "combo" || doc.type == "rois" || doc.type == "syndrome" || doc.type == "record")
+      if (doc.type == "effect" || doc.type == "combo" || doc.type == "rois" || doc.type == "syndrome" || doc.type == "record"){
         continue;
+      }
+      if (doc instanceof ActiveEffect){
+        continue;
+      }
 
       this._addSkill(doc.system.skills);
     }
@@ -884,8 +895,12 @@ export class DX3rdActor extends Actor {
     super._onUpdateEmbeddedDocuments(embeddedName, documents, result, options, userId);
 
     for (let doc of documents) {
-      if (doc.type == "effect" || doc.type == "combo" || doc.type == "rois" || doc.type == "syndrome" || doc.type == "record")
+      if (doc.type == "effect" || doc.type == "combo" || doc.type == "rois" || doc.type == "syndrome" || doc.type == "record"){
         continue;
+      }
+      if (doc instanceof ActiveEffect){
+        continue;
+      }
 
       this._addSkill(doc.system.skills);
     }
