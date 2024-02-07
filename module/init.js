@@ -2,6 +2,7 @@
 //Import Modules
 import { DX3rdActor } from "./document/actor.js";
 import { DX3rdItem } from "./document/item.js";
+import { DX3rdActiveEffect } from "./document/active-effect.js";
 import { DX3rdActorSheet } from "./sheet/actor-sheet.js";
 import { DX3rdItemSheet } from "./sheet/item-sheet.js";
 import { DX3rdWorksSheet } from "./sheet/works-sheet.js";
@@ -68,24 +69,27 @@ Hooks.once("init", async function() {
 
   CONFIG.Actor.documentClass = DX3rdActor;
   CONFIG.Item.documentClass = DX3rdItem;
+  CONFIG.ActiveEffect.documentClass = DX3rdActiveEffect;
   CONFIG.Dice.terms.x = DX3rdDiceTerm;
 
   DX3rdRegisterHelpers.init();
   DisableHooks.init();
   SocketController.init();
+  DX3rdActiveEffect.registerHUDListeners();
 
   CONFIG.Combat.documentClass = DX3rdCombat;
   CONFIG.Combat.initiative.formula = "@attributes.init.value"
+
   //define bad statuses
   CONFIG.statusEffects = [
     {
       id: "pressure",
-      name: "Pressure",
+      name: `${game.i18n.localize("DX3rd.Pressure")}`,
       icon: "icons/svg/downgrade.svg"
     },
     {
       id: "rigor",
-      name: "Rigor",
+      name: `${game.i18n.localize("DX3rd.Rigor")}`,
       icon: "icons/svg/falling.svg",
       changes: [
         { key: "system.attributes.move.battle", mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE, value: 0 },
@@ -94,12 +98,12 @@ Hooks.once("init", async function() {
     },
     {
       id: "taint",
-      name: "Taint",
-      icon: "icons/svg/poison.svg"
+      name: `${game.i18n.localize("DX3rd.Taint")}`,
+      icon: "systems/dx3rd/icons/svg/taint.svg"
     },
     {
       id: "dazed",
-      name: "Dazed",
+      name: `${game.i18n.localize("DX3rd.Dazed")}`,
       icon: "icons/svg/daze.svg",
       changes: [
         { key: "system.attributes.dice.value", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -2 }
@@ -107,13 +111,13 @@ Hooks.once("init", async function() {
     },
     {
       id: "berserk",
-      name: "Berserk",
-      icon: "icons/svg/terror.svg"
+      name: `${game.i18n.localize("DX3rd.Berserk")}`,
+      icon: "systems/dx3rd/icons/svg/berserk.svg"
     },
     {
       id: "hatred",
-      name: "Hatred",
-      icon: "icons/svg/cancel.svg"
+      name: `${game.i18n.localize("DX3rd.Hatred")}`,
+      icon: "systems/dx3rd/icons/svg/hatred.svg"
     }
   ];
 

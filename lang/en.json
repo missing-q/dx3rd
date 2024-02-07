@@ -230,5 +230,12 @@
     
     "DX3rd.Goodbye": "All active abilities cleared. The session is over, thank you for playing!",
     "DX3rd.Status": "received the following effects from",
-    "DX3rd.BadStatus": "received the following Bad Statuses from"
+    "DX3rd.BadStatus": "received the following Bad Statuses from",
+
+    "DX3rd.Pressure": "Pressure",
+    "DX3rd.Rigor": "Rigor",
+    "DX3rd.Taint": "Taint",
+    "DX3rd.Dazed": "Dazed",
+    "DX3rd.Berserk": "Berserk",
+    "DX3rd.Hatred": "Hatred"
   }
