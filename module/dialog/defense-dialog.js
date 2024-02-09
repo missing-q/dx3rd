@@ -100,6 +100,10 @@ export class DefenseDialog extends Dialog {
   }
   
   /** @override */
+  getData() {
+    //check if defending actor has berserk, if so then disable reaction / guard options
+  }
+  /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       template: "systems/dx3rd/templates/dialog/defense-dialog.html",

@@ -21,13 +21,29 @@ export class DisableHooks {
             await this.disableTalents(actor, ['roll', 'major', 'reaction', 'turn']);
         });
 
+        Hooks.on("onSetup", async actors => {
+            for (let actor of actors){
+                await this.disableTalents(actor, ['setup']);
+            }
+                
+        });
+        Hooks.on("onCleanup", async actors => {
+            for (let actor of actors){
+                await this.disableTalents(actor, ['cleanup']);
+                await this.applyTaintDmg(actor)
+            }
+        });
+
         Hooks.on("afterUse", async actor => {
             await this.disableTalents(actor, ['use']);
         });
 
         Hooks.on("afterRound", async actors => {
-            for (let actor of actors)
+            for (let actor of actors){
                 await this.disableTalents(actor, ['roll','major', 'reaction', 'turn', 'round']);
+                await this.clearDazed(actor)
+            }
+                
         });
 
         Hooks.on("afterCombat", async actors => {
@@ -378,5 +394,31 @@ export class DisableHooks {
             num = 0
         }
         return num;
+    }
+    static getStatus(actor, str){
+        for (let i = 0; i < actor.appliedEffects.length; i++){
+            if (actor.appliedEffects[i].statuses.has(str)){
+                return actor.appliedEffects[i];
+            }
+        }
+    }
+    static async applyTaintDmg(actor){
+        //get AE from actor
+        let taint = this.getStatus(actor, "taint")
+        if (taint){//if actor has taint status
+            //calculate damage
+            let dmg = (taint.getFlag("dx3rd", "taintLevel") || 1) * -3
+            actor.update({"system.attributes.hp.value": actor.system.attributes.hp.value + dmg})
+            let chatData = { "speaker": ChatMessage.getSpeaker({ actor: actor }), "sound":CONFIG.sounds.notification, "content": `<h2 class="header"><div class="title"> ${game.i18n.localize("DX3rd.Taint")} </div> </h2> <div class="context-box">${actor.name}(${dmg})</div>`};
+            ChatMessage.create(chatData)
+        }
+
+    }
+
+    static async clearDazed(actor){
+        let dazed = this.getStatus(actor, "dazed")
+        if (dazed){
+            dazed.delete()
+        }
     }
 }

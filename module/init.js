@@ -282,12 +282,31 @@ Hooks.on("deleteCombat", async function (data, delta) {
 
 Hooks.on("updateCombat", async function (data, delta) {
     var close = true;
+    console.log(data)
     let prev = data.getCombatantByToken(data.previous.tokenId).actor
     if (prev != undefined){
       Hooks.call("afterTurn", prev);
     }
-    if (data.round == 0)
-    return;
+    //call setup/cleanup hooks
+    let curr = data.getCombatantByToken(data.current.tokenId).actorId
+    if (curr == data.getFlag("dx3rd", "startActor")){
+      let actors = data.turns.reduce( (acc, i) => {
+        acc.push(i.actor);
+        return acc; 
+      }, []);
+      Hooks.call("onSetup", actors);
+
+    } else if (curr == data.getFlag("dx3rd", "endActor")){
+      let actors = data.turns.reduce( (acc, i) => {
+        acc.push(i.actor);
+        return acc; 
+      }, []);
+      Hooks.call("onCleanup", actors);
+    }
+    if (data.round == 0){
+      return;
+    }
+    
     //call afterturn hook for previous actor
 
     if (delta.round != undefined  ) {
@@ -298,6 +317,7 @@ Hooks.on("updateCombat", async function (data, delta) {
         
         Hooks.call("afterRound", actors);
     }
+
     
     
 });

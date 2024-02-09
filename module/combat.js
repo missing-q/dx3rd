@@ -41,6 +41,8 @@ export class DX3rdCombat extends Combat {
 
       await this.setFlag("dx3rd", "startToken", startToken.uuid);
       await this.setFlag("dx3rd", "endToken", endToken.uuid);
+      await this.setFlag("dx3rd", "startActor", startActor.id)
+      await this.setFlag("dx3rd", "endActor", endActor.id)
   
       await this.createEmbeddedDocuments("Combatant", [{actorId: startActor.id, tokenId: startToken.id, name: startLabel, img: startActor.img, initiative: 99}, {actorId: endActor.id, tokenId: endToken.id, name: endLabel, img: startActor.img, initiative: -99}], {});
       
