@@ -151,8 +151,8 @@ export class DX3rdActor extends Actor {
       }
     }
    
-    console.log(abilitiesupdates)
-    console.log(itemsupdates)
+    //console.log(abilitiesupdates)
+    //console.log(itemsupdates)
     for (let e of effect) {
       if (e.system.flags.active){
         //check for matches on every other effect

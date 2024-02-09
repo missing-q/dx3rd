@@ -9,10 +9,12 @@
         <input type="radio" id = "guard" value="guard" name = "defense" checked>
         <label for="guard">{{localize "DX3rd.Guard"}}</label>
       </div>
+      {{#unless berserk}}
       <div>
         <input type="radio" id = "dodge" value="dodge" name = "defense">
         <label for="dodge">{{localize "DX3rd.Dodge"}}</label>
       </div>
+      {{/unless}}
     </fieldset>
 
 </div>

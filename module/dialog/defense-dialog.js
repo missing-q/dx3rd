@@ -101,7 +101,20 @@ export class DefenseDialog extends Dialog {
   
   /** @override */
   getData() {
-    //check if defending actor has berserk, if so then disable reaction / guard options
+    //check if defending actor has berserk, if so then disable reaction
+    let berserk = false;
+    for (let e of this.actor.effects){
+      if (e.statuses.has("berserk")){
+        berserk = true;
+        break;
+      }
+    }
+    return {
+      berserk: berserk,
+      name: this.actor.name,
+      src: this.actor.img,
+      buttons: this.data.buttons
+    }
   }
   /** @override */
   static get defaultOptions() {
