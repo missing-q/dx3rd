@@ -476,6 +476,38 @@
 
         </table>
 
+        <!--Statuses -->
+        <div class="statuses">
+          <header class="statuses-header flexrow">
+            <span class="statuses-key">{{localize "DX3rd.Name"}}</span>
+            <span class="attribute-value">{{localize "DX3rd.Value"}}</span>
+            <a class="status-control" data-action="create" data-pos="sub" data-type="attributes"><i class="fas fa-plus"></i></a>
+          </header>
+    
+          <ol class="statuses-list">
+          {{#each system.effect.statuses as |attr key|}}
+            <li class="status flexrow" data-attribute="{{key}}">
+              <select class="status-key" name="system.effect.statuses.{{key}}.key" data-dtype="String">
+                {{#select key}}
+                <option value="-">-</option>
+                <option value="pressure">{{localize "DX3rd.Pressure"}}</option>
+                <option value="rigor">{{localize "DX3rd.Rigor"}}</option>
+                <option value="taint">{{localize "DX3rd.Taint"}}</option>
+                <option value="dazed">{{localize "DX3rd.Dazed"}}</option>
+                <option value="berserk">{{localize "DX3rd.Berserk"}}</option>
+                <option value="hatred">{{localize "DX3rd.Hatred"}}</option>
+                {{/select}}
+              </select>
+
+              <input class="status-value" type="text" name="system.effect.statuses.{{key}}.value" value="{{attr.value}}" data-dtype="String"/>
+              <input class="attribute-value" type="checkbox" name="system.effect.statuses.{{key}}.hitcheck" {{#if attr.hitcheck}} checked {{/if}} />
+              <input class="attribute-value" type="checkbox" name="system.effect.statuses.{{key}}.dmgcheck" {{#if attr.dmgcheck}} checked {{/if}} />
+
+              <a class="status-control" data-action="delete"><i class="fas fa-trash"></i></a>
+            </li>
+          {{/each}}
+          </ol>
+        </div>
 
         <div class="attributes">
           <header class="attributes-header flexrow">

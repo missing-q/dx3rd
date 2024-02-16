@@ -128,14 +128,15 @@
         "awaken": "",
         "impulse": "",
         "desire": ""
-      }
+      },
+      "servants": []
       
   
     }
   },
   "character":{
     "templates": ["base"],
-    "isLinked": false
+    "isLinked": true
   },
   "servant": {
     "templates": ["base"],
@@ -208,6 +209,7 @@
     "effect": {
       "disable": "-",
       "attributes": {},
+      "statuses": {},
       "modHP": {
         "value":"",
         "timing":"",

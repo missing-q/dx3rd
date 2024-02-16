@@ -721,7 +721,7 @@
   line-height: 25px;
 }
 
-.dx3rd .attributes-header,  .dx3rd .equipment-header, .dx3rd .flags-header {
+.dx3rd .attributes-header,  .dx3rd .equipment-header, .dx3rd .flags-header, .dx3rd .statuses-header {
   padding: 5px;
   margin: 5px 0;
   background: rgba(0, 0, 0, 0.05);
@@ -731,13 +731,13 @@
   font-weight: bold;
 }
 
-.dx3rd .attributes-list, .dx3rd .equipment-list, .dx3rd .flags-list {
+.dx3rd .attributes-list, .dx3rd .equipment-list, .dx3rd .flags-list, .dx3rd .statuses-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.dx3rd .attributes-list li > *, .dx3rd .equipment-list li > *, .dx3rd .flags-list li > * {
+.dx3rd .attributes-list li > *, .dx3rd .equipment-list li > *, .dx3rd .flags-list li > * , .dx3rd .statuses-list li > * {
   margin: 0 3px;
   height: 28px;
   line-height: 24px;
@@ -748,7 +748,7 @@
   text-align: center;
 }
 
-.dx3rd .skills .attribute-control, .dx3rd .attributes .attribute-control, .dx3rd .weapon .equipment-control, .dx3rd .armor .equipment-control, .dx3rd .vehicles .equipment-control,.dx3rd .items .equipment-control, .dx3rd .flags .flags-control {
+.dx3rd .skills .attribute-control, .dx3rd .attributes .attribute-control, .dx3rd .weapon .equipment-control, .dx3rd .armor .equipment-control, .dx3rd .vehicles .equipment-control,.dx3rd .items .equipment-control, .dx3rd .flags .flags-control, .dx3rd .statuses .status-control {
   flex: 0 0 20px;
   text-align: center;
   line-height: 28px;

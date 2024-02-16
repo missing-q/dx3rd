@@ -532,10 +532,6 @@ export class DX3rdItem extends Item {
     for (const [key, value] of Object.entries(attributes)) {
       if (!(key == '-' || key == 'critical_min')){
         if (!(value.hitcheck != hit) && !(value.dmgcheck != dmg)){
-          console.log("if there are conditionals we should NOT be here & something went wrong. what's up?")
-          console.log(value)
-          console.log(hit)
-          console.log(dmg)
           
           let val = "0";
           try {
@@ -605,6 +601,59 @@ export class DX3rdItem extends Item {
         }
       }
 
+    }
+    //statuses check
+    if (!self){
+      if (this.system.effect.statuses){
+        let statuses = this.system.effect.statuses
+        let copy_s = duplicate(statuses)
+        for (const [key, value] of Object.entries(statuses)) {
+          if (!(key == '-') && !(value.hitcheck != hit) && !(value.dmgcheck != dmg)){
+              
+            let val = "0";
+            try {
+              if (value.value != "") {
+                let num = value.value.replace("@level", level);
+
+                //handling for dice rolls expressions
+                val = String(math.evaluate(num));
+              }
+              
+            } catch (error) {
+              console.error("Values other than formula, @level are not allowed.");
+            }
+  
+            copy_s[key].value = val;
+          } else {
+            console.log("conditions check failed")
+            delete copy_s[key]
+            console.log(copy_s)
+          }
+        }
+
+        //after all parsing
+        let arr = []
+        for (const [key, value] of Object.entries(copy_s)){
+          
+          for (let e of CONFIG.statusEffects){
+            if (e.id == key){
+              let tmp = e;
+              tmp.statuses = tmp.id;
+              tmp.name = `${game.i18n.localize(tmp.name)}`
+              if (e.id == "taint"){
+                tmp.flags = {"dx3rd": {}}
+                tmp.flags.dx3rd.taintLevel = value.value  || 1;
+              }
+              arr.push(tmp)
+            }
+          }
+        }
+        if (arr.length !== 0 ){
+          console.log(arr)
+          await actor.createEmbeddedDocuments("ActiveEffect", arr)
+        }
+        
+      }
     }
 
     if (!jQuery.isEmptyObject(copy)){

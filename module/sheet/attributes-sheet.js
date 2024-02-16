@@ -30,6 +30,7 @@ export class DX3rdAttributesSheet extends DX3rdItemSheet {
   /* -------------------------------------------- */
 
   async _onClickAttributeControl(event) {
+    console.log(event)
     event.preventDefault();
     const a = event.currentTarget;
     const action = a.dataset.action;

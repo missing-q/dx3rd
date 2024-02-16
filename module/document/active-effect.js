@@ -21,10 +21,16 @@ export class DX3rdActiveEffect extends ActiveEffect {
   }
 
   _prepareTaint() {
-    let level = this.getFlag("dx3rd", "taintLevel") || 1;
+    let level;
+    if (this.flags.dx3rd && this.flags.dx3rd.taintLevel){
+      level = this.flags.dx3rd.taintLevel
+    } else {
+      level = 1 
+    }
     this.icon = `systems/dx3rd/icons/svg/taint-${level}.svg`;
     this.name = `${game.i18n.localize("DX3rd.Taint")} ${level}`;
-    this.setFlag("dx3rd", "taintLevel", level)
+    this.flags.dx3rd = this.flags.dx3rd || {}
+    this.flags.dx3rd.taintLevel = level
 
   }
 
