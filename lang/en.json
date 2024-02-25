@@ -190,6 +190,8 @@
     "DX3rd.DodgeRoll": "DodgeRoll",
     "DX3rd.DodgeDice": "DodgeDice",
     "DX3rd.DodgeAdd": "DodgeAdd",
+    "DX3rd.ServantEffect": "ServantEffect",
+    "DX3rd.ServantOnly": "ServantOnly",
   
     "DX3rd.Melee": "Melee",
     "DX3rd.Ranged": "Ranged",

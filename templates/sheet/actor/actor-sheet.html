@@ -428,7 +428,7 @@
                       <span class="echo-item" style="float:left;">
                           <img src="{{item.img}}" title="{{item.name}}" width="37" height="37" style="vertical-align : middle;margin-right:10px;">
                       </span> 
-                      <span class="item-label">[{{item.system.level.value}}] {{item.name}}<br>
+                      <span class="item-label">[{{item.system.level.value}}] {{item.name}} {{#if item.system.servant.effect}} <span title = "Servant Effect">✦</span> {{/if}} {{#if item.system.servant.only}} <span title = "Servant Only">✧</span> {{/if}} <br>
                         <span style="color : gray; font-size : smaller;">
                           {{localize "DX3rd.Timing"}} : {{timing item.system.timing}} / 
                           {{localize "DX3rd.Skill"}} : {{skillByKey ../actor item.system.skill}} / 

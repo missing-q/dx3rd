@@ -335,6 +335,13 @@
                 {{/select}}
               </select>
             </td>
+
+            <th><span>{{localize "DX3rd.ServantEffect"}}</span></th>
+            <td><input type="checkbox" name="system.servant.effect" {{#if system.servant.effect}} checked {{/if}}></td>
+
+            <th><span>{{localize "DX3rd.ServantOnly"}}</span></th>
+            <td><input type="checkbox" name="system.servant.only" {{#if system.servant.only}} checked {{/if}}></td>
+
           </tr>
         </table>
 

@@ -128,15 +128,14 @@
         "awaken": "",
         "impulse": "",
         "desire": ""
-      },
-      "servants": []
+      }
       
   
     }
   },
   "character":{
     "templates": ["base"],
-    "isLinked": true
+    "servants": []
   },
   "servant": {
     "templates": ["base"],
@@ -268,6 +267,10 @@
     "modEncroach": {
       "value":"",
       "timing":""
+    },
+    "servant": {
+      "effect": false,
+      "only": false
     }
   },
   "combo": {

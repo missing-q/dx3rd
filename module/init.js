@@ -15,6 +15,7 @@ import { WeaponDialog } from "./dialog/weapon-dialog.js";
 import { SelectItemsDialog } from "./dialog/select-items-dialog.js";
 import { DamageDialog } from "./dialog/damage-dialog.js";
 import { DefenseDialog } from "./dialog/defense-dialog.js";
+import { ServantDialog } from "./dialog/servant-dialog.js";
 import { DX3rdDiceTerm } from "./dice/dice-term.js";
 
 import { DX3rdRegisterHelpers } from "./handlebars.js";
