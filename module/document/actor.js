@@ -18,6 +18,39 @@ export class DX3rdActor extends Actor {
     this.createEmbeddedDocuments("Item", [newItem])
   }
 
+  /** @Override */
+  _onUpdate(data, options, userId) {
+    super._onUpdate(data, options, userId);
+    //sync encroach between servants and summoners
+    console.log(data)
+    if (this.type == "servant"){
+      let s = fromUuidSync(this.system.summoner);
+      if (!(JSON.stringify(this.system.attributes.encroachment) === JSON.stringify(s.system.attributes.encroachment))){ // updates have not propagated
+        s.update({"system.attributes.encroachment": this.system.attributes.encroachment})
+      }
+    } else {
+      for (let id of this.system.servants){
+        let s = fromUuidSync(id)
+        console.log(this)
+        console.log(s)
+        if (!(JSON.stringify(this.system.attributes.encroachment) === JSON.stringify(s.system.attributes.encroachment))){ // updates have not propagated
+          s.update({"system.attributes.encroachment": this.system.attributes.encroachment})
+        }
+      }
+    }
+  }
+
+  /** @Override */
+  _onDelete(options, userId){
+    if (this.type == "servant"){
+      let s = fromUuidSync(this.system.summoner);
+      let arr = s.system.servants
+      let i = arr.indexOf(this.uuid)
+      arr.splice(i, 1)
+    }
+    super._onDelete(options, userId)
+  }
+
   prepareData() {
     super.prepareData();
 
@@ -267,7 +300,12 @@ export class DX3rdActor extends Actor {
     attributes.saving.remain = attributes.saving.max - values["saving"].value;
 
     attributes.hp.max = values['hp'].value;
-    attributes.hp.max += values['body'].value * 2 + values['mind'].value + 20;
+    if (this.type == "servant" ){
+      attributes.hp.max += attributes.hp_val
+    } else {
+      attributes.hp.max += values['body'].value * 2 + values['mind'].value + 20;
+    }
+    
     //hp minimum cap
     if (attributes.hp.value < 0){
       attributes.hp.value = 0

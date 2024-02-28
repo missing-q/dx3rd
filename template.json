@@ -139,7 +139,8 @@
   },
   "servant": {
     "templates": ["base"],
-    "master": ""
+    "summoner": "",
+    "use_items": false
   }
 
 },

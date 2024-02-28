@@ -1,6 +1,6 @@
 export class SelectItemsDialog extends Dialog {
 
-  constructor(actor, items, count, callback, options) {
+  constructor(actor, items, count, callback, options, data) {
     super(options);
 
     this.actor = actor;
@@ -9,7 +9,7 @@ export class SelectItemsDialog extends Dialog {
     this.curr = 0;
     this.callback = callback;
 
-    this.data = {
+    this.data = data || {
       title: game.i18n.localize("DX3rd.WeaponSelect"),
       content: "",
       buttons: {

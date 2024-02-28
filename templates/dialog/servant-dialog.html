@@ -1,53 +1,57 @@
 <div class="dialog-content">
-    <h2 style="display: flex; font-weight: bold;">
-      <img src="{{src}}" width="30" height="30" style="flex: 0; object-fit: cover; border: 2px solid black; border-radius: 50%;">
-      <span style="flex: 1; font-size: 20px; margin: 2px; margin-bottom: 4px;">{{name}} [{{damage}}]</span>
-      
-      <span style="border: 4px double; height: 100%; padding: 0 7px; font-size: 18px;">
-        <span>
-          <span id="realDamage">{{realDamage}}</span>
-          {{#if recovery}} <i class="fas fa-arrow-up" style="color: green"></i> {{else}} <i class="fas fa-arrow-down" style="color: darkred;"></i> {{/if}}
-        </span>
-        <span style="margin-left: 7px;">
-          <i class="fas fa-heart" style="color: indianred"></i>
-          <span id="life">{{life}}</span>
-        </span>
-      </span>
-    </h2>
+  <h2 style="display: flex; font-weight: bold;">
     
-    <table>
-      <tr>
-        <th>{{localize "DX3rd.Guard"}}</th>
-        <td colspan="3"><input type="text" id="guard" value="{{guard}}" ></td>
-        <td><input type="checkbox" id="guard-check" {{guardCheck}} {{#if guardCheck}} checked {{/if}} ></td>
-      </tr>
-      <tr>
-        <th>{{localize "DX3rd.Weapon"}}</th>
-        <td colspan="4">
-          <select id="weapon">
-            <option value="-" data-guard=0>-</option>
-            {{#each weaponList as |item id|}}
-            <option value="{{item.name}}" data-guard={{item.system.guard}}>{{item.name}} ({{item.system.guard}})</option>
-            {{/each}}
-          </select>
-        </td>
-      </tr>
+    <div class="header-fields flexrow">
+      <img class="" id = "pfp" src="{{src}}" data-edit="src"/>
+      <h1 class="charname"><input id = "name" name="name" type="text" value="{{name}}" placeholder="Name"/></h1>
+    </div>
+    <span style="border: 4px double; height: 100%; padding: 0 7px; font-size: 18px;">
+      <span>
+        <span id="amount-disp">{{amount}}</span><span> / {{max}} </span>
+      </span>
+      <span style="margin-left: 7px;">
+        <i class="fas fa-heart-crack" style="color: black"></i>
+        <span id="proj-encroach">{{proj_encroach}}</span>
+      </span>
+    </span>
+  </h2>
+  
+  <table>
+    <tr>
+      <th>{{localize "DX3rd.CreationAmount"}}</th>
+      <td colspan="4"><input type="number" id="amount" value="{{amount}}" max="{{limit}}" min="0" ></td>
+    </tr>
+    <tr>
+      <th>{{localize "DX3rd.ServantMax"}}</th>
+      <td><input type="checkbox" id="max" {{#unless maxCheck}} disabled {{/unless}}></td>
+    </tr>
+    <tr>
+      <th>{{localize "DX3rd.CreateItems"}}</th>
+      <td><input type="checkbox" id="create-items" {{#unless createItems}} disabled {{/unless}}></td>
+    </tr>
+    <tr>
+      <th>{{localize "DX3rd.CanUseNormalItems"}}</th>
+      <td><input type="checkbox" id="can-use-items" {{#unless canUseNormalItems}} disabled {{/unless}}></td>
+    </tr>
+    <tr>
+      <th>{{localize "DX3rd.CreateReady"}}</th>
+      <td><input type="checkbox" id="create-ready" {{#unless preActionCreate}} disabled {{/unless}}></td>
+    </tr>
+    <tr>
+      <th>{{localize "DX3rd.IncreaseBaseStats"}}</th>
+      <td><input type="checkbox" id="increase-base" {{#unless increaseBaseStats}} disabled {{/unless}}></td>
+    </tr>
+    <tr>
+      <th>{{localize "DX3rd.IncreaseMaxHP"}}</th>
+      <td><input type="checkbox" id="increase-hp" {{#unless increaseMaxHP}} disabled {{/unless}}></td>
+    </tr>
+    <tr>
+      <th>{{localize "DX3rd.CopyTarget"}}</th>
+      <td><input type="checkbox" id="copy-target" {{#unless copyTarget}} disabled {{/unless}}></td>
+    </tr>
+    
 
-      <tr>
-        <th>{{localize "DX3rd.Armor"}}</th>
-        <td colspan="4"><input type="text" id="armor" value="{{armor}}" ></td>
-      </tr>
-      <tr>
-        <th>{{localize "DX3rd.ReduceDamage"}}</th>
-        <td colspan="4"><input type="text" id="reduce" value="{{reduce}}" ></td>
-      </tr>
-      <tr>
-        <th>{{localize "DX3rd.Covering2"}}</th>
-        <td colspan="3"><input type="checkbox" id="double" {{double}} ></td>
-        <td style="text-align: right;"><button id="reset" style="width: 32px; margin: 0 5px"><i class="fas fa-redo"></i></button></td>
-      </tr>
-
-    </table>
+  </table>
 
 </div>
 <div class="dialog-buttons">

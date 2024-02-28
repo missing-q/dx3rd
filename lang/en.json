@@ -241,5 +241,15 @@
     "DX3rd.Taint": "Taint",
     "DX3rd.Dazed": "Dazed",
     "DX3rd.Berserk": "Berserk",
-    "DX3rd.Hatred": "Hatred"
+    "DX3rd.Hatred": "Hatred",
+
+    "DX3rd.CreateItems": "Fool's Equipment",
+    "DX3rd.CanUseNormalItems": "Can Use Normal Items",
+    "DX3rd.CreationAmount": "Amount to Create",
+    "DX3rd.ServantMax": "Max Servants",
+    "DX3rd.CreateReady": "Create Pre-Action",
+    "DX3rd.IncreaseBaseStats": "Increase Base Stats",
+    "DX3rd.IncreaseMaxHP": "Increase Max HP",
+    "DX3rd.CopyTarget": "Copy Target's Appearance"
+
   }
