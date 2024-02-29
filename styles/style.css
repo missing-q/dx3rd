@@ -748,7 +748,7 @@
   text-align: center;
 }
 
-.dx3rd .skills .attribute-control, .dx3rd .attributes .attribute-control, .dx3rd .weapon .equipment-control, .dx3rd .armor .equipment-control, .dx3rd .vehicles .equipment-control,.dx3rd .items .equipment-control, .dx3rd .flags .flags-control, .dx3rd .statuses .status-control {
+.dx3rd .skills .attribute-control, .dx3rd .attributes .attribute-control, .dx3rd .attributes-t .attribute-control, .dx3rd .weapon .equipment-control, .dx3rd .armor .equipment-control, .dx3rd .vehicles .equipment-control,.dx3rd .items .equipment-control, .dx3rd .flags .flags-control, .dx3rd .statuses .status-control {
   flex: 0 0 20px;
   text-align: center;
   line-height: 28px;

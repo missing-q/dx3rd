@@ -939,9 +939,11 @@ export class DX3rdActor extends Actor {
       if (doc instanceof ActiveEffect){
         continue;
       }
-
+      //make sure 
       this._addSkill(doc.system.skills);
     }
+    // effect linking
+    
   }
 
   /* -------------------------------------------- */

@@ -19,6 +19,7 @@
   <table>
     <tr>
       <th>{{localize "DX3rd.CreationAmount"}}</th>
+      <td><input type="checkbox" id="creation-max" {{#unless creationCheck}} disabled {{/unless}}></td>
       <td colspan="4"><input type="number" id="amount" value="{{amount}}" max="{{limit}}" min="0" ></td>
     </tr>
     <tr>

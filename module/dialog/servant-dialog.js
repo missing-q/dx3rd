@@ -172,11 +172,12 @@ export class ServantDialog extends Dialog {
     let maxCheck = !!max
     max = max || 1;
     let creationCheck = !! creationMax;
+    creationMax = creationMax || 1;
 
     
     
     let remaining = this.calcRemaining(this.actor, max, 0);
-    let limit = this.calcLimit(creationMax, remaining)
+    let limit = this.calcLimit(creationCheck, creationMax, remaining)
     let encroach = this.calcEncroach(false, false)
     console.log(encroach)
     
@@ -198,6 +199,7 @@ export class ServantDialog extends Dialog {
       amount: 0,
       limit: limit,
       maxCheck: maxCheck,
+      creationCheck: creationCheck,
 
 
       buttons: this.data.buttons
@@ -332,19 +334,17 @@ export class ServantDialog extends Dialog {
   calcVals(html) {
     if ($("#create-ready").is(":checked")){
       $("#max").prop("checked", false);
+      $("#creation-max").prop("checked", false);
       $("#create-items").prop("checked", false);
       $("#can-use-items").prop("checked", false);
       $("#increase-base").prop("checked", false);
       $("#increase-hp").prop("checked", false);
       $("#copy-target").prop("checked", false);
-      $("#amount").val(1);
-      $("amount").attr({
-        "max" : 1
-      });
     }
     let remaining = this.calcRemaining(this.actor, $("#max").is(":checked"), $("#amount").val())
     console.log(remaining)
-    let limit = this.calcLimit($("#amount").val(), remaining)
+    let creationMax = this.checkFlag(this.actor, "isArmyOfFools");
+    let limit = this.calcLimit($("#creation-max").is(":checked"), creationMax, remaining)
     console.log(limit)
     $("amount").attr({
       "max" : limit
@@ -367,7 +367,12 @@ export class ServantDialog extends Dialog {
     return num;
   }
 
-  calcLimit(creationMax, max){
+  calcLimit(creationCheck, creationMax, remaining){
+    if (creationCheck){
+      return Math.min(creationMax, remaining)
+    } else {
+      return Math.min(1, remaining)
+    }
   }
 
   calcEncroach(creationMax, copyTarget) {

@@ -9,6 +9,8 @@ export class DX3rdActiveEffect extends ActiveEffect {
       this._prepareDisables("auto");
     } else if ( this.statuses.has("berserk") ){
       this._prepareDisables("reaction");
+    } else if (this.statuses.has("link")){
+      this._prepareLink()
     }
   }
 
@@ -18,6 +20,10 @@ export class DX3rdActiveEffect extends ActiveEffect {
     if ( this.statuses.has("hatred") ){
       this._prepareHatred();
     }
+  }
+
+  _prepareLink() {
+    
   }
 
   _prepareTaint() {

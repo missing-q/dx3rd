@@ -117,7 +117,8 @@
         "sublimation": {
           "dice": 0,
           "critical": 0
-        }
+        },
+        "itemlink": []
   
       },
       "details": {

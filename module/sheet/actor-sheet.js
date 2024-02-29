@@ -85,8 +85,9 @@ export class DX3rdActorSheet extends ActorSheet {
     actorData.itemList = [];
     actorData.recordList = [];
 
-
-    for (let i of items) {
+    let collection = items
+    console.log(collection)
+    for (let i of collection) {
       if (i.type == 'works')
         actorData.workList.push(i);
       else if (i.type == 'syndrome')
