@@ -5,15 +5,15 @@ export class DX3rdEffectSheet extends DX3rdAttributesSheet {
   /** @override */
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
-    formData = this.updateFreeForms(formData, "effect", "attributes", true);
-    formData = this.updateFreeForms(formData, "effect", "statuses", true);
-    formData = this.updateFreeForms(formData, "createItem", "weapons", false);
-    formData = this.updateFreeForms(formData, "createItem", "armor"), false;
-    formData = this.updateFreeForms(formData, "createItem", "vehicles", false);
-    formData = this.updateFreeForms(formData, "createItem", "items", false);
-    formData = this.updateFreeForms(formData, "flags", "effects", false);
-    formData = this.updateFreeForms(formData, "flags", "items", false)
-    formData = this.updateFreeForms(formData, "flags", "owned", false)
+    formData = this.updateFreeForms(formData, "effect", "attributes", true, true);
+    formData = this.updateFreeForms(formData, "effect", "statuses", true, true);
+    formData = this.updateFreeForms(formData, "createItem", "weapons", false, false);
+    formData = this.updateFreeForms(formData, "createItem", "armor"), false, false;
+    formData = this.updateFreeForms(formData, "createItem", "vehicles", false, false);
+    formData = this.updateFreeForms(formData, "createItem", "items", false, false);
+    formData = this.updateFreeForms(formData, "flags", "effects", false, false);
+    formData = this.updateFreeForms(formData, "flags", "items", false, false)
+    formData = this.updateFreeForms(formData, "flags", "owned", false, false)
     console.log(this)
     return formData;
   }

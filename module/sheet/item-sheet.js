@@ -89,12 +89,13 @@ export class DX3rdItemSheet extends ItemSheet {
     // Remove existing attribute
     else if ( action === "delete" ) {
       const li = a.closest(point);
+      console.log(li)
       li.parentElement.removeChild(li);
       await this._onSubmit(event);
     }
   }
 
-  updateFreeForms (formData, path1, path2, parse) {
+  updateFreeForms (formData, path1, path2, parsevals, parse) {
     // Handle the free-form attributes list
     let formAttrs;
     if (path2 != ""){
@@ -102,9 +103,20 @@ export class DX3rdItemSheet extends ItemSheet {
     } else {
       formAttrs = expandObject(formData).system[path1] || {};
     }
+    console.log(formAttrs)
+
+    let object;
+    let str;
+    if (path2 == ""){
+      object = this.object.system[path1]
+      str = `system.${path1}`
+    } else {
+      object = this.object.system[path1][path2]
+      str = `system.${path1}.${path2}`
+    }
 
     let attributes;
-    if (parse){
+    if (parsevals){
       attributes = Object.values(formAttrs).reduce((obj, v) => {
         let k = v["key"].trim();
         if ( /[\s\.]/.test(k) )  return ui.notifications.error("Attribute keys may not contain spaces or periods");
@@ -146,21 +158,43 @@ export class DX3rdItemSheet extends ItemSheet {
       }, {});
 
     } else {
-      attributes = Object.values(formAttrs)
+      if (parse){
+        attributes = Object.values(formAttrs).reduce((obj, v) => {
+          console.log(v)
+          let k = v["key"]
+          if (Array.isArray(k)){
+            k = k[0]
+          }
+          k = k.trim();
+          if ( /[\s\.]/.test(k) ) {
+            ui.notifications.error("Attribute keys may not contain spaces or periods");
+            return obj;
+          }
+    
+          delete v["key"];
+          obj[k] = v;
+          return obj;
+        }, {});
+    
+        if (attributes == undefined){
+          attributes = object
+        }
+      } else {
+        attributes = Object.values(formAttrs)
+      }
     }
-
+    console.log(attributes)
     // Remove attributes which are no longer used
-    if (this.object.system[path1][path2] != null)
-    for ( let k of Object.keys(this.object.system[path1][path2]) ) {
+    if (object != null)
+    for ( let k of Object.keys(object) ) {
       if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
     }
 
     // Re-combine formData
-    formData = Object.entries(formData).filter(e => !e[0].startsWith(`system.${path1}.${path2}`)).reduce((obj, e) => {
+    formData = Object.entries(formData).filter(e => !e[0].startsWith(str)).reduce((obj, e) => {
       obj[e[0]] = e[1];
       return obj;
-    }, {id: this.object.id, [`system.${path1}.${path2}`]: attributes});
-
+    }, {id: this.object.id, [str]: attributes});
     return formData;
   }
 

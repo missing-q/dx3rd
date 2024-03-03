@@ -32,7 +32,7 @@ export class DX3rdAttributesSheet extends DX3rdItemSheet {
   /** @override */
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
-    formData = this.updateFreeForms(formData, "attributes", "", true);
+    formData = this.updateFreeForms(formData, "attributes", "", true, true);
     return formData;
   }
 

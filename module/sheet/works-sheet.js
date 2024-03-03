@@ -32,6 +32,7 @@ export class DX3rdWorksSheet extends DX3rdItemSheet {
 
   async _onSkillCreate(event) {
     let key = this.item.system.skillTmp;
+    console.log(key)
 
     let newKey = document.createElement("div");
     const skill = `<input type="hidden" name="system.skills.${key}.key" value="${key}"/>`;
@@ -48,7 +49,7 @@ export class DX3rdWorksSheet extends DX3rdItemSheet {
   /** @override */
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
-    formData = this.updateFreeForms(formData, "skills", "", true);
+    formData = this.updateFreeForms(formData, "skills", "", false, true);
     return formData;
   }
   

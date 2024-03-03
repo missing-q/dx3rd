@@ -4,9 +4,9 @@ export class DX3rdEquipmentSheet extends DX3rdWorksSheet {
   /** @override */
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
-    formData = this.updateFreeForms(formData, "flags", "effects", false);
-    formData = this.updateFreeForms(formData, "flags", "items", false)
-    formData = this.updateFreeForms(formData, "flags", "owned", false)
+    formData = this.updateFreeForms(formData, "flags", "effects", false, false);
+    formData = this.updateFreeForms(formData, "flags", "items", false, false)
+    formData = this.updateFreeForms(formData, "flags", "owned", false, false)
     return formData;
   }
 
