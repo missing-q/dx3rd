@@ -14,6 +14,7 @@ export class DX3rdSkillDialog extends Dialog {
 
     } else {
       this.option = "create";
+      this.root = options.root;
       this.skill = {
         key: "",
         name: "",
@@ -131,8 +132,21 @@ export class DX3rdSkillDialog extends Dialog {
     else
       this.skill.point = Number(this.skill.point);
 
-    if (this.key.trim() != "")
-      await this.actor.update({[`system.attributes.skills.${this.key}`]: this.skill});
+    if (this.key.trim() != ""){
+      console.log(this.root)
+      if (this.root == "root"){
+        await this.actor.update({[`system.attributes.skills.${this.key}`]: this.skill});
+      } else {
+        let parent = this.actor.system.attributes.skills[this.root];
+        console.log(parent)
+        if (parent){
+          await this.actor.update({[`system.attributes.skills.${this.root}.subskills.${this.key}`]: this.skill});
+        } else {
+          //orphaned!! :'(
+          await this.actor.update({[`system.attributes.skills.${this.key}`]: this.skill});
+        }
+      }
+    }
     this.close();
   }
 

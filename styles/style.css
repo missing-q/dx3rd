@@ -351,6 +351,24 @@
   left: -15px;
 }
 
+.dx3rd .sheet-wrapper .sheet-stat .main-grid .stat-box .skill-create.skill-create-category {
+  z-index: 3;
+  position: relative;
+  top: auto;
+}
+
+.subskills {
+  display: none
+}
+/* Show the dropdown menu on hover */
+.skill-parent:hover ~ .subskills{
+  display:inline-block;
+}
+
+.subskills:hover {
+  display:inline-block;
+}
+
 .dx3rd .sheet-wrapper .sheet-stat .main-grid .stat-box .diamond::before {
   content: "";
   position: absolute;
@@ -385,6 +403,14 @@
   top: -4px;
 }
 
+.skill-category::before  {
+  background: black !important;
+}
+
+.skill-category {
+  color: white !important;
+}
+
 .dx3rd .sheet-wrapper .sheet-stat .main-grid .skill-box .title {
   width: 142px;
   height: 25px;
@@ -407,6 +433,7 @@
 .dx3rd .sheet-wrapper .ability-roll:hover, .dx3rd .sheet-wrapper .skill-roll:hover {
   text-shadow: 0 0 8px var(--color-shadow-primary);
 }
+
 
 .dx3rd .sheet-wrapper .sheet-attributes {
   display: grid;

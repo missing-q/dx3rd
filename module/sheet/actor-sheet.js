@@ -419,11 +419,20 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
     } else if (type == 'skill') {
       const li = event.currentTarget.closest(".skill");
       const key = li.dataset.skillId;
-      const skill = this.actor.system.attributes.skills[key];
+      const parent = li.dataset.parentId
+      let skill;
+      if (parent){
+        skill = this.actor.system.attributes.skills[parent].subskills[key]
+      } else {
+        skill = this.actor.system.attributes.skills[key];
+      }
 
       diceOptions.base = skill.base;
       diceOptions.skill = key;
       diceOptions.rollType = this.actor.system.attributes.dice.view;
+
+      console.log(skill)
+      console.log(diceOptions)
 
     } else {
       let rollType = this.actor.system.attributes.dice.view;
@@ -507,8 +516,9 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
   _onSkillCreate(event) {
     event.preventDefault();
     const key = event.currentTarget.dataset.abilityId;
+    const root = event.currentTarget.dataset.categoryId;
     
-    new DX3rdSkillDialog(this.actor, null, {"title": game.i18n.localize("DX3rd.CreateSkill"), base: key}).render(true);
+    new DX3rdSkillDialog(this.actor, null, {"title": game.i18n.localize("DX3rd.CreateSkill"), base: key, root:root}).render(true);
   }
 
   /* -------------------------------------------- */

@@ -64,52 +64,92 @@
             "name": "DX3rd.melee",
             "point": 0,
             "base": "body",
-            "delete": false
+            "delete": false,
+            "category": false
           },
           "dodge": {
             "name": "DX3rd.dodge",
             "point": 0,
             "base": "body",
-            "delete": false
+            "delete": false,
+            "category": false
+          },
+          "ride": {
+            "name": "DX3rd.ride",
+            "point": 0,
+            "base": "body",
+            "delete": false,
+            "category": true,
+            "subskills": {}
           },
   
           "ranged": {
             "name": "DX3rd.ranged",
             "point": 0,
             "base": "sense",
-            "delete": false
+            "delete": false,
+            "category": false
           },
           "perception": {
             "name": "DX3rd.perception",
             "point": 0,
             "base": "sense",
-            "delete": false
+            "delete": false,
+            "category": false
+          },
+          "art": {
+            "name": "DX3rd.art",
+            "point": 0,
+            "base": "sense",
+            "delete": false,
+            "category": true,
+            "subskills": {}
           },
   
           "rc": {
             "name": "DX3rd.rc",
             "point": 0,
             "base": "mind",
-            "delete": false
+            "delete": false,
+            "category": false
           },
           "will": {
             "name": "DX3rd.will",
             "point": 0,
             "base": "mind",
-            "delete": false
+            "delete": false,
+            "category": false
+          },
+          "knowledge": {
+            "name": "DX3rd.knowledge",
+            "point": 0,
+            "base": "mind",
+            "delete": false,
+            "category": true,
+            "subskills": {}
           },
   
           "negotiation": {
             "name": "DX3rd.negotiation",
             "point": 0,
             "base": "social",
-            "delete": false
+            "delete": false,
+            "category": false
           },
           "procure": {
             "name": "DX3rd.procure",
             "point": 0,
             "base": "social",
-            "delete": false
+            "delete": false,
+            "category": false
+          },
+          "info": {
+            "name": "DX3rd.info",
+            "point": 0,
+            "base": "social",
+            "delete": false,
+            "category": true,
+            "subskills": {}
           }
         },
         "applied": {},
@@ -163,16 +203,58 @@
       "skills": {},
       "timing": "",
       "applied": {},
-      "backup": {},
       "flags": {
         "active": false,
         "owned": {}
+      }
+    },
+    "equip": {
+      "effect": {
+        "disable": "-",
+        "attributes": {},
+        "statuses": {},
+        "modHP": {
+          "value":"",
+          "timing":"",
+          "active": false
+        },
+        "modEncroach": {
+          "value":"",
+          "timing":"",
+          "active": false
+        },
+        "modReaction": "",
+        "modCritical": "",
+        "modGuard": ""
+      },
+      "flags": {
+        "active": false,
+        "owned": {},
+        "checkFlag": "",
+        "effects": {}
+      },
+      "active": {
+        "state": false,
+        "disable": "-"
+      },
+      "attributes": {},
+      "modHP": {
+        "value":"",
+        "timing":""
+      },
+      "modEncroach": {
+        "value":"",
+        "timing":""
+      },
+      "servant": {
+        "effect": false,
+        "only": false
       }
     }
   },
   "effect": {
     "templates": [
-      "base"
+      "base", "equip"
     ],
 
     "type": "normal",
@@ -206,37 +288,10 @@
       "own": true,
       "upgrade": true
     },
-
-    "effect": {
-      "disable": "-",
-      "attributes": {},
-      "statuses": {},
-      "modHP": {
-        "value":"",
-        "timing":"",
-        "active": false
-      },
-      "modEncroach": {
-        "value":"",
-        "timing":"",
-        "active": false
-      },
-      "modReaction": "",
-      "modCritical": ""
-    },
-    "active": {
-      "state": false,
-      "disable": "-"
-    },
     "disabled":false,
-    "attributes": {},
     "flags": {
-      "active": false,
-      "owned": {},
-      "checkFlag": "",
       "itemType": "",
       "itemOverride": false,
-      "effects": {},
       "items": {}
     },
     "flag-embeds":{
@@ -254,26 +309,13 @@
       "vehicles": {},
       "items": {}
     },
-    "applied": {},
-    "backup": {},
     "getTarget": false,
     "macro": "",
     "syndrome":"-",
     "checkSyndrome": false,
     "typeCheck":"-",
     "targetCheck":"-",
-    "modHP": {
-      "value":"",
-      "timing":""
-    },
-    "modEncroach": {
-      "value":"",
-      "timing":""
-    },
-    "servant": {
-      "effect": false,
-      "only": false
-    }
+    "childItems": []
   },
   "combo": {
     "templates": [
@@ -319,7 +361,7 @@
   },
   "weapon": {
     "templates": [
-      "base", "item"
+      "base", "item", "equip"
     ],
     "type": "-",
     "skill": "-",
@@ -330,7 +372,7 @@
   },
   "protect": {
     "templates": [
-      "base", "item"
+      "base", "item", "equip"
     ],
     "dodge": 0,
     "init": 0,
@@ -338,7 +380,7 @@
   },
   "vehicle": {
     "templates": [
-      "base", "item"
+      "base", "item", "equip"
     ],
 
     "skill": "-",
@@ -356,10 +398,12 @@
   },
   "item": {
     "templates": [
-      "base", "item"
+      "base", "item", "equip"
     ],
 
-    "type": "-"
+    "type": "-",
+    "stackable": false
+
 
   },
   "works": {

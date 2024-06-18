@@ -632,14 +632,35 @@ export class DX3rdActor extends Actor {
 
     let data = this.system.attributes.skills;
     for (let [key, value] of Object.entries(data)) {
-      if (value.base === "body")
+      if (value.base === "body"){
         skills.body[key] = value;
-      else if (value.base === "sense")
+      }
+      else if (value.base === "sense"){
         skills.sense[key] = value;
-      else if (value.base === "mind")
+      }
+      else if (value.base === "mind"){
         skills.mind[key] = value;
-      else if (value.base === "social")
+      }
+      else if (value.base === "social"){
         skills.social[key] = value;
+      }
+
+      if (value.category){
+        for (let [key2, val2] of Object.entries(value.subskills)){
+          if (val2.base === "body"){
+            skills.body[key2] = val2;
+          }
+          else if (value.base === "sense"){
+            skills.sense[key2] = val2;
+          }
+          else if (value.base === "mind"){
+            skills.mind[key2] = val2;
+          }
+          else if (value.base === "social"){
+            skills.social[key2] = val2;
+          }
+        }
+      }
 
     }
 
