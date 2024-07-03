@@ -121,6 +121,12 @@ export class DX3rdActor extends Actor {
     for (const [key, value] of Object.entries(skills)) {
       skills[key].value = parseInt(skills[key].point);
       skills[key].dice = 0;
+      if (skills[key].category){
+        for (const [key2, val2] of Object.entries(skills[key].subskills)){
+          skills[key].subskills[key2].value = parseInt(skills[key].subskills[key2].point);
+          skills[key].subskills[key2].dice = 0;
+        }
+      }
     }
 
     let works = null;
