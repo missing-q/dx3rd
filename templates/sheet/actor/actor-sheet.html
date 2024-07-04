@@ -144,6 +144,7 @@
           
           <div class="skill-box">
           {{#each system.skills.body as |value key|}}
+          {{#unless value.parent}}
           {{#if value.category}}
             <label class="skill skill-parent" data-skill-id="{{key}}">
               <span class="title skill-roll skill-category">{{skill value.name}}</span>
@@ -155,7 +156,7 @@
                 <span class="title skill-roll">{{skill val2.name}}</span>
                 <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
               </label>
-            {{/each}}
+              {{/each}}
             </div>
           {{else}}
             <label class="skill" data-skill-id="{{key}}">
@@ -163,13 +164,14 @@
               <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
             </label>
           {{/if}}
+          {{/unless}}
           {{/each}}
           </div>
         </div>
 
         <div class="stat-box no-flex ability" data-ability-id="sense">
           <label class="title ability-roll">{{localize "DX3rd.Sense"}}</label>
-          <a class="skill-create" data-ability-id="sense"><i class="fas fa-plus" style="color: white;"></i></a>
+          <a class="skill-create" data-ability-id="sense" data-category-id="root"><i class="fas fa-plus" style="color: white;"></i></a>
           <div class="value">
             <input class="stat" type="text" name="system.attributes.sense.value" value="{{system.attributes.sense.value}}" disabled>
           </div>
@@ -179,10 +181,27 @@
           
           <div class="skill-box">
           {{#each system.skills.sense as |value key|}}
+          {{#unless value.parent}}
+          {{#if value.category}}
+            <label class="skill skill-parent" data-skill-id="{{key}}">
+              <span class="title skill-roll skill-category">{{skill value.name}}</span>
+              <a class="skill-create skill-create-category" data-ability-id="sense" data-category-id="{{key}}"><i class="fas fa-plus" style="color: white;"></i></a>
+            </label>
+            <div class = "subskills">
+              {{#each value.subskills as |val2 key2|}}
+              <label class="skill subskill" data-skill-id="{{key2}}" data-parent-id="{{key}}">
+                <span class="title skill-roll">{{skill val2.name}}</span>
+                <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
+              </label>
+              {{/each}}
+            </div>
+          {{else}}
             <label class="skill" data-skill-id="{{key}}">
               <span class="title skill-roll">{{skill value.name}}</span>
               <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
             </label>
+          {{/if}}
+          {{/unless}}
           {{/each}}
           </div>
 
@@ -190,7 +209,7 @@
 
         <div class="stat-box no-flex ability" data-ability-id="mind">
           <label class="title ability-roll">{{localize "DX3rd.Mind"}}</label>
-          <a class="skill-create" data-ability-id="mind"><i class="fas fa-plus" style="color: white;"></i></a>
+          <a class="skill-create" data-ability-id="mind" data-category-id="root"><i class="fas fa-plus" style="color: white;"></i></a>
           <div class="value">
             <input class="stat" type="text" name="system.attributes.mind.value" value="{{system.attributes.mind.value}}" disabled>
           </div>
@@ -200,10 +219,27 @@
 
           <div class="skill-box">
           {{#each system.skills.mind as |value key|}}
+          {{#unless value.parent}}
+          {{#if value.category}}
+            <label class="skill skill-parent" data-skill-id="{{key}}">
+              <span class="title skill-roll skill-category">{{skill value.name}}</span>
+              <a class="skill-create skill-create-category" data-ability-id="mind" data-category-id="{{key}}"><i class="fas fa-plus" style="color: white;"></i></a>
+            </label>
+            <div class = "subskills">
+              {{#each value.subskills as |val2 key2|}}
+              <label class="skill subskill" data-skill-id="{{key2}}" data-parent-id="{{key}}">
+                <span class="title skill-roll">{{skill val2.name}}</span>
+                <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
+              </label>
+              {{/each}}
+            </div>
+          {{else}}
             <label class="skill" data-skill-id="{{key}}">
               <span class="title skill-roll">{{skill value.name}}</span>
               <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
             </label>
+          {{/if}}
+          {{/unless}}
           {{/each}}
           </div>
           
@@ -211,7 +247,7 @@
 
         <div class="stat-box ability" data-ability-id="social">
           <label class="title ability-roll">{{localize "DX3rd.Social"}}</label>
-          <a class="skill-create" data-ability-id="social"><i class="fas fa-plus" style="color: white;"></i></a>
+          <a class="skill-create" data-ability-id="social" data-category-id="root"><i class="fas fa-plus" style="color: white;"></i></a>
           <div class="value">
             <input class="stat" type="text" name="system.attributes.social.value" value="{{system.attributes.social.value}}" disabled>
           </div>
@@ -221,10 +257,27 @@
 
           <div class="skill-box">
           {{#each system.skills.social as |value key|}}
+          {{#unless value.parent}}
+          {{#if value.category}}
+            <label class="skill skill-parent" data-skill-id="{{key}}">
+              <span class="title skill-roll skill-category">{{skill value.name}}</span>
+              <a class="skill-create skill-create-category" data-ability-id="social" data-category-id="{{key}}"><i class="fas fa-plus" style="color: white;"></i></a>
+            </label>
+            <div class = "subskills">
+              {{#each value.subskills as |val2 key2|}}
+              <label class="skill subskill" data-skill-id="{{key2}}" data-parent-id="{{key}}">
+                <span class="title skill-roll">{{skill val2.name}}</span>
+                <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
+              </label>
+              {{/each}}
+            </div>
+          {{else}}
             <label class="skill" data-skill-id="{{key}}">
               <span class="title skill-roll">{{skill value.name}}</span>
               <a class="skill-edit"><i class="fas fa-edit" style="color: black;"></i></a>
             </label>
+          {{/if}}
+          {{/unless}}
           {{/each}}
           </div>
           

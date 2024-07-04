@@ -9,7 +9,13 @@ export class DX3rdSkillDialog extends Dialog {
 
     if (this.key != null) {
       this.option = "edit";
-      this.skill = actor.system.attributes.skills[skillId];
+      this.root = options.root
+      console.log(options)
+      if (this.root){
+        this.skill = actor.system.attributes.skills[this.root].subskills[skillId]
+      } else {
+        this.skill = actor.system.attributes.skills[skillId];
+      }
       this.skill.key = skillId;
 
     } else {
@@ -92,14 +98,24 @@ export class DX3rdSkillDialog extends Dialog {
     if (type == "base" && !this.skill.delete)
       return;
 
-    if (type == "point")
+    if (type == "point"){
       val = Number(val);
-
-    await this.actor.update({[`system.attributes.skills.${this.key}.${type}`]: val});
-    if (type == "point") {
-      let add = this.actor.system.attributes.skills[this.key].value;
-      $("#skill-value").val("+" + add);
     }
+      
+    if (this.root){
+      await this.actor.update({[`system.attributes.skills.${this.root}.subskills.${this.key}.${type}`]: val});
+      if (type == "point") {
+        let add = this.actor.system.attributes.skills[this.root].subskills[this.key].value;
+        $("#skill-value").val("+" + add);
+      }
+    } else {
+      await this.actor.update({[`system.attributes.skills.${this.key}.${type}`]: val});
+      if (type == "point") {
+        let add = this.actor.system.attributes.skills[this.key].value;
+        $("#skill-value").val("+" + add);
+      }
+    }
+    
   }
 
   async _skillDelete(event) {
@@ -113,7 +129,11 @@ export class DX3rdSkillDialog extends Dialog {
       title: "Delete?",
       content: "",
       yes: async () => {
-        await this.actor.update({[`system.attributes.skills.-=${this.key}`]: null});
+        if (this.root){
+          await this.actor.update({[`system.attributes.skills.${this.root}.subskills.-=${this.key}`]: null});
+        } else {
+          await this.actor.update({[`system.attributes.skills.-=${this.key}`]: null});
+        }
         this.close();
       },
       no: () => console.log("Canceled"),
@@ -126,6 +146,7 @@ export class DX3rdSkillDialog extends Dialog {
     this.skill.name = $("#skill-name").val();
     this.skill.point = $("#skill-point").val();
     this.skill.base = $("#skill-base").val();
+    this.skill.key = $("#skill-key").val();
 
     if (this.skill.point.trim() == "")
       this.skill.point = 0;
@@ -140,6 +161,7 @@ export class DX3rdSkillDialog extends Dialog {
         let parent = this.actor.system.attributes.skills[this.root];
         console.log(parent)
         if (parent){
+          this.skill.parent = parent
           await this.actor.update({[`system.attributes.skills.${this.root}.subskills.${this.key}`]: this.skill});
         } else {
           //orphaned!! :'(

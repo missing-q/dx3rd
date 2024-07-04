@@ -358,15 +358,20 @@
 }
 
 .subskills {
-  display: none
+  display: none;
+  position:absolute
 }
 /* Show the dropdown menu on hover */
 .skill-parent:hover ~ .subskills{
-  display:inline-block;
+  display:block;
 }
 
 .subskills:hover {
-  display:inline-block;
+  display:block;
+}
+
+.subskill .skill-roll::before {
+  background-color: rgb(206 206 206) !important
 }
 
 .dx3rd .sheet-wrapper .sheet-stat .main-grid .stat-box .diamond::before {

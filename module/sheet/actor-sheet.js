@@ -423,6 +423,7 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
       let skill;
       if (parent){
         skill = this.actor.system.attributes.skills[parent].subskills[key]
+        diceOptions.parent = parent
       } else {
         skill = this.actor.system.attributes.skills[key];
       }
@@ -431,8 +432,8 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
       diceOptions.skill = key;
       diceOptions.rollType = this.actor.system.attributes.dice.view;
 
-      console.log(skill)
-      console.log(diceOptions)
+      //console.log(skill)
+      //console.log(diceOptions)
 
     } else {
       let rollType = this.actor.system.attributes.dice.view;
@@ -489,13 +490,26 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
     event.preventDefault();
     const li = event.currentTarget.closest(".skill");
     const key = li.dataset.skillId;
-    const skill = this.actor.system.attributes.skills[key];
+    const parent = li.dataset.parentId
+    let skill;
+    if (parent){
+      skill = this.actor.system.attributes.skills[parent].subskills[key]
+    } else {
+      skill = this.actor.system.attributes.skills[key];
+    }
+
     const title = (skill.name.indexOf('DX3rd.') != -1) ? game.i18n.localize(skill.name) : skill.name;
 
-    const diceOptions = {
+    let diceOptions = {
       "base": skill.base,
       "skill": key
     };
+
+    if (parent){
+      diceOptions.parent = parent
+    }
+
+    console.log(diceOptions)
 
     let append = false;
     if (event.ctrlKey)
@@ -529,8 +543,9 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
     event.preventDefault();
     const li = event.currentTarget.closest(".skill");
     const key = li.dataset.skillId;
-
-    new DX3rdSkillDialog(this.actor, key, {"title": game.i18n.localize("DX3rd.EditSkill")}).render(true);
+    const root = li.dataset.parentId;
+    console.log(root)
+    new DX3rdSkillDialog(this.actor, key, {"title": game.i18n.localize("DX3rd.EditSkill"), "root":root}).render(true);
   }
 
   /* -------------------------------------------- */

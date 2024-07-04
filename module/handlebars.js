@@ -34,7 +34,20 @@ export class DX3rdRegisterHelpers {
     });
 
     Handlebars.registerHelper('skill', function(arg) {
-      return (arg != null && arg.indexOf('DX3rd.') != -1) ? game.i18n.localize(arg) : arg;
+      let str = arg;
+      if (str != null){
+        if (str.indexOf(':') != -1){
+          let i = str.indexOf(":");
+          let title = str.substring(0,i)
+          let name = str.substring(i+1)
+          title = (title.indexOf("DX3rd.") != -1) ? game.i18n.localize(title) : title
+          name = (name.indexOf("DX3rd.") != -1) ? game.i18n.localize(name) : name
+          str = title + ": " + name
+        } else {
+          str = (str.indexOf("DX3rd.") != -1) ? game.i18n.localize(str) : str
+        }
+      }
+      return str;
     });
 
     Handlebars.registerHelper('skillByKey', function(actor, key) {

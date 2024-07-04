@@ -1097,7 +1097,14 @@ export class DX3rdActor extends Actor {
     let attributes = this.system.attributes;
     let base = this.system.attributes[diceOptions.base];
     //console.log(base)
-    let skill = this.system.attributes.skills[diceOptions.skill];
+    let skill;
+    if (diceOptions.parent){
+      skill = this.system.attributes.skills[diceOptions.parent].subskills[diceOptions.skill]
+    } else {
+      skill = this.system.attributes.skills[diceOptions.skill];
+    }
+    //console.log(skill)
+    //console.log(base)
 
     let dice = base.value;
     let add = base.add;

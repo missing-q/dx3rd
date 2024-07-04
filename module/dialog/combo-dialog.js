@@ -169,6 +169,18 @@ export class ComboDialog extends Dialog {
   /** @override */
   getData() {
     let actorSkills = duplicate(this.actor.system.attributes.skills);
+    //grab subskills
+    for (const [key, value] of Object.entries(actorSkills)){
+      if (value.category){
+        for (const [key2, val2] of Object.entries(value.subskills)){
+          let tmp = val2;
+          tmp.name = `${value.name}:${val2.name}`
+          actorSkills[key2] = tmp
+        }
+      }
+    }
+    this.actorSkills = actorSkills;
+
     let effectList = [];
 
     for (let i of this.actor.items) {
@@ -429,6 +441,7 @@ export class ComboDialog extends Dialog {
     let rollType = $("#roll").val();
     let attackRoll = $("#attackRoll").val();
 
+    
 
     let content = `<button class="chat-btn toggle-btn" data-style="effect-list">${game.i18n.localize("DX3rd.Effect")}</button>
       <div class="effect-list">`;
@@ -480,8 +493,13 @@ export class ComboDialog extends Dialog {
     for (let effect of effectList){ // space separate all ids
       diceOptions.list += effect.id + " "
     }
-    console.log(effectList)
-    console.log(diceOptions.list)
+
+    let skillobj = this.actorSkills[skill]
+    if (skillobj.parent) {
+      diceOptions.parent = skillobj.parent.key
+    }
+
+    console.log(diceOptions)
 
     //remove last space from end :)
     diceOptions.list = diceOptions.list.substring(0, diceOptions.list.length - 1);
