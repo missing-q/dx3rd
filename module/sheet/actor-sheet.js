@@ -423,7 +423,6 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
       let skill;
       if (parent){
         skill = this.actor.system.attributes.skills[parent].subskills[key]
-        diceOptions.parent = parent
       } else {
         skill = this.actor.system.attributes.skills[key];
       }
@@ -504,10 +503,6 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
       "base": skill.base,
       "skill": key
     };
-
-    if (parent){
-      diceOptions.parent = parent
-    }
 
     console.log(diceOptions)
 

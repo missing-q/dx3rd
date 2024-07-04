@@ -494,11 +494,6 @@ export class ComboDialog extends Dialog {
       diceOptions.list += effect.id + " "
     }
 
-    let skillobj = this.actorSkills[skill]
-    if (skillobj.parent) {
-      diceOptions.parent = skillobj.parent.key
-    }
-
     console.log(diceOptions)
 
     //remove last space from end :)

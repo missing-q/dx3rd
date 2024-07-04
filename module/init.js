@@ -564,6 +564,14 @@ async function chatListeners(html) {
 
         if (skill in actor.system.attributes.skills){
           base = actor.system.attributes.skills[skill].base;
+        } else {
+          for (let [key,val] of Object.entries(actor.system.attributes.skills)){
+            if (val.category && skill in val.subskills){
+              console.log("subskill found!")
+              base = val.subskills[skill].base;
+              break;
+            }
+          }
         }
           
 

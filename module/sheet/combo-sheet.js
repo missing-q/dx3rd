@@ -6,6 +6,8 @@ export class DX3rdComboSheet extends DX3rdAttributesSheet {
   async getData(options) {
     let data = await super.getData(options);
 
+    this.actorSkills = data.system.actorSkills
+
   	data.actorEffect = {};
     data.actorWeapon = {};
 
@@ -45,8 +47,8 @@ export class DX3rdComboSheet extends DX3rdAttributesSheet {
   async _onSkillChange(event) {
     const skillId = $(event.currentTarget).val();
     let base = "-";
-    if (this.actor != null && "base" in this.actor.system.attributes.skills[skillId]) 
-      base = this.actor.system.attributes.skills[skillId].base;
+    if (this.actor != null && "base" in this.actorSkills[skillId]) 
+      base = this.actorSkills[skillId].base;
     else if ("base" in game.DX3rd.baseSkills[skillId])
       base = game.DX3rd.baseSkills[skillId].base;
     $("#base").val(base);

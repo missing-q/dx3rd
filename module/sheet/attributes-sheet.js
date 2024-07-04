@@ -6,10 +6,21 @@ export class DX3rdAttributesSheet extends DX3rdItemSheet {
   async getData(options) {
     let data = await super.getData(options);
 
-    if (this.actor != null)
+    if (this.actor != null){
       data.system.actorSkills = duplicate(this.actor.system.attributes.skills);
-    else
+      for (const [key, value] of Object.entries(data.system.actorSkills)){
+        if (value.category){
+          for (const [key2, val2] of Object.entries(value.subskills)){
+            let tmp = val2;
+            tmp.name = `${value.name}:${val2.name}`
+            data.system.actorSkills[key2] = tmp
+          }
+        }
+      }
+    } else {
       data.system.actorSkills = duplicate(game.DX3rd.baseSkills);
+    }
+      
 
     return data;
   }
