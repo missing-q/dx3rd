@@ -557,11 +557,13 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
     const data = duplicate(header.dataset);
     delete data["type"];
 
-    if (type == 'effect')
+    if (type == 'effect'){
       data.type = data.effectType;
-    else if (type == 'rois')
+    }
+    else if (type == 'rois'){
       data.type = data.roisType;
-
+    }
+      
     const name = `New ${type.capitalize()}`;
     const itemData = {
       name: name,
@@ -569,6 +571,7 @@ body_add: "DX3rd.BodyAdd", body_dice: "DX3rd.BodyDice", sense_add: "DX3rd.SenseA
       img: `icons/svg/${header.dataset.img}.svg`,
       system: data
     };
+    console.log(itemData)
     //delete itemData.data["type"];
     await this.actor.createEmbeddedDocuments('Item', [itemData], {});
   }
