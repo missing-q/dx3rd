@@ -914,9 +914,18 @@ export class DX3rdActor extends Actor {
         comboData.critical.value = comboData[comboData.roll].critical + Number(this.system.attributes.sublimation.critical);
       }
 
-      if (comboData.skill != "-" && comboData.skill in attributes.skills) {
-        let skill = attributes.skills[comboData.skill];
-
+      if (comboData.skill != "-" ) {
+        let skill;
+        if (comboData.skill in attributes.skills){
+          skill = attributes.skills[comboData.skill];
+        } else { //subskills check
+          for (let [key,val] of Object.entries(attributes.skills)){
+            if (val.category && comboData.skill in val.subskills){
+              skill = val.subskills[comboData.skill];
+              break;
+            }
+          }
+        }
         comboData.dice.value += skill.dice;
         comboData.add.value += skill.value;
       }

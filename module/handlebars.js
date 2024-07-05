@@ -54,8 +54,14 @@ export class DX3rdRegisterHelpers {
       if (key == "-" || actor == null)
         return key;
 
-      if (!(key in actor.system.attributes.skills))
+      if (!(key in actor.system.attributes.skills)){
+        for (let [key2,val] of Object.entries(actor.system.attributes.skills)){
+          if (val.category && key in val.subskills){
+            return "<" + game.i18n.localize(val.name) + ": " + key[0].toUpperCase() + key.slice(1) + ">";
+          }
+        }
         return "<" + game.i18n.localize("DX3rd." + key[0].toUpperCase() + key.slice(1)) + ">";
+      }
 
       let name = actor.system.attributes.skills[key].name;
       return (name.indexOf('DX3rd.') != -1) ? "<" + game.i18n.localize(name) + ">" : "<" + name + ">";
