@@ -90,7 +90,7 @@ export class ServantDialog extends Dialog {
             }
 
             if ($("#increase-hp").is(":checked")){
-              let eff = this.getItemFromFlag(this.actor, "islifeBlood")
+              let eff = this.getItemFromFlag(this.actor, "isLifeBlood")
               let lvl = eff.system.level.value;
               servant.system.attributes.hp_val += (lvl * 5); //increase max
               servant.system.attributes.hp.value += (lvl * 5); //increase current
@@ -166,7 +166,7 @@ export class ServantDialog extends Dialog {
     let max = this.checkFlag(this.actor, "isTheVoiceless")
     let preActionCreate = this.checkFlag(this.actor, "isServantsMarch");
     let increaseBaseStats = this.checkFlag(this.actor, "isRedRiverValet");
-    let increaseMaxHP = this.checkFlag(this.actor, "islifeBlood");
+    let increaseMaxHP = this.checkFlag(this.actor, "isLifeBlood");
     let copyTarget = this.checkFlag(this.actor, "isUndeadsDoll")
 
     let maxCheck = !!max

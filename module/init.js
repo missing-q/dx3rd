@@ -485,6 +485,26 @@ async function chatListeners(html) {
                 }
               }
             }
+            if (item.system.flags.owned.find((obj) => obj.name == 'isCrimsonSword')){
+              let max = item.system.level.value * 3
+              new Dialog({
+                title: game.i18n.localize("DX3rd.SpendHP"),
+                content: `
+                  <input type="number" id="spent-hp" max="${max}"/>
+                `,
+                buttons: {
+                  confirm: {
+                    icon: '<i class="fas fa-check"></i>',
+                    label: "Confirm",
+                    callback: () => {
+                      let num = Number($("#spent-hp"))
+                      newItem.attack += num;
+                      actor.update({"system.attributes.hp.value": (actor.system.attributes.hp.value - num)});
+                    }
+                  }
+                }
+              }).render(true);
+            }
             itemList.push(newItem)
           }
           //create all armor
@@ -760,6 +780,26 @@ async function chatListeners(html) {
                   difficulty: val.procure
                 }
               }
+            }
+            if (effect.system.flags.owned.find((obj) => obj.name == 'isCrimsonSword')){
+              let max = effect.system.level.value * 3
+              new Dialog({
+                title: game.i18n.localize("DX3rd.SpendHP"),
+                content: `
+                  <input type="number" id="spent-hp" max="${max}"/>
+                `,
+                buttons: {
+                  confirm: {
+                    icon: '<i class="fas fa-check"></i>',
+                    label: "Confirm",
+                    callback: () => {
+                      let num = Number($("#spent-hp"))
+                      newItem.attack += num;
+                      actor.update({"system.attributes.hp.value": (actor.system.attributes.hp.value - num)});
+                    }
+                  }
+                }
+              }).render(true);
             }
             itemList.push(newItem)
           }

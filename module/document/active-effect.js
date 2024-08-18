@@ -11,6 +11,8 @@ export class DX3rdActiveEffect extends ActiveEffect {
       this._prepareDisables("reaction");
     } else if (this.statuses.has("link")){
       this._prepareLink()
+    } else if (this.statuses.has("linked")){
+
     }
   }
 
@@ -23,7 +25,17 @@ export class DX3rdActiveEffect extends ActiveEffect {
   }
 
   _prepareLink() {
+    let actor = this.parent;
+    if (this,flags.dx3rd && this.flags.dx3rd.link){
+      
+
+    } else { //if there is no link object then it's invalid
+      this.delete()
+    }
     
+  }
+  _prepareLinked() {
+    let actor = this.parent;
   }
 
   _prepareTaint() {
