@@ -393,7 +393,7 @@ export class ComboDialog extends Dialog {
       
                 if (cont){
                   console.log("yay match :)")
-                  f.applyTarget(actor, true)
+                  f.applyTarget(actor, true, false, false, actor)
                 }
               }
             }
@@ -554,7 +554,7 @@ export class ComboDialog extends Dialog {
                 let a = t.actor;
 
                 for (let e of appliedList)
-                  await e.applyTarget(a);
+                  await e.applyTarget(a, false, false, false, this.actor);
 
                 for (let e of macroList) {
                   const macro = game.macros.contents.find(m => (m.name === e.system.macro));

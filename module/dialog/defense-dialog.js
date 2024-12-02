@@ -48,7 +48,7 @@ export class DefenseDialog extends Dialog {
               for (let item of list){
                 let e = game.actors.get(this.reactionData.actor).items.get(item)
                 console.log(e.name)
-                e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false, this.reactionData.actor)
               }
 
             } else {
@@ -85,7 +85,7 @@ export class DefenseDialog extends Dialog {
                 for (let item of list){
                   let e = game.actors.get(this.reactionData.actor).items.get(item)
                   console.log(e.name)
-                  e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false)
+                  e.applyTarget(this.actor,this.actor==this.reactionData.actor,true,false,this.reactionData.actor)
                 }
                 
               }

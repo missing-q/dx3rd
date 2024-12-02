@@ -501,7 +501,7 @@ export class DX3rdItem extends Item {
               //console.log(targets)
               for (var t of targets) {
                 var a = t.actor;
-                await this.applyTarget(a);
+                await this.applyTarget(a, false, false, false, this.actor);
                 console.log("hello ^--^")
                 console.log(a)
                 Hooks.call("afterUse", a);
@@ -519,7 +519,7 @@ export class DX3rdItem extends Item {
   }
 
 
-  async applyTarget(actor, self, hit, dmg) {
+  async applyTarget(actor, self, hit, dmg, origin) {
     //console.log("Do we ever get to applying to target????")
     let attributes = this.system.effect.attributes;
     if (self){
@@ -640,9 +640,15 @@ export class DX3rdItem extends Item {
               let tmp = e;
               tmp.statuses = tmp.id;
               tmp.name = `${game.i18n.localize(tmp.name)}`
+              //handle taint
               if (e.id == "taint"){
                 tmp.flags = {"dx3rd": {}}
                 tmp.flags.dx3rd.taintLevel = value.value  || 1;
+              }
+              //handle linking - in the specific case of applytarget the only valid option is Fusion
+              if (e.id == "linked"){
+                tmp.flags = {"dx3rd": {}};
+                tmp.flags.dx3rd.origin = origin;
               }
               arr.push(tmp)
             }

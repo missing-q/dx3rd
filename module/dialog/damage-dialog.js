@@ -42,7 +42,7 @@ export class DamageDialog extends Dialog {
               for (let item of list){
                 let e = game.actors.get(this.damageData.data.origin).items.get(item)
                 console.log(e.name)
-                e.applyTarget(this.actor,this.actor==this.damageData.data.origin,false,true)
+                e.applyTarget(this.actor,this.actor==this.damageData.data.origin,false,true,this.damageData.data.origin)
               }
             }
           }

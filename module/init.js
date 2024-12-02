@@ -119,6 +119,26 @@ Hooks.once("init", async function() {
       id: "hatred",
       name: `${game.i18n.localize("DX3rd.Hatred")}`,
       icon: "systems/dx3rd/icons/svg/hatred.svg"
+    },
+    {
+      id: "redservant",
+      name: `${game.i18n.localize("DX3rd.RedServant")}`,
+      icon: "systems/dx3rd/icons/svg/blood.svg",
+      changes: [
+        { key: "system.attributes.body.value", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -3 },
+        { key: "system.attributes.mind.value", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -3 },
+        { key: "system.attributes.sense.value", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -3 },
+        { key: "system.attributes.social.value", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -3 },
+      ]
+    },
+    {
+      id: "fusion",
+      name: `${game.i18n.localize("DX3rd.Fusion")}`,
+      icon: "icons/svg/mage-shield.svg",
+      changes: [
+        { key: "system.attributes.move.battle", mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE, value: 0 },
+        { key: "system.attributes.move.full", mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE, value: 0 }
+      ]
     }
   ];
 
@@ -451,7 +471,7 @@ async function chatListeners(html) {
 
             if (cont){
               console.log("yay match :)")
-              e.applyTarget(actor, true, false, false)
+              e.applyTarget(actor, true, false, false, actor)
             }
           }
         }
@@ -898,7 +918,7 @@ async function chatListeners(html) {
       
                 if (cont){
                   console.log("yay match :)")
-                  f.applyTarget(actor, true)
+                  f.applyTarget(actor, true, false, false, true)
                 }
               }
             }
@@ -1013,7 +1033,7 @@ async function chatListeners(html) {
                 let a = t.actor;
 
                 for (let e of appliedList)
-                  await e.applyTarget(a);
+                  await e.applyTarget(a, false, false, false, actor);
 
                 for (let name of macroList) {
                   const macro = game.macros.contents.find(m => (m.name === name));
