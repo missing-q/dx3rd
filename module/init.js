@@ -918,7 +918,7 @@ async function chatListeners(html) {
       
                 if (cont){
                   console.log("yay match :)")
-                  f.applyTarget(actor, true, false, false, true)
+                  f.applyTarget(actor, true, false, false, actor)
                 }
               }
             }

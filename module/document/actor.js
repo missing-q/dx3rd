@@ -39,7 +39,7 @@ export class DX3rdActor extends Actor {
     }
     //update targets list if servant deleted
     for (let i = 0; i < this.appliedEffects.length; i++){
-      if (this.appliedEffects[i].statuses.has("link")){
+      if (this.appliedEffects[i].statuses.has("redservant")){
           
       }
     }

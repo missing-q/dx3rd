@@ -9,8 +9,10 @@ export class DX3rdActiveEffect extends ActiveEffect {
       this._prepareDisables("auto");
     } else if ( this.statuses.has("berserk") ){
       this._prepareDisables("reaction");
-    } else if (this.statuses.has("link")){
-      this._prepareLink()
+    } else if (this.statuses.has("redservant")){
+      this._prepareRedServant()
+    } else if (this.statuses.has("fusion")){
+      this._prepareFusion();
     }
   }
 
@@ -40,32 +42,24 @@ export class DX3rdActiveEffect extends ActiveEffect {
         a.update({"system.attributes.linkedeffects": transfer})
         let tmp = {
           id: "linked",
-          name: `${game.i18n.localize("DX3rd.Linked")} - ${actor.name}`,
+          name: `${this.name} (${game.i18n.localize("DX3rd.Origin")}:${actor.name})`,
           statuses: "linked"
         }
-      }
-      if (this.flags.dx3rd.type == "fusion"){ //do fusion specific things
-        let tmp = {
-          id: "fusion",
-          name: `${game.i18n.localize("DX3rd.Fusion")}`,
-          icon: "icons/svg/mage-shield.svg",
-          statuses: "fusion"
-        }
-        actor.createEmbeddedDocuments("ActiveEffect", [tmp])
-      } else { //do redservant specific things
-        //give user redservant effect
-        let tmp = {
-          id: "redservant",
-          name: `${game.i18n.localize("DX3rd.RedServant")}`,
-          icon: "systems/dx3rd/icons/svg/blood.svg",
-          statuses: "redservant"
-        }
-        actor.createEmbeddedDocuments("ActiveEffect", [tmp])
+        //add parent id as flag tbd
       }
     } else { //if not created properly, just delete
       this.delete()
     }
-    
+  }
+
+  _prepareRedServant(){
+    this._prepareLink();
+  }
+
+  _prepareFusion(){
+    this._prepareLink();
+    //grant fusionee move perms over the fusion-er, attach their previous perms to the status object as a flag, restore when fusion is over (ondelete)
+    //print textbox that says HEY YOU MOVE TOGETHER NOW
   }
 
   _prepareTaint() {

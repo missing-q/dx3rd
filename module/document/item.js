@@ -645,12 +645,21 @@ export class DX3rdItem extends Item {
                 tmp.flags = {"dx3rd": {}}
                 tmp.flags.dx3rd.taintLevel = value.value  || 1;
               }
-              //handle linking - in the specific case of applytarget the only valid option is Fusion
-              if (e.id == "linked"){
-                tmp.flags = {"dx3rd": {}};
-                tmp.flags.dx3rd.origin = origin;
+              //handle fusion
+              if (e.id == "fusion"){
+                //add this actor to the origin's target list
+                tmp.flags = {"dx3rd": {}}
+                tmp.flags.dx3rd.targets = [actor]
+                //update origin with fusion status
+                await origin.createEmbeddedDocuments("ActiveEffect", [tmp])
+                
+              } else if (e.id == "redservant"){
+                 //not valid for applytarget, do nothing
+              } else {
+                //push to array for all statuses other than redservant/fusion
+                arr.push(tmp)
               }
-              arr.push(tmp)
+              
             }
           }
         }

@@ -121,11 +121,10 @@ export class ServantDialog extends Dialog {
 
             this.actor.update({"system.attributes.encroachment.value": encroach, "system.servants": servantList});
             let newEffect = {
-              id: "link",
-              name: `${game.i18n.localize("DX3rd.Link")} - ${game.i18n.localize("DX3rd.RedServant")}`,
-              icon: "icons/svg/ice-aura.svg",
-              statuses: "link",
-              flags: {dx3rd: {origin: this.actor, type: "redservant", targets: servantList}}
+              name: `${game.i18n.localize("DX3rd.RedServant")}`,
+              icon: "systems/dx3rd/icons/svg/blood.svg",
+              statuses: "redservant",
+              flags: {dx3rd: {targets: servantList}}
             }
             this.actor.createEmbeddedDocuments("ActiveEffect", [newEffect])
             
