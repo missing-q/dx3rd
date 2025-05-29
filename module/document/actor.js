@@ -24,13 +24,12 @@ export class DX3rdActor extends Actor {
     //sync encroach between servants and summoners
     console.log(data)
     if (this.type == "servant"){
-      let s = fromUuidSync(this.system.summoner);
+      let s = this.system.summoner;
       if (!(JSON.stringify(this.system.attributes.encroachment) === JSON.stringify(s.system.attributes.encroachment))){ // updates have not propagated
         s.update({"system.attributes.encroachment": this.system.attributes.encroachment})
       }
     } else {
-      for (let id of this.system.servants){
-        let s = fromUuidSync(id)
+      for (let s of this.system.servants){
         console.log(this)
         console.log(s)
         if (!(JSON.stringify(this.system.attributes.encroachment) === JSON.stringify(s.system.attributes.encroachment))){ // updates have not propagated
@@ -38,12 +37,18 @@ export class DX3rdActor extends Actor {
         }
       }
     }
+    //update targets list if servant deleted
+    for (let i = 0; i < this.appliedEffects.length; i++){
+      if (this.appliedEffects[i].statuses.has("link")){
+          
+      }
+    }
   }
 
   /** @Override */
   _onDelete(options, userId){
     if (this.type == "servant"){
-      let s = fromUuidSync(this.system.summoner);
+      let s = this.system.summoner;
       let arr = s.system.servants
       let i = arr.indexOf(this.uuid)
       arr.splice(i, 1)

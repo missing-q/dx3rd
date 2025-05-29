@@ -101,7 +101,9 @@ export class ServantDialog extends Dialog {
             console.log(count)
             for (let i = 0; i < count; i++){
               let a = await Actor.create(servant);
-              servantList.push(a.uuid)
+              servantList.push(a)
+              //drop the token down
+              //await this.scene.createEmbeddedDocuments("Token", [{alpha: 0, actorId: a.id}], {})[0];
             }
 
             //apply encroach
@@ -118,6 +120,14 @@ export class ServantDialog extends Dialog {
             ChatMessage.create(chatData, {rollMode});
 
             this.actor.update({"system.attributes.encroachment.value": encroach, "system.servants": servantList});
+            let newEffect = {
+              id: "link",
+              name: `${game.i18n.localize("DX3rd.Link")} - ${game.i18n.localize("DX3rd.RedServant")}`,
+              icon: "icons/svg/ice-aura.svg",
+              statuses: "link",
+              flags: {dx3rd: {origin: this.actor, type: "redservant", targets: servantList}}
+            }
+            this.actor.createEmbeddedDocuments("ActiveEffect", [newEffect])
             
           }
         }

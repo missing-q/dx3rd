@@ -251,6 +251,11 @@
     "DX3rd.CreateReady": "Create Pre-Action",
     "DX3rd.IncreaseBaseStats": "Increase Base Stats",
     "DX3rd.IncreaseMaxHP": "Increase Max HP",
-    "DX3rd.CopyTarget": "Copy Target's Appearance"
+    "DX3rd.CopyTarget": "Copy Target's Appearance",
+
+    "DX3rd.RedServant": "Red Servant",
+    "DX3rd.Fusion": "Fusion",
+    "DX3rd.Link": "Link",
+    "DX3rd.Linked": "Linked"
 
   }
